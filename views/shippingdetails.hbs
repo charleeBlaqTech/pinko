@@ -1,0 +1,173 @@
+<style>
+    .sbody,
+    .button,
+    .tick {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: sans-serif;
+    }
+
+    .sbody {
+        width: 100%;
+        height: 90vh;
+    }
+
+    .button {
+        width: 200px;
+        height: 50px;
+        background: rgb(21, 50, 78);
+        border-radius: 6px;
+        transition: all .3s cubic-bezier(0.67, 0.17, 0.40, 0.83);
+    }
+
+    .button svg {
+        transform: rotate(180deg);
+        transition: all .5s;
+    }
+
+    .button__circle {
+        width: 120px;
+        height: 120px;
+        background: mediumseagreen;
+        border-radius: 50%;
+        transform: rotate(-180deg);
+    }
+
+    .button:hover {
+        cursor: pointer;
+    }
+
+    .tick {
+        color: white;
+        font-size: 2em;
+        transition: all .9s;
+    }
+</style>
+
+
+
+<div class="col-lg-8">
+    <div class="mb-4">
+        <h4 class="font-weight-semi-bold mb-4">Shipping Address</h4>
+        <form action="/parent/updateshipping" method="post" class="">
+
+            <div class="row">
+                <div class="col-md-6 form-group">
+                    <label for="fname">First Name</label>
+                    <input id="fname" name="fname" value="{{parent.fname}}" class="form-control" type="text"
+                        placeholder="Rashid" required>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="lname">Last Name</label>
+                    <input required id="lname" name="lname" value="{{parent.lname}}" class="form-control" type="text"
+                        placeholder="Sheikh">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="email">E-mail</label>
+                    <input required name="semail" id="email" class="form-control" type="text" placeholder="example@email.com"
+                        value={{parent.semail}}>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="sphone">Mobile No</label>
+                    <input required class="form-control" id="sphone" name="sphone" type="number"
+                        placeholder="+123 456 789" value={{parent.sphone}}>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="addressline1">Address Line 1</label>
+                    <input required name="addressline1" id="addressline1" class="form-control" type="text" placeholder="123 Street"
+                        value="{{parent.addressline1}}">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="addressline2">Address Line 2</label>
+                    <input name="addressline2" id="addressline2" class="form-control" type="text" placeholder="123 Street"
+                        value="{{parent.addressline2}}">
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="state">UAE</label>
+                    <select id="state" class="custom-select" name="state" aria-placeholder="~Select state~" required>
+                        {{#if parent.state}}
+                            <option value={{parent.state}} selected>{{parent.state}}</option>
+                        {{else}}
+                            <option disabled >~Select state~</option>
+                        {{/if}}
+                        <option value="Abu Dhabi">Abu Dhabi</option>
+                        <option value="Ajman">Ajman</option>
+                        <option value="Dubai">Dubai</option>
+                        <option value="Fujairah">Fujairah</option>
+                        <option value="Ras al-Khaimah">Ras al-Khaimah</option>
+                        <option value="Sharjah">Sharjah</option>
+                        <option value="Umm al-Quwain">Umm al-Quwain</option>
+                    </select>
+                </div>
+                <div class="col-md-6 form-group">
+                    <label for="city">City</label>
+                    <input required name="city" id="city" class="form-control" value="{{parent.city}}" type="text"
+                        placeholder="Dubai" required>
+                </div>
+
+            </div>
+            <div class="sbg d-flex justify-content-end w-100 pr-1">
+                <button class="sody border border-0" type="submit">
+                    <div class="button">
+                        <div class="container">
+                            <div class="tick">
+                            </div>
+                        </div>
+                    </div>
+                </button>
+            </div>
+        </form>
+
+    </div>
+    <script>
+        let button = document.querySelector('.button');
+        let sbg = document.querySelector('.sbg');
+        let buttonText = document.querySelector('.tick');
+        buttonText.innerHTML = "Update";
+
+        const fname = document.getElementById('fname').value
+        const lname = document.getElementById('lname').value
+        const email = document.getElementById('email').value
+        const sphone = document.getElementById('sphone').value
+        const addressline1 = document.getElementById('addressline1').value
+        const addressline2 = document.getElementById('addressline2').value
+        const state = document.getElementById('state').value
+
+
+        const tickMark = "<svg width=\"58\" height=\"45\" viewBox=\"0 0 58 45\" xmlns=\"http://www.w3.org/2000/svg\"><path fill=\"#fff\" fill-rule=\"nonzero\" d=\"M19.11 44.64L.27 25.81l5.66-5.66 13.18 13.18L52.07.38l5.65 5.65\"/></svg>";
+
+        if (fname && lname && email && sphone && addressline1 && state) {
+            sbg.style.display = "block"
+        }
+        else {
+            sbg.style.display = "none"
+
+
+        }
+
+        button.addEventListener('click', function () {
+
+
+
+            if (buttonText.innerHTML !== "Update") {
+                buttonText.innerHTML = "Update";
+                
+            } else if (buttonText.innerHTML === "Update" && fname && lname && email && sphone && addressline1 && addressline2 && state && city) {
+                buttonText.innerHTML = tickMark;
+                this.classList.toggle('button__circle');
+
+            }
+            else{
+                buttonText.innerHTML = "fill inputs";
+
+            }
+
+
+
+
+        });
+
+    </script>
+
+</div>

@@ -1,0 +1,119 @@
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+            <h3 class="font-weight-bold text-capitalize ">{{school.schoolname}}</h3>
+            <h6 class="font-weight-normal text-capitalize text-muted">Registered {{school.regdate}}</h6>
+            {{!-- <h6 class="font-weight-normal mb-0">All systems are running smoothly!</h6> --}}
+        </div>
+
+        <div class="container mt-3 p-3 mx-3">
+            <a href="" class="btn btn-behance px-3 py-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add Class
+            </a>
+
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add Class</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <div class="modal-body">
+                            <form action="/admin/addclass" class="forms-sample" method="post">
+                                <div class="form-group">
+                                    {{!-- <label for="exampleInputName1">Class</label> --}}
+                                    <input type="text" name="class" class="form-control" id="exampleInputName1"
+                                        placeholder="Add class" />
+                                </div>
+                                <button type="submit" class="btn btn-primary">
+                                    Add Class
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <br>
+
+
+            <div class="row p-3">
+                {{#if classses}}
+
+
+                <div class="changebg">
+                    {{#each classses}}
+                        <label class="bgh px-4 py-3 w-100 rounded-lg text-white mt-3 d-flex justify-content-between align-items-center">
+                            <div >
+                                <h3 class=" text-capitalize text-white font-weight-500 cursor-pointer" data-bs-toggle="modal" data-bs-target="#exampleModal{{@index}}">
+                                {{name}}
+                                <i class="fas fa-edit"></i>
+                                
+                                
+                                </h3>
+                                <a href="/admin/getstudents/{{idd}}" class="text-white text-decoration-none">
+                                    &#8594; {{students}} Student(s)</a>
+                            </div>
+
+                            <a href="/admin/deleteclass/{{idd}}" class="text-danger text-decoration-none">
+                                <i class="fa fa-trash "></i> </a>
+                        </label>
+
+                        <div class="modal fade" id="exampleModal{{@index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Edit Class name</h5>
+                                        
+                                    </div>
+                        
+                                    <div class="modal-body">
+                                        <form action="/admin/editclass" class="forms-sample" method="post">
+                                            <div class="form-group">
+                                                {{!-- <label for="exampleInputName1">Class</label> --}}
+                                                <input type="text" value="{{name}}" name="classs" class=" text-capitalization form-control" id="exampleInputName1"
+                                                    placeholder="Add class" required/>
+                                                    <input type="hidden" name="idd" value={{idd}}>
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">
+                                                Save
+                                            </button>
+                                        </form>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                        
+                                </div>
+                            </div>
+                        </div>
+
+                        
+
+
+
+                    {{/each}}
+                </div>
+                {{!-- <div style="display: flex;justify-content:end;" class="pr-2">
+                    <a style="font-family: cursive;color:red;text-transform:capitalize"
+                        href="/admin/deleteschoolpictures/{{student.userid}}">Delete all
+                        {{school.name}}'s pictures</a>
+                </div>
+                <br>
+                <div style="display: flex;justify-content:end;" class="pr-2">
+
+                </div> --}}
+
+
+
+                {{else}}
+
+                <h4 class="text-center">No classes registered yet</h4>
+
+                {{/if}}
+            </div>
+            <br>
+
+        </div>
+    </div>
+</div>

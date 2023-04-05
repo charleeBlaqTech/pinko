@@ -1,0 +1,110 @@
+<div class="main-panel">
+    <div class="content-wrapper">
+        {{!-- <div class="container"> --}}
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                            <h3 class="font-weight-bold text-capitalize  text-muted mb-5">Admin</h3>
+                            <h6 class="font-weight-bold text-capitalize">{{class}} ~All Clients~</h6>
+                            {{!-- <h6 class="font-weight-normal text-capitalize text-muted">Registered {{school.regdate}}</h6> --}}
+                            {{!-- <h6 class="font-weight-normal mb-0">All systems are running smoothly!</h6> --}}
+                        </div>
+                        
+                        {{!-- <h4 class="card-title px-2">{{class}} parents</h4> --}}
+
+                        {{#if parents}}
+                            <div class="row px-3">
+                            
+                            
+                            
+                            
+                                <div class="table-responsive">
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                {{!-- <th>Orders</th> --}}
+                                                <th>Username</th>
+                                                <th>Last Focus</th>
+                                                <th>Prescence</th>
+                                                <th>Last seen</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                            
+                                            {{#each parents}}
+                            
+                            
+                                            <tr>
+                                                {{!-- <td class="py-1">
+                                                    <img src={{profileimage}} alt="image" />
+                                                </td> --}}
+                                                <td>
+                                                    <a href="/admin/viewparent/{{userid}}" style="width: 100%;text-align:start;"
+                                                        class="bgh py-3 w-100  text-dark  rounded-lg mt-3 text-capitalize">
+                            
+                                                        {{username}}
+                            
+                            
+                                                    </a>
+                            
+                                                </td>
+                            
+                                                <td>
+                                                    {{#if laststudentid}}
+                                                        <a href="/admin/indstudents/{{laststudentid}}" style="width: 100%;"
+                                                            class="  py-3 w-100 rounded-lg mt-3  text-dark text-capitalize">
+                                                        
+                                                            {{laststudentname}}
+                                                        
+                                                        
+                                                        </a>
+                                                    {{else}}
+                                                        <p>none</p>
+                                                    {{/if}}
+                            
+                            
+                                                </td>
+                                                <td class="text-capitalize">{{logintimes}}</td>
+                            
+                                                <td>{{momentago}}</td>
+                                                <td><a style="font-family: cursive;color:red;" href="/admin/deleteparent/{{userid}}">Delete</a></td>
+                            
+                                            </tr>
+                            
+                            
+                            
+                                            {{/each}}
+                            
+                            
+                            
+                                        </tbody>
+                                    </table>
+                            
+                            
+                                </div>
+                            
+                            
+                            
+                            </div>
+                        {{else}}
+                            <h4 class="text-muted text-center">No registered clients yet</h4>
+                        {{/if}}
+
+
+                    </div>
+                    {{!-- <div class="fwrapper d-flex justify-contents-center">
+                        <br>
+
+                        <div class="wrapper">
+                            <a class="aa" href="/admin/getclasses/{{school.schoolcode}}"><span><i
+                                        class="fa fa-angle-double-left"></i></span></a>
+                        </div>
+                    </div> --}}
+                </div>
+            </div>
+            {{!--
+        </div> --}}
+    </div>
+</div>

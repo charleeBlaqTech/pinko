@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pink pepper</title>
+    <link rel="stylesheet" href="/css/style.css" />
+    <link rel="stylesheet" href="/css/fonts (2).css" />
+    <link rel="stylesheet" href="/css/fonts.css" />
+    <link rel="stylesheet" href="/css/icomoon/style.css" />
+    <link rel="stylesheet" href="/css/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="/css/css/bootstrap.rtl.min.css" />
+    <link rel="stylesheet" href="/css/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="/css/style (4).css" />
+    <link rel="stylesheet" href="/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/4.5.6/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+        integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/vendors/feather/feather.css">
+    <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="/css/icomoon/style.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <link rel="stylesheet" href="/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
+    <link rel="stylesheet" type="text/css" href="./js/select.dataTables.min.css">
+    <link rel="shortcut icon" href="/images/dashboard/logo-1.png" type="image/x-icon">
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    {{!-- <link rel="stylesheet" href="/css/vertical-layout-light/style (2).css">
+    <link rel="stylesheet" href="/css/style (5).css"> --}}
+    {{!-- <link rel="stylesheet" href="/css/vertical-layout-light/style.css"> --}}
+    {{!-- <link rel="stylesheet" href="/css/vertical-layout-light/style.css"> --}}
+    <link rel="stylesheet" href="/css/style (5).css">
+    <link rel="stylesheet" href="/css/vertical-layout-light/style (2).css">
+
+</head>
+
+<style>
+    .multiple-uploader {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        border-radius: 15px;
+        border: 2px dashed #858585;
+        min-height: 150px;
+        margin: 20px auto;
+        cursor: pointer;
+        width: 80%;
+    }
+
+    .mup-msg {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .mup-msg span {
+        margin-bottom: 10px;
+    }
+
+    .mup-msg .mup-main-msg {
+        color: #606060;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .mup-msg .mup-msg {
+        color: #737373;
+    }
+
+    .image-container {
+        margin: 1rem;
+        width: 120px;
+        height: 120px;
+        position: relative;
+        cursor: auto;
+        pointer-events: unset;
+    }
+
+    .image-container:before {
+        z-index: 3;
+        content: "\2716";
+        align-content: center;
+        font-size: 10px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 22px;
+        color: white;
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #e50000;
+        pointer-events: all;
+        cursor: pointer;
+    }
+
+    .image-preview {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        border-radius: 12px;
+    }
+
+    .image-size {
+        position: absolute;
+        z-index: 1;
+        height: 120px;
+        width: 120px;
+        backdrop-filter: blur(4px);
+        font-weight: bolder;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        opacity: 0;
+        pointer-events: unset;
+    }
+
+    .image-size:hover {
+        opacity: 1;
+    }
+
+    .exceeded-size {
+        position: absolute;
+        z-index: 2;
+        height: 120px;
+        width: 120px;
+        display: flex;
+        font-weight: bold;
+        font-size: 12px;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        color: white;
+        background: rgba(255, 0, 0, 0.6);
+        pointer-events: unset;
+    }
+</style>
+
+<body>
+
+    <div class="container-scroller">
+        <!-- partial:partials/_navbar.html -->
+        <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between" style="width:100%;margin:0;">
+                <a class="navbar-brand brand-logo-mini" href="/"><img src="/images/dashboard/logo-1.png" alt="logo" /></a>
+                <ul class="navbar-nav navbar-nav-right">
+                    <li class="nav-item dropdown">
+                        <h4 class="text-capitalize tonyy px-2">{{student.name}}</h4>
+                
+                
+                    </li>
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                        <span class="icon-menu"></span>
+                    </button>
+                
+                </ul>
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                    <span class="icon-menu"></span>
+                </button>
+                
+            </div>
+        </nav>
+        
+        <!-- partial -->
+        <div class="container-fluid page-body-wrapper">
+            
+            <nav class="sidebar sidebar-offcanvas" id="sidebar">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="\admin\n">
+                            <i class="icon-grid menu-icon"></i>
+                            <span class="menu-title">Dashboard</span>
+                        </a>
+                    </li>
+                    {{#if parents}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/getclients">
+                            <i class="icon-user-circle-o menu-icon"></i>
+                            <span class="menu-title">Clients</span>
+                        </a>
+                    </li>
+                    {{/if}}
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/orders">
+                            <i class="icon-shopping-cart menu-icon"></i>
+                            <span class="menu-title">Orders</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/packages">
+                            <i class="icon-shopping-bag menu-icon"></i>
+                            <span class="menu-title">Packages</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/admin/manager">
+                            <i class="icon-shopping-bag menu-icon"></i>
+                            <span class="menu-title">File Manager</span>
+                        </a>
+                    </li>                   
+                    <li class="nav-item">
+                        <a class="nav-link" style="height: 10vh;align-items:center;" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
+                            aria-controls="ui-basic">
+                            <i class="fa fa-angle-double-left"></i>
+                            <span class="menu-title text-capitalize"> &nbsp; Back to</span>
+                            {{!-- <i class="menu-arrow"></i> --}}
+                        </a>
+                        <div class="collapse" id="ui-basic">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/admin/getstudents/{{student.classid}}">Class</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-capitalize"
+                                        href="/admin/getclasses/{{student.schoolcode}}">School</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link text-capitalize" href="/admin/getschools">All Schools</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item" style="cursor: not-allowed;">
+                        <a class="nav-link" href="/admin/logout">
+                            <i class="fa fa-sign-out" aria-hidden="true"></i>
+                            <span class="menu-title text-danger">Log out</span>
+                        </a>
+                    </li>
+                    
+
+                </ul>
+            </nav>
+            {{{body}}}
+            <!-- partial -->
+
+
+            <!-- main-panel ends -->
+        </div>
+        <!-- page-body-wrapper ends -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+        crossorigin="anonymous"></script>
+    <script src="/js/jquery.min.js"></script>
+
+    <script src="/js/swiper-bundle.min.js"></script>
+    <script src="/js/script.js"></script>
+    <script src="/js/script (2).js"></script>
+    <!-- <script src="/js/js/bootstrap.bundle.min.js"></script> -->
+    <!-- plugins:js -->
+    <script src="/vendors/js/vendor.bundle.base.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <script src="/vendors/chart.js/Chart.min.js"></script>
+    <script src="/vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="/js/dataTables.select.min.js"></script>
+    
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    
+    <!-- endinject -->
+    <!-- Custom js for this page-->
+    <script src="/js/dashboard.js"></script>
+    <script src="/js/Chart.roundedBarCharts.js"></script>
+    <!-- End custom js for this page-->
+    <script src="/js/moment.min.js">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    
+    
+    <script src="/js/popper.js"></script>
+    
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/owl.carousel.min.js"></script>
+    <script src="./vendors/js/vendor.bundle.base.js"></script>
+    
+    <script src="/vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <script src="/js/dataTables.select.min.js"></script>
+    
+    
+    
+    <script src="/js/off-canvas.js"></script>
+    <script src="/js/hoverable-collapse.js"></script>
+    <script src="/js/template.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    
+    </script>
+    <script src="/js/settings.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+    <script>
+
+             
+            var today = moment().format('D MMM, YYYY');
+            const usetim = document.getElementById('usetim');
+            usetim.innerHTML = today;
+
+            var icon = "{{ icon }}"
+            var alerte = "{{ alerte }}"
+            var title = "{{ title }}"
+
+            if (alerte) {
+                swal({
+                    title: title,
+                    text: alerte,
+                    icon: icon,
+                    button: {
+                        text: 'Continue',
+                        value: true,
+                        visible: true,
+                        className: 'btn btn-primary',
+                    },
+                });
+            }
+    </script>
+    
+    <script src="/js/todolist.js"></script>
+
+    {{!-- put below --}}
+
+    
+    
+    <script src="/js/todolist.js"></script>
+
+    <script src="/js/multiple-uploader.js"></script>
+    <script>
+
+            let multipleUploader = new MultipleUploader('#multiple-uploader').init({
+                maxUpload: 30, // maximum number of uploaded images
+            maxSize: 20, // in size in mb
+            filesInpName: 'imagine', // input name sent to backend
+            formSelector: '#exo', // form selector
+            });
+
+    </script>
+    <script>
+
+
+            function clicko() {
+                const clipo = document.getElementById('clipr')
+
+
+            const hitted = document.getElementById('cll')
+            const ccopy = hitted.innerHTML
+            navigator.clipboard.writeText(ccopy)
+            alert("copied " + ccopy + " to clipboard")
+    
+    
+            }
+            function clickpar() {
+                const hitted = document.getElementById('clickpar')
+            const ccopy = hitted.innerHTML
+            navigator.clipboard.writeText(ccopy)
+            alert("copied " + ccopy + " to clipboard")
+    
+    
+            }
+            function clickstd() {
+                const hitted = document.getElementById('clickstd')
+            const ccopy = hitted.innerHTML
+            navigator.clipboard.writeText(ccopy)
+            alert("copied " + ccopy + " to clipboard")
+    
+            }
+
+
+    </script>
+    <script src="/js/util.js"></script>
+    
+    <script src="/js/main.js"></script>
+</body>
+
+</html>

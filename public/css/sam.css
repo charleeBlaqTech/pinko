@@ -1,0 +1,34 @@
+textarea{
+    resize: none;
+    border-radius: 25px;
+    padding: 7px 5%;
+    /* width: 100%; */
+}
+.jend{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+.bolool{
+    width: 60%;
+    margin: 0 auto;
+}
+.jcent{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.jbtw{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.w100{
+    width: 100%;
+}
+.tcent{
+    text-align: center;
+}
+.mauto{
+    margin: 0 auto;
+}

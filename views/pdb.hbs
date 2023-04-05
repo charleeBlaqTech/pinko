@@ -1,0 +1,614 @@
+<style>
+    /* fonts  */
+    @import url('https://fonts.googleapis.com/css?family=Abel|Aguafina+Script|Artifika|Athiti|Condiment|Dosis|Droid+Serif|Farsan|Gurajada|Josefin+Sans|Lato|Lora|Merriweather|Noto+Serif|Open+Sans+Condensed:300|Playfair+Display|Rasa|Sahitya|Share+Tech|Text+Me+One|Titillium+Web');
+
+    .sbody {
+        background: #DFC2F2;
+        background-image: linear-gradient(135deg, #CE9FFC 10%, #7367F0 100%);
+        background-attachment: fixed;
+        background-size: cover;
+    }
+
+    #container {
+        box-shadow: 0 15px 30px 1px rgba(128, 128, 128, 0.31);
+        background: rgba(255, 255, 255, 0.90);
+        text-align: center;
+        border-radius: 5px;
+        overflow: hidden;
+        margin: 5em auto;
+        height: 250px;
+        width: 100%;
+
+    }
+
+
+
+    /* 	Product details  */
+    .product-detailsj {
+        position: relative;
+        text-align: left;
+        overflow: hidden;
+        padding: 30px;
+        height: 100%;
+        float: left;
+        width: 40%;
+
+    }
+
+    /* 	Product Name */
+    #container .product-detailsj h1 {
+        font-family: 'Old Standard TT', serif;
+        display: inline-block;
+        position: relative;
+        font-size: 34px;
+        color: #344055;
+        margin: 0;
+
+    }
+
+    #container .product-detailsj h1:before {
+        position: absolute;
+        content: '';
+        right: 0%;
+        top: 0%;
+        transform: translate(25px, -15px);
+        font-family: 'Farsan', cursive;
+        display: inline-block;
+        background: #FFA69E;
+        border-radius: 5px;
+        font-size: 19px;
+        text-transform: capitalize;
+        padding: 5px;
+        color: #FFF;
+        margin: 0;
+        animation: chan-sh 6s ease infinite;
+
+    }
+
+
+    @keyframes chan-sh {
+        from {
+            content: 'swift shipping';
+        }
+
+        to {
+            content: 'New';
+        }
+
+    }
+
+    /*Product Rating  */
+    .hint-star {
+        display: inline-block;
+        margin-left: 0.5em;
+        color: gold;
+        width: 50%;
+    }
+
+
+    /* The most important information about the product */
+    #container .product-detailsj>p {
+        font-family: 'Farsan', cursive;
+        text-align: center;
+        font-size: 20px;
+        color: #7d7d7d;
+
+    }
+
+    /* control */
+
+    .control {
+        position: relative;
+        bottom: 1%;
+        left: 2.8%;
+        width: 100%;
+        align-items: center;
+
+    }
+
+    /* the Button */
+    .btnn {
+        transform: translateY(0px);
+        transition: 0.3s linear;
+        background: #49C608;
+        border-radius: 5px;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        color: #eee;
+        padding: 0;
+        margin: 0;
+
+    }
+
+    .btnn:hover {
+        transform: translateY(-4px);
+    }
+
+    .btnn span {
+        font-family: 'Farsan', cursive;
+        transition: transform 0.3s;
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 1.2em;
+        margin: 0;
+
+    }
+
+    /* shopping cart icon */
+    .btnn .price,
+    .shopping-cart {
+        background: #333;
+        border: 0;
+        margin: 0;
+    }
+
+    .btnn .price {
+        transform: translateX(-10%);
+        padding-right: 15px;
+    }
+
+    /* the Icon */
+    .btnn .shopping-cart {
+        transform: translateX(-100%);
+        position: absolute;
+        background: #333;
+        z-index: 1;
+        left: 0;
+        top: 0;
+    }
+
+    /* buy */
+    .btnn .buy {
+        z-index: 3;
+        font-weight: bolder;
+    }
+
+    .btnn:hover .price {
+        transform: translateX(-110%);
+    }
+
+    .btnn:hover .shopping-cart {
+        transform: translateX(0%);
+    }
+
+
+
+    /* product image  */
+    .product-image {
+        transition: all 0.3s ease-out;
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        float: right;
+        width: 50%;
+        display: inline-block;
+    }
+
+    #container img {
+
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .info {
+        background: rgba(27, 26, 26, 0.9);
+        font-family: 'Farsan', cursive;
+        transition: all 0.3s ease-out;
+        transform: translateX(-100%);
+        position: absolute;
+        line-height: 1.9;
+        text-align: left;
+        font-size: 120%;
+        cursor: no-drop;
+        color: #FFF;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
+
+    .grida {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2%;
+    }
+
+    @media screen and (max-width:1208px) {
+        .grida {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+
+        }
+
+        .hint-star {
+            display: inline-block;
+            margin-left: 0.1em;
+            color: gold;
+            width: 100%;
+        }
+
+        .hido {
+            display: none;
+
+        }
+        .reorder{
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: end;
+            margin: 0 auto;
+        }
+        #wrap{
+            order: 1;
+            width: 240px;
+            font-size: 20px;
+
+        }
+        #search{
+            
+            width: 200px;
+            font-size: 15px;
+            
+
+        }
+        .timoo{
+            order:2
+        }
+        #wrap{
+            display: flex;
+            justify-content: end;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            width: 100%;
+        }
+
+    }
+
+    .info h2 {
+        text-align: center
+    }
+
+    .product-image:hover .info {
+        transform: translateX(0);
+    }
+
+    .info ul li {
+        transition: 0.3s ease;
+    }
+
+    .info ul li:hover {
+        transform: translateX(50px) scale(1.3);
+    }
+
+    .product-image:hover img {
+        transition: all 0.3s ease-out;
+    }
+
+    .product-image:hover img {
+        transform: scale(1.2, 1.2);
+    }
+
+
+    @import url("https://fonts.googleapis.com/css?family=Lato:100,300,400,700");
+    @import url("https://raw.github.com/FortAwesome/Font-Awesome/master/docs/assets/css/font-awesome.min.css");
+
+    .qbody {
+        background: #DDD;
+        font-size: 15px;
+    }
+
+    #wrap {
+        display: block;
+        height: 60px;
+        padding: 0;
+        position: relative;
+    }
+    .relatee{
+        position: relative;
+    }
+
+    input[type="text"] {
+        height: 60px;
+        font-size: 55px;
+        display: block;
+        font-family: "Lato";
+        font-weight: 100;
+        border: none;
+        outline: none;
+        color: #555;
+        padding: 3px;
+        padding-right: 60px;
+        width: 0px;
+        top: 0;
+        right: 0;
+        background: none;
+        z-index: 3;
+        transition: width .4s cubic-bezier(0.000, 0.795, 0.000, 1.000);
+        cursor: pointer;
+    }
+
+    input[type="text"]:focus:hover {
+        border-bottom: 1px solid #BBB;
+    }
+
+    input[type="text"] {
+        width: 300px;
+        z-index: 1;
+        border-bottom: 1px solid #BBB;
+        cursor: text;
+        font-size: 25px;
+    }
+
+    #search_submit {
+        height: 67px;
+        width: 65px;
+        display: inline-block;
+        color: red;
+        background: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAADNQTFRFU1NT9fX1lJSUXl5e1dXVfn5+c3Nz6urqv7+/tLS0iYmJqampn5+fysrK39/faWlp////Vi4ZywAAABF0Uk5T/////////////////////wAlrZliAAABLklEQVR42rSWWRbDIAhFHeOUtN3/ags1zaA4cHrKZ8JFRHwoXkwTvwGP1Qo0bYObAPwiLmbNAHBWFBZlD9j0JxflDViIObNHG/Do8PRHTJk0TezAhv7qloK0JJEBh+F8+U/hopIELOWfiZUCDOZD1RADOQKA75oq4cvVkcT+OdHnqqpQCITWAjnWVgGQUWz12lJuGwGoaWgBKzRVBcCypgUkOAoWgBX/L0CmxN40u6xwcIJ1cOzWYDffp3axsQOyvdkXiH9FKRFwPRHYZUaXMgPLeiW7QhbDRciyLXJaKheCuLbiVoqx1DVRyH26yb0hsuoOFEPsoz+BVE0MRlZNjGZcRQyHYkmMp2hBTIzdkzCTc/pLqOnBrk7/yZdAOq/q5NPBH1f7x7fGP4C3AAMAQrhzX9zhcGsAAAAASUVORK5CYII=") center center no-repeat;
+        text-indent: -10000px;
+        border: none;
+        position: relative;
+        top: 0;
+        right: 0;
+        z-index: 2;
+        cursor: pointer;
+        opacity: 0.5;
+        cursor: pointer;
+        transition: opacity .4s ease;
+    }
+    .derh{
+        margin: 10px 2px;
+        z-index: 7;
+
+    }
+    input[type="submit"]:hover {
+        opacity: 0.8;
+    }
+    .rrr{
+        display: flex;
+        align-items: center;
+        justify-content: end;
+    }
+</style>
+
+
+
+<div class="row">
+
+    <div class="row">
+        <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+            {{!-- <h3 class="font-weight-bold text-capitalize text-muted">Dashboard</h3> --}}
+            {{!-- <h3 class="font-weight-bold text-capitalize text-muted">Hi {{parent.username}}</h3> --}}
+            <h3 class="font-weight-bold text-capitalize text-muted"> {{parent.name}}</h3>
+            {{#if parent.addressline1}}
+                <h3 class="font-weight-bold text-capitalize text-muted"> {{parent.addressline1}}</h3>
+            {{/if}}
+            {{!-- <h3 class=" text-muted"> {{parent.phone}}</h3> --}}
+            {{!-- <h4 class=" text-muted"> {{parent.email}}</h4> --}}
+            {{#if parent.lastlogin }}
+                <small class=" text-capitalize" id="reety">Last seen:</small><span>{{parent.lastlogin}}</span>
+
+            {{/if }}
+            <br>
+            <br>
+            {{!-- <h6 class="font-weight-normal mb-0">All systems are running smoothly!</h6> --}}
+        </div>
+        <div class="col-12 col-xl-4">
+            <div class="justify-contents-bewtween reorder d-flex align-items-center">
+
+
+                
+                    <form action="/parent/findstudent" method="post" autocomplete="on">
+                        <div class="rrr mb-3 mt-3">
+                            <div id="wrap" class="d-flex">
+                                <input id="search" name="find" type="text" placeholder="Enter student code ?" required>
+                                <input id="search_submit" type="submit">
+
+                            
+                            </div>
+                        </div>
+
+                    </form>
+
+
+                {{!-- <div class="btn ">
+                    <a href="#">
+                        <button class="text-center">
+                            Find Photos <i class="icon-arrow"></i>
+                        </button>
+                    </a>
+                </div> --}}
+                {{!-- <div class="dropdown timoo flex-md-grow-1 flex-xl-grow-0">
+                    <button class="btn btn-sm btn-light bg-white " style="cursor: default;" type="button" id="dropdownMenuDate2"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                        <i class="mdi mdi-calendar"></i> Today <span id="usetim"></span>
+                    </button>
+                    
+                </div> --}}
+            </div>
+            <br>
+            <br>
+
+        </div>
+
+    </div>
+
+    
+
+    <div class="container-lg">
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="hero-text">
+                    <h1>
+                        All memories
+                        are preserved
+                    </h1>
+                    <p>
+                        Capture your child's precious
+                        moments forever with our stunning,
+                        high quality pictures
+                    </p>
+                    <label for="search" id="myBtn" class="btn" onclick="topFunction()">
+                        <a href="#" >
+                            <button class="text-center">
+                                Find Photos <i class="icon-arrow"></i>
+                            </button>
+                        </a>
+                    </label>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="hero-img">
+                    <div class="back"></div>
+                    <img src="/images/grad-1.jpeg" alt="" class="img-fluid" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{#if packages}}
+
+
+    <div class="text-center mt-1 mb-4 d-flex align-items-center justify-content-between">
+
+
+        {{#if child}}
+        <h2 class="section-title px-5"><span class=" text-capitalize">{{child.name}}</span></h2>
+
+        {{/if}}
+
+
+
+    </div>
+
+    <h2 class="text-center" style="text-shadow: 1px 1px 1px black;">~Packages~</h2>
+    <div>
+        <div class="row px-xl-5 pb-1 grida" style="overflow: auto;height:60vh;">
+
+            {{#each packages}}
+
+            {{!-- <label for=""> --}}
+                <div id="container" data-bs-toggle="modal" data-bs-target="#exampleModalt{{@index}}">
+
+                    <div class="modal fade" id="exampleModalt{{@index}}" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title text-capitalize" id="exampleModalLabel"></h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <h1 class="text-capitalize">{{name}}</h1>
+
+
+                                    <img src={{packimg}} alt="Omar Dsoky">
+                                    <br>
+                                    <p class="hido text-center">{{{desc}}}</p>
+
+                                    <br>
+                                    <span class="price ">AED <span class="tofix"
+                                            style="font-size: 30px;">{{price}}</span></span>
+
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <!-- Start	Product details -->
+                    <div class="product-detailsj">
+
+                        <!-- 	Product Name -->
+                        {{!-- <h1 class="text-capitalize fs-30">{{name}}</h1> --}}
+
+                        <span class="hint-star star">
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star" aria-hidden="true"></i>
+                            <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                            <i class="fa fa-star-o" aria-hidden="true"></i>
+                        </span>
+
+                        <br>
+                        <h2 class="text-capitalize fs-30">{{name}}</h2>
+                        <br>
+                        {{!-- <p class="hido">{{{desc}}}</p> --}}
+
+                        <div class="control w-100 px-0">
+
+                            <br>
+
+
+                            <div class="d-flex text-center  w-100">
+                                <span class="price ">AED <span class="tofix"
+                                        style="font-size: 20px;">{{price}}</span></span>
+                                {{!-- <small class="price ">View details</small>/ --}}
+                            </div>
+
+                            <!-- End Button buying -->
+                        </div>
+
+                    </div>
+
+                    <!-- 	End	Product details   -->
+
+
+
+                    <!-- 	Start product image & Information -->
+
+                    <div class="product-image">
+
+                        <img src={{packimg}} alt="Omar Dsoky">
+
+                        <!-- 	product Information-->
+                        <div class="info align-items-center d-flex">
+                            {{!-- <h2>The Description</h2> --}}
+                            <ul class=" mx-auto" style="word-break: keep-all;align-items: center;
+                            ">
+                                {{{desc}}}
+                            </ul>
+                        </div>
+                    </div>
+                    <!--  End product image  -->
+
+
+                </div>
+                {{!--
+            </label> --}}
+            {{/each}}
+
+        </div>
+
+
+        {{!-- <button type="submit" class="ml-auto ">Proceed to cart</button> --}}
+
+
+
+    </div>
+
+
+
+
+
+
+    {{else}}
+
+    <h5 class="text-muted">No pictures for this student yet !</h5>
+
+
+
+    {{/if}}
+
+</div>

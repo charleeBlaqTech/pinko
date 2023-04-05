@@ -1,0 +1,242 @@
+<style>
+    #bn {
+        height: 25vh;
+        object-fit: contain;
+        position: absolute;
+        top: 0;
+        width: fit-content;
+        border-radius: 25px;
+        padding: 0 2%;
+
+
+    }
+
+    .grod {
+        display: flex;
+        flex-wrap: wrap;
+        flex: 0 1 auto;
+        margin: 1%;
+
+    }
+
+    .kl {
+        position: relative;
+    }
+
+    .tyu {
+        border-radius: 25px;
+        padding: 0 3%;
+        width: fit-content;
+        position: relative;
+        margin: 5px;
+
+
+
+    }
+
+    .tre p {
+        text-shadow: -2px 6px 7px rgba(76, 90, 66, 1);
+
+    }
+
+    .tre {
+        position: absolute;
+        margin-bottom: 0;
+        text-shadow: -2px 6px 7px rgba(76, 90, 66, 1);
+        z-index: 1;
+        padding: 15px;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        color: antiquewhite;
+        height: fit-content;
+
+    }
+
+    .tyu:nth-child(odd) {
+        background: rgb(62, 62, 139);
+        padding: 0;
+    }
+
+    .tyu:nth-child(even) {
+        background: rgb(139, 23, 23);
+    }
+
+    .rety {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 20px;
+        align-items: center;
+        text-transform: capitalize;
+        font-family: 'cursive';
+        padding-left: 5%;
+        width: 200px;
+    }
+
+
+</style>
+<div class="main-panel jkjkbody">
+    <div class="container-fluid py-4 overflow-auto " style="height: 90vh;">
+        <h2 class="text-center pb-4 " style="text-shadow:">~Packages~</h2>
+
+
+        <div class="pb-5 ml-1 ">
+            <a href="" class="btn btn-behance px-3 py-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add Package
+            </a>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add Package</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/admin/createpackage" method='post' class="forms-sample" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Package Name</label>
+                                    <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Name"
+                                        required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName2">Description</label>
+            
+                                    <textarea name="desc" id="mytextarea" cols="10" rows="4" class="form-control" id="exampleInputName2"
+                                        placeholder="Tell us about this package" required></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName3" class="bg-light">Price</label>
+                                    AED<input name="price" type="number" class="form-control" id="exampleInputName3"
+                                        placeholder="Package price in AED" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName4">Product Image</label>
+                                    <input name="pixo" type="file" class="form-control" id="exampleInputName4"
+                                        placeholder="Enter product image" accept="image/jpg,image/png,image/gif,image/jpeg" required />
+                                </div>
+            
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save
+                                        changes</button>
+                                </div>
+                            </form>
+                        </div>
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <br>
+
+        {{#if packages}}
+            {{#each packages}}
+            <div class="row px-xl-5 align-items-center">
+                <div class="col-lg-5 pb-5">
+                    <div id="product-carousel" class="carousel slide align-items-center" data-ride="carousel">
+                        <div class="carousel-inner border"
+                            style="box-shadow: 1px 1px rgb(94, 91, 91), -.5em 1em .4em rgb(155, 155, 132);border-radius:3px;">
+                            <img style="max-height: 42vh;object-fit:contain;" class="w-100 h-100" src="{{packimg}}" alt="Image">
+            
+                        </div>
+                        <a class="carousel-control-prev" href={{packimg}} data-slide="prev">
+                            <i class="fa fa-2x fa-angle-left text-dark"></i>
+                        </a>
+                        <a class="carousel-control-next" href="#product-carousel" data-slide="next">
+                            <i class="fa fa-2x fa-angle-right text-dark"></i>
+                        </a>
+                    </div>
+                </div>
+            
+                <div class="col-lg-7 align-items-center">
+                    <h3 class="font-weight-semi-bold text-capitalize" style="text-shadow: 1px 1px 3px rgba(66, 68, 90, 1);">{{name}}
+                    </h3>
+                    <br>
+            
+                    <h3 class="font-weight-semi-bold mb-4  align-items-center"><small class="text-muted">AED</small> <span class="tofix">{{price}}</span></h3>
+                    <p class="mb-4 text-capitalize w-70">{{{desc}}}
+                    </p>
+            
+            
+                    <div class="d-flex align-items-center mb-4 pt-2">
+            
+                        <button class="btn btn-primary px-3" data-bs-toggle="modal" data-bs-target="#exampleModal{{@index}}"><i
+                                class="fa fa-edit mr-1"></i> Edit</button>
+                    </div>
+            
+                </div>
+            </div>
+            <div class="modal fade" id="exampleModal{{@index}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content " style="background-color: rgb(123, 212, 212);">
+                        <div class="modal-header">
+                            <h5 class="modal-title text-capitalize text-danger" id="exampleModalLabel">Edit {{name}} &nbsp;</h5>
+            
+                        </div>
+                        <div class="modal-body">
+                            <form action="/admin/editpackage" method='post' class="forms-sample" enctype="multipart/form-data">
+                                <div class="form-group">
+                                    <label for="exampleInputName1 text-capitalize">Package Name</label>
+                                    <input name="name" value={{name}} type="text" class="form-control" id="exampleInputName1"
+                                        placeholder="Name" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName2">Description</label>
+            
+                                    <textarea style="line-height: 21px;font-size:20px;" name="desc" id="" cols="10" rows="4"
+                                        class="form-control" id="exampleInputName2" placeholder="Tell us about this package"
+                                        required>{{desc}}</textarea>
+                                </div>
+                                <div class="form-group" style="">
+                                    <label for="exampleInputName3">Price in</label>
+                                    AED<input name="price" type="number" class="form-control" value={{price}} id="exampleInputName3"
+                                        placeholder="Package price in AED" required />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName5">Product Image</label>
+                                    <input name="pixo" type="file" class="form-control" src={{packimg}} id="exampleInputName5"
+                                        placeholder="Enter product image"  accept="image/jpg,image/png,image/gif,image/jpeg" />
+                                    <input type="hidden" name="packageid" value={{packageid}}>
+                                </div>
+            
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save
+                                        changes</button>
+                                </div>
+                                <div class="d-flex rety justify-content-end w-100" >
+                                    <br>
+                                
+                                    <a href="/admin/deletepackage/{{packageid}}" class="text-right text-end py-2">
+                                        <i class="fa fa-trash text-danger text-center fs-20" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </form>
+                            
+            
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+            
+                    </div>
+                </div>
+            </div>
+            <hr>
+            
+            
+            
+            
+            {{/each}}
+        {{else}}
+            <h4 class="m-auto text-muted text-center ">No Packages added yet</h4>
+        {{/if}}
+        
+    </div>
+
+
+    
+</div>

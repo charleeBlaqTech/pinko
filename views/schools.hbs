@@ -1,0 +1,151 @@
+
+<style>
+    .decidebg div:nth-child(odd){
+        background-color: blueviolet;
+    }
+    .decidebg div:nth-child(even){
+        background-color: rgb(80, 112, 31);
+
+    }
+    .adresso{
+        color: gray;
+        text-transform: capitalize;
+    }
+    .radarada:hover .adresso{
+        color: aliceblue;
+        text-transform: capitalize;
+    }
+</style>
+
+<div class="main-panel">
+    
+    <div class="content-wrapper">
+        <div class="container mt-3 ">
+            <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+                <h3 class="font-weight-bold text-capitalize text-muted">Admin</h3>
+                <br>
+                <h3 class="font-weight-bold text-capitalize">Welcome {{admin.username}}</h3>
+                <h6 class="font-weight-normal mb-0">All systems are running smoothly!</h6>
+            </div>
+            <br>
+            <br>
+            
+            <a href="" class="btn btn-behance ml-3 py-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Add School
+            </a>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Add School</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/admin/registerchool" method='post'class="forms-sample">
+                                <div class="form-group">
+                                    <label for="exampleInputName1">School Name</label>
+                                    <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Name" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Address</label>
+                                    <input name="address" type="text" class="form-control" id="exampleInputName1" placeholder="Address" />
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputName1">Email</label>
+                                    <input name="email" type="text" class="form-control" id="exampleInputName1" placeholder="Official email" />
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save
+                                        changes</button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            {{#if schools}}
+                <div class="row p-3">
+                    <div
+                        class="d-flex flex-fill flex-grow-1 flex-lg-nowrap flex-wrap flex-column justify-content-around align-center align-content-center decidebg">
+                        {{#each schools}}
+                        
+                        <div class="px-4 py-2 w-100 rounded-lg text-white mt-3">
+                            <div class="modal fade bg-gray" id="exampleModala{{@index}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content bg-light">
+                                        
+                                        <div class="modal-body bg-secondary">
+                                            <form action="/admin/editschool" method='post' class="forms-sample bg-secondary">
+                                                <div class="form-group bg-secondary">
+                                                    <label for="exampleInputName112{{@index}}">School Name</label>
+                                                    <input name="schoolname" value="{{name}}" type="text" class="text-capitalize form-control" id="exampleInputName112{{@index}}"
+                                                        placeholder="Name" required/>
+
+                                                    <label for="exampleInputName113{{@index}}">Address</label>
+                                                    <input name="address" value="{{address}}" type="text" class="text-capitalize form-control" id="exampleInputName113{{@index}}"
+                                                        placeholder="Name" required/>
+
+                                                    <label for="exampleInputName114{{@index}}">Email</label>
+                                                    <input name="email" value="{{email}}" type="text" class=" form-control" id="exampleInputName114{{@index}}"
+                                                        placeholder="Name" required/>
+
+
+
+                                                    <input type="hidden" name="schoolid" value={{schoolcode}}>
+                                                </div>
+                                                <div class="modal-footer  bg-secondary">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save
+                                                        changes</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                            
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            
+                            <h3 class="font-weight-500 text-capitalize"  data-bs-toggle="modal" data-bs-target="#exampleModala{{@index}}" style="width:fit-content;">{{schoolname}} <i class="fas fa-edit"></i></h3>
+                            <div class="radarada bg-transparent" style="display: flex;justify-content:space-between;align-items:center;">
+                                <div style="background-color: transparent;">
+                                    
+                                
+                                    <a class="d-none d-lg-block adresso" href="/admin/getclasses/{{schoolcode}}">{{address}}</a>
+                                    
+                                    <a href="/admin/getclasses/{{schoolcode}}" class="text-white text-decoration-none">&#8594;Go to Classes
+                                    </a>
+                                </div>
+                                {{#if students}}
+                                    <p class="">{{students}} student(s)</p>
+                                {{else}}
+                                    <p class="">No students yet !</p>
+                                {{/if}}
+                                <a href="mailto:{{email}}" class="text-light fa fa-envelope" target="_blank">
+                                <a href="/admin/deleteschool/{{schoolcode}}" class="d-none d-lg-block text-danger fa fa-trash">
+                                </a>
+                            </div>
+                        </div>
+                        
+                        {{/each}}
+                
+                
+                
+                    
+                
+                
+                
+                    </div>
+                </div>
+            {{else}}
+                <h4 class="m-auto text-muted text-center">No schools yet !</h4>
+            {{/if}}
+        </div>
+        
+    </div>
+</div>

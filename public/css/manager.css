@@ -1,0 +1,74 @@
+.felaa{
+    background: slategray;
+    padding: 0 30px;
+    display: grid;
+    width: 100%;
+    /* grid-template-rows: 2fr 1fr; */
+    /* border: 2px solid white; */
+    /* row-gap: 0; */
+    /* margin:0; */
+
+}
+.kiddo{
+    height: 30vh;
+}
+.concubine{
+    border:2px solid gray;
+    display:flex;
+    justify-content:end;
+}
+.father{
+    background: transparent;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    /* grid-template-rows: auto auto auto; */
+    /* column-gap: 2%; */
+    height: 70vh;
+    overflow-y: auto;
+    border: 0;
+    /* box-shadow: 2px 4px 6px black; */
+
+}
+
+.melo{
+    height:41vh;
+    object-fit:contain;
+    /* border: 2px solid blue; */
+    padding: 0;
+    position: relative;
+    box-shadow: 2px 4px 17px black;
+
+}
+.melo:hover{
+    box-shadow: 2px 4px 27px black;
+
+
+}
+.mother{
+    /* display: grid; */
+    background:white;
+    /* grid-template-rows: 2fr 1fr; */
+    color: whitesmoke;
+    /* height: 50vh; */
+    /* box-shadow: -2px 0px 17px black; */
+    padding-bottom: 30px;
+
+    /* border: 2px solid green; */
+
+}
+@media screen and (max-width:798px) {
+    
+    .father{
+        display: grid;
+        grid-template-columns: 1fr 1fr  1fr;
+        /* grid-template-rows: auto auto auto; */
+
+
+    }
+    .melo{
+    height:15vh;
+    object-fit:contain;
+    padding: 0;
+    }
+    
+}

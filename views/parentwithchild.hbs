@@ -1,0 +1,279 @@
+<style>
+    #bn {
+        height: 25vh;
+        object-fit: contain;
+        position: relative;
+        top: 0;
+        border-radius: 25px;
+        margin: 0 auto;
+
+
+    }
+    .grod{
+        display: grid;
+        grid-template-columns: 1fr;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        
+    }
+    .kl {
+        position: relative;
+    }
+
+    .tyu {
+        border-radius: 25px;
+        padding: 0 0%;
+        width: 100%;
+        position: relative;
+        align-items: center;
+        display: flex;
+        color: rgb(250, 207, 37);
+        justify-content: space-evenly;
+        align-items: center;
+
+
+
+    }
+
+    .tre p {
+        text-shadow: -2px 6px 7px rgba(76, 90, 66, 1);
+
+    }
+
+    .tre {
+        position: relative;
+        margin-bottom: 0;
+        text-shadow: -2px 6px 7px rgba(76, 90, 66, 1);
+        z-index: 1;
+        bottom: 0;
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        color: rgb(214, 136, 33);
+        height: fit-content;
+
+    }
+
+    .tyu:nth-child(odd) {
+        background: rgb(20, 20, 153);
+        padding: 0;
+    }
+
+    .tyu:nth-child(even) {
+        background: rgb(139, 23, 23);
+    }
+
+    .rety {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 30px;
+        align-items: center;
+        text-transform: capitalize;
+        font-family: 'cursive';
+        padding-left: 5%;
+    }
+    .imade{
+        animation: ret 2s alternate-reverse infinite 
+    }
+    .imade:hover{
+        animation: none;
+    }
+
+    @keyframes ret {
+        from{
+            margin-left: 3%;
+        }
+        to{
+            margin-left: 30%;
+            background: transparent;
+        }
+        
+    }
+</style>
+
+
+
+<div class="container-fluid pt-1">
+
+    <div class="text-center mb-4 zoro">
+        <div class="d-none d-lg-block">
+            <button type="button" class="btn btn-block w-30 mx-auto p-3"
+                style="width:fit-content;background:#0c7ed6;color:bisque" data-bs-toggle="modal"
+                data-bs-target="#exampleModalc">View Student</button>
+    
+    
+            <div class="modal fade" id="exampleModalc" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Close</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form action="/parent/findstudent" method="post" class="forms-sample">
+                                <div class="input-group">
+                                    <input type="number" class="form-control text-center" placeholder="Enter student code"
+                                        name="find" required>
+                                    <button class="input-group-append" style="cursor: pointer;border:0;"
+                                        onclick="this.parentNode.form.submit()">
+                                        <span class="input-group-text bg-transparent  ">
+                                            <i class="fa fa-search" style="color:#7CB9E8;"></i>
+                                        </span>
+                                    </button>
+                                </div>
+                            </form>
+    
+                        </div>
+    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <h2 class="section-title px-5"><span class=" text-capitalize">{{child.name}}</span></h2>
+        <div class="">
+            <button class="btn btn-block w-100 mx-auto px-4" style="width:fit-content;background:rgb(255, 0, 0);color:white"
+                data-bs-toggle="modal" data-bs-target="#exampleModald">Packages</button>
+    
+    
+            <div class="modal fade" id="exampleModald" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content" style="background-color: #0c7ed6;">
+                        <div class="modal-header d-flex align-items-center">
+                            <h2 class="text-center " style="color: cornsilk;">~Packages~</h2>
+            
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        {{#each packages }}
+                        <div class="modal-body text-center justify-content-center">
+                            <h1 class="text-capitalize text-light py-2" style="text-shadow: 4px 4px 6px rgba(66, 68, 90, 1);">
+                                {{name}}</h1>
+                            <img class="py-2" src={{packimg}} alt="" style="width:250px;">
+                            <span class="btn btn-sm text-dark p-0 fs-30 align-items"><i class="fs-30 text-primary mr-1" style="word-break: keep-all;"></i> AED
+                                <span class="tofix px-2 fs-30 text-light">{{price}}</span></span>
+                            <h3 class="py-2">{{{desc}}}</h3>
+                            <hr style="color:purple;width:70%;margin:0 auto;" class="mt-3">
+                        </div>
+                        {{/each}}
+            
+            
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    
+    </div>
+    
+    {{!-- {{#if wm}} --}}
+
+        <form action="/parent/tocart" method="post">
+            <div class="col-12">
+                <div class="row px-xl-1 pb-3" style="overflow: auto;height:60vh;width:100%;">
+                    {{#each watermark}}
+        
+                        <div class="col-lg-3 col-md-6 col-sm-12 pb-3">
+                            <div class="card product-item border-0 mb-4" style="max-height:40vh;border:2px solid black;">
+                                <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0 ">
+                                    <label for="ty{{@index}}">
+                                        {{!-- <img src= {{imgdir}} class="img-fluid w-100"  alt="gfgf{{@index}}"
+                                            style="object-fit: contain;max-width:100%;border-radius:15px;"
+                                            > --}}
+                                        <div style="background-image:url({{imgdir}});background-size:contain;width:450px;background-repeat:no-repeat;height:35vh;border:1px solid black;" class="d-flex align-items-center">
+                                            <h1 class="ml9">
+                                                <span class="text-wrapper">
+                                                    <span class="px-1">
+                                                        <h6 class="letters text-bold font-weight-normal mb-0" style="color: pink;text-shadow:2px 3px 2px black;font-size:20px;">Pink pepper !</h6>
+                                                    </span>
+                                                </span>
+                                            </h1>
+
+                                        </div>
+                                    </label>
+                                </div>
+            
+                                <div
+                                    class="card-footer px-0 d-flex justify-content-between pl-2 bg-light border align-items-center">
+                                    {{!-- <a href="" class="btn btn-sm text-dark p-0"><i
+                                            class="fas fa-eye text-primary mr-1"></i>View
+                                        Detail</a> --}}
+                                    <span data-bs-toggle="modal" data-bs-target="#exampleModalkl{{@index}}" >
+                                        <i class="fas fa-eye mr-1" style="color: #7CB9E8;"></i>
+                                    </span>
+            
+                                    <div class="modal fade" id="exampleModalkl{{@index}}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog ">
+                                            <div class="modal-content" style="width:fit-content;">
+                                                <div class="modal-header d-flex align-items-center">
+                                                    <h5 class="modal-title px-2" id="exampleModalLabel" >View Item &nbsp;
+                                                    </h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body text-center" style="object-fit: contain;width:40vw;">
+                                                    <img src={{imgdir}} alt="" style="object-fit: contain;">
+                                                    
+                                                </div>
+            
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{!-- {{#if ../packages}} --}}
+
+            
+                                    <input type="checkbox" src="fghhjk" name="pics" id="ty{{@index}}" value={{pixname}}
+                                        onchange="ifchecked(this.id)" class="checkboxx">
+
+
+                                    <label for="ty{{@index}}" class="btn btn-sm text-dark p-0">
+                                        <select name="package" style="border: 0;" class="obosi text-capitalize" id="abcty{{@index}}">
+                                            {{!-- <option value="" selected>~Select package~</option> --}}
+                                            {{#each ../packages}}
+                                            <option value={{packageid}}/{{../pixname}} class="text-capitalize">{{name}}
+                                                <small class="text-muted">AED</small>{{price}}/item</option>
+                                            {{/each}}
+                                        </select>
+                                        <br>
+                                        {{!-- <a href="/admin/packages" class=" mb-0">View packages</a> --}}
+            
+            
+                                    </label>
+                                    {{!-- {{/if}} --}}
+
+            
+            
+                                </div>
+                            </div>
+                        </div>
+                    {{/each}}
+        
+                </div>
+
+                {{!-- {{#if packages}} --}}
+        
+                {{!-- <button type="submit" class="ml-auto ">Proceed to cart</button> --}}
+                <div class="col-lg-6 col-md-6 col-10 mx-auto">
+                    <button type="submit" class="btn vero btn-block my-3 mx-auto py-3"
+                        style="background-color:#0c7ed6;color:bisque;">
+                        Proceed to checkout</button>
+                </div>
+
+                {{!-- {{/if}} --}}
+            </div>
+            <input type="hidden" name="studentuserid" value={{studentuserid}}>
+        </form>
+
+    {{!-- {{else}}
+
+        <div class="mt-3">
+            <br>
+            <br>
+            <br>
+            <h4 class="text-muted mt-3 mx-auto text-center">No pictures available now !</h4>
+        </div>
+
+    {{/if}} --}}
+</div>

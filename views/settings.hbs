@@ -1,0 +1,437 @@
+<style>
+    :root {
+        /** sunny side **/
+        --blue-background: #C2E9F6;
+        --blue-border: #72cce3;
+        --blue-color: #96dcee;
+        --yellow-background: #fffaa8;
+        --yellow-border: #f5eb71;
+        /** dark side **/
+        --indigo-background: #808fc7;
+        --indigo-border: #5d6baa;
+        --indigo-color: #6b7abb;
+        --gray-border: #e8e8ea;
+        --gray-dots: #e8e8ea;
+        /** general **/
+        --white: #fff;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .bbody {
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    .background {
+        position: absolute;
+        left: 0;
+        padding: 2%;
+        top: 0;
+        background: var(--blue-background);
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        transition: all 250ms ease-in;
+    }
+
+    .toggle--checkbox {
+        display: none;
+    }
+
+    .toggle--checkbox:checked {
+        /** This will all flip from sun to moon **/
+        /** Change the label color **/
+    }
+
+    .toggle--checkbox:checked~.background {
+        background: var(--indigo-background);
+    }
+
+    .toggle--checkbox:checked+.toggle--label {
+        background: var(--indigo-color);
+        border-color: var(--indigo-border);
+        /** Change the cloud to stars **/
+        /** Change the sun into the moon **/
+        /** Show the dimples on the moon **/
+    }
+
+    .toggle--checkbox:checked+.toggle--label .toggle--label-background {
+        left: 60px;
+        width: 5px;
+    }
+
+    .toggle--checkbox:checked+.toggle--label .toggle--label-background:before {
+        width: 5px;
+        height: 5px;
+        top: -25px;
+    }
+
+    .toggle--checkbox:checked+.toggle--label .toggle--label-background:after {
+        width: 5px;
+        height: 5px;
+        left: -30px;
+        top: 20px;
+    }
+
+    .toggle--checkbox:checked+.toggle--label:before {
+        background: var(--white);
+        border-color: var(--gray-border);
+        animation-name: switch;
+        animation-duration: 350ms;
+        animation-fill-mode: forwards;
+    }
+
+    .toggle--checkbox:checked+.toggle--label:after {
+        transition-delay: 350ms;
+        opacity: 1;
+    }
+
+    .toggle--label {
+        /** Placeholder element, starting at blue **/
+        width: 200px;
+        height: 50px;
+        background: var(--blue-color);
+        border-radius: 100px;
+        border: 5px solid var(--blue-border);
+        display: flex;
+        position: relative;
+        transition: all 350ms ease-in;
+        /** The sun cloud and moon stars **/
+        /** Sun/Moon element **/
+        /** Gray dots on the moon **/
+    }
+
+    .toggle--label-background {
+        width: 10px;
+        height: 5px;
+        border-radius: 5px;
+        position: relative;
+        background: var(--white);
+        left: 135px;
+        top: 1ppx;
+        transition: all 150ms ease-in;
+    }
+
+    .toggle--label-background:before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        width: 40px;
+        height: 5px;
+        border-radius: 5px;
+        background: var(--white);
+        left: -20px;
+        transition: all 150ms ease-in;
+    }
+
+    .toggle--label-background:after {
+        content: "";
+        position: absolute;
+        top: 5px;
+        width: 30px;
+        height: 5px;
+        border-radius: 5px;
+        background: var(--white);
+        left: -10px;
+        transition: all 150ms ease-in;
+    }
+
+    .toggle--label:before {
+        animation-name: reverse;
+        animation-duration: 350ms;
+        animation-fill-mode: forwards;
+        transition: all 350ms ease-in;
+        content: "";
+        width: 82px;
+        height: 32px;
+        border: 5px solid var(--yellow-border);
+        top: 4px;
+        left: 4px;
+        position: absolute;
+        border-radius: 82px;
+        background: var(--yellow-background);
+    }
+
+    .toggle--label:after {
+        transition-delay: 0ms;
+        transition: all 250ms ease-in;
+        position: absolute;
+        content: "";
+        box-shadow: var(--gray-dots) -13px 0 0 2px, var(--gray-dots) -24px 14px 0 -2px;
+        left: 143px;
+        top: 23px;
+        width: 10px;
+        height: 10px;
+        background: transparent;
+        border-radius: 50%;
+        opacity: 0;
+    }
+
+    @keyframes switch {
+        0% {
+            left: 4px;
+        }
+
+        60% {
+            left: 4px;
+            width: 112px;
+        }
+
+        100% {
+            left: 104px;
+            width: 82px;
+        }
+    }
+
+    @keyframes reverse {
+        0% {
+            left: 104px;
+            width: 82px;
+        }
+
+        60% {
+            left: 72px;
+            width: 112px;
+        }
+
+        100% {
+            left: 4px;
+        }
+    }
+</style>
+
+    <div class="main-panel">
+        <div class="content-wrapper">
+            <div class="row">
+                <div class="col-md-12 grid-margin">
+                    <div class="row">
+                        <div class="col-12 col-xl-8 mb-4 mb-xl-0">
+    
+    
+    
+                            <h6 class=" text-capitalize text-muted" style="font-size: 20px;"><i class="icon-settings menu-icon"></i>Settings</h6>
+                            <br>
+                            <br>
+                            <h4 class="text-capitalize fs-30" style="cursor: pointer;width:fit-content"  data-bs-toggle="modal" data-bs-target="#editprofile ">{{admin.username}} <i class="fa fa-edit"></i></h4>
+                            <div class="modal fade" id="editpassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <form action="/admin/editpassword" method='post' class="forms-sample">
+                                                <div class="form-group">
+                                                    <label for="exampleInputName1r">Current Password</label>
+                                                    <input name="oldpwrd" type="password" class="form-control" id="exampleInputName1r"
+                                                        placeholder="Enter Current Password" value={{admin.username}} required />
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="exampleInputName1y">New Password</label>
+                                                    <input name="newpwrd" type="password" class="form-control" id="exampleInputName1y"
+                                                        placeholder="Enter New pwrd" value={{admin.username}} required />
+                                                </div>
+                            
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                            
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit Username</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <form action="/admin/editadminusername" method='post' class="forms-sample">
+                                                <div class="form-group">
+                                                    <label for="exampleInputName1">Username</label>
+                                                    <input name="username" type="text" class="form-control" id="exampleInputName1"
+                                                        placeholder="New admin email" value={{admin.username}} required />
+                                                </div>
+                            
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                            
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <h4 class="cursor-pointer" style="cursor: pointer;width:fit-content" data-bs-toggle="modal" data-bs-target="#editpassword ">Change password <i class="fa fa-edit"></i></h4>
+    
+                           
+    
+    
+    
+    
+                            
+                        </div>
+                        <div class="col-12 col-xl-4">
+                            <div class="justify-content-end d-flex">
+                                <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
+                                    <button class="btn btn-sm btn-light bg-white " style="cursor: default;" type="button"
+                                        id="dropdownMenuDate2" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="true">
+                                        <i class="mdi mdi-calendar"></i> Today <span id="usetim"></span>
+                                    </button>
+                                    {{!-- <div class="dropdown-menu dropdown-menu-right"
+                                        aria-labelledby="dropdownMenuDate2">
+                                        <a class="dropdown-item" href="#">January - March</a>
+                                        <a class="dropdown-item" href="#">March - June</a>
+                                        <a class="dropdown-item" href="#">June - August</a>
+                                        <a class="dropdown-item" href="#">August - November</a>
+                                    </div> --}}
+                                </div>
+                            </div>
+                            <br>
+    
+                        </div>
+    
+                    </div>
+                    <br>
+                    {{#if settings }}
+
+                        <div class="d-flex justify-content-end">
+                            <a href="" class="btn btn-behance text-center px-3 py-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                Add Admin
+                            </a>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Add admin</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form action="/admin/addadmin" method='post' class="forms-sample">
+                                                <div class="form-group">
+                                                    <label for="exampleInputName1">Email</label>
+                                                    <input name="email" type="email" class="form-control" id="exampleInputName1"
+                                                        placeholder="New admin email" required />
+                                                </div>
+                        
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Verify Admin</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{#if admins}}
+                        <br>
+                            <h6 class="font-weight-bold text-capitalize text-muted">All admins added by {{admin.username}}</h6>
+                            <div class="table-responsive mt-4">
+                                
+                                <br>
+                                <br>
+                                <table class="table table-striped ">
+                                    <thead>
+                                        <tr class="text-center">
+                                            <th class="text-center">Username</th>
+                                            <th class="text-center">Added</th>
+                                            <th class="text-center">Email</th>
+                                            <th class="text-center">Last seen</th>
+                                            <th class="text-center">Log in times</th>
+                                            <th class="text-center">Restrictions</th>
+                                            <th class="text-center">Action</th>
+
+                            
+                                        </tr>
+                                    </thead>
+                                    <tbody class="cele">
+                            
+                                        {{#each admins}}
+                            
+                            
+                                        <tr class="cele">
+                            
+                                            {{#if restrict}}
+                                                <td class="text-muted text-center">{{username}}</td>
+                                            {{else}}
+                                                <td class="text-center text-success">{{username}}</td>
+                                            {{/if}}
+                                            <td class="text-center">{{regdate}}</td>
+                                            <td class="text-center "><a href="mailto:{{email}}">{{email}}</a></td>
+                                            <td class="text-center ">{{momentago}}</td>
+                                            <td class="text-center ">{{logintimes}}</td>
+                                            {{#if restrict}}
+                                                <td class="text-center">
+                                                    <a href="/admin/restrict/{{adminid}}">Unrestrict</a> </td>
+                                            {{else}}
+                                                <td class="text-center"><a href="/admin/restrict/{{adminid}}">Restrict</a></td>
+                                            {{/if}}
+                                            <td class="text-center "><a href="/admin/deleteslaveadmin/{{adminid}}" class="text-danger fa fa-trash"></a></td>
+                                            {{!-- <td class="text-center ">na</td> --}}
+                            
+                                        </tr>
+                            
+                            
+                            
+                                        {{/each}}
+                            
+                            
+                            
+                                    </tbody>
+                                </table>
+                            
+                            
+                            </div>
+                        {{else}}
+                        
+                        <div class="mx-auto mt-4">
+                            <h4 class="text-muted text-center mt-4">No slave admins added yet !</h4>
+                        </div>
+                        
+                        {{/if}}
+
+                    {{/if}}
+
+
+
+
+
+
+
+                </div>
+            </div>
+            
+        </div>
+        <!-- content-wrapper ends -->
+        <!-- partial:partials/_footer.html -->
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2023</span>
+                <!-- <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span> -->
+            </div>
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            </div>
+        </footer>
+    
+        <!-- partial -->
+    </div>

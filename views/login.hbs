@@ -1,0 +1,70 @@
+
+<style>
+    .contact-form {
+        width: 50%;
+    }
+    @media screen and (max-width:798px) {
+        .contact-form {
+            width: 80%;
+
+        }
+    }
+</style>
+
+
+<div class="page-wrapper" style="margin: 0 auto;text-align:center">
+
+
+
+    <!-- contact section starts -->
+    <section class="contact" id="contactn">
+        <div class="form-whole mx-auto" >
+            <div class="head">
+                <h1>
+                    Login Details
+                </h1>
+            </div>
+            <div class="contact-form " style="margin: 0 auto;text-align:center;">
+                <form action="/parent/login" id="loginAccount" method="post">
+                    <div class="input-bottom" id="name">
+                        <p>Username *</p>
+                        <input type="text" name="username" id="signSurname" placeholder="e.g Williams"
+                            class="input-control text-center" required />
+                    </div>
+                    <div class="input-bottom" id="name">
+                        <p>Password *</p>
+                        <input type="password" name="pwrd" id="signSurname" placeholder="Password" class="text-center input-control"
+                            required />
+                    </div>
+
+                    <div class="btn">
+                        <a href="#">
+                            <button type="submit" class="btn">Login</button>
+                        </a>
+                    </div>
+                </form>
+                <p>Don't have an account yet?<a href="/signuppage">Signup now</a></p>
+                <br>
+                {{!-- <span>Or</span> --}}
+                {{!-- <a href="/adminloginpage">Login as admin</a></p> --}}
+            </div>
+        </div>
+    </section>
+    <!-- contact section end -->
+
+
+
+
+
+
+{{!-- former login from above --}}
+
+
+
+
+
+
+
+
+
+</div>

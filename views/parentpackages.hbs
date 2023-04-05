@@ -1,0 +1,564 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+    .desco {}
+
+    @media screen and (min-width:798px) {
+        .lege:hover .desco {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 3em;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-image: linear-gradient(white, white);
+            background-repeat: no-repeat;
+            padding: 0 10%;
+            width: 100%;
+            background-size: 100% 100%;
+            background-position: 0% 100%;
+            transition: background-position .7s, background-size .5s ease-in-out;
+        }
+
+    }
+
+    <>
+    /* fonts  */
+    @import url('https://fonts.googleapis.com/css?family=Abel|Aguafina+Script|Artifika|Athiti|Condiment|Dosis|Droid+Serif|Farsan|Gurajada|Josefin+Sans|Lato|Lora|Merriweather|Noto+Serif|Open+Sans+Condensed:300|Playfair+Display|Rasa|Sahitya|Share+Tech|Text+Me+One|Titillium+Web');
+
+    .sbody {
+        background: #DFC2F2;
+        background-image: linear-gradient(135deg, #CE9FFC 10%, #7367F0 100%);
+        background-attachment: fixed;
+        background-size: cover;
+    }
+
+    #container {
+        box-shadow: 0 15px 30px 1px rgba(128, 128, 128, 0.31);
+        background: rgba(255, 255, 255, 0.90);
+        text-align: center;
+        border-radius: 5px;
+        overflow: hidden;
+        margin: 5em auto;
+        height: 250px;
+        width: 100%;
+
+    }
+
+
+
+    /* 	Product details  */
+    .product-detailsj {
+        position: relative;
+        text-align: left;
+        overflow: hidden;
+        padding: 30px;
+        height: 100%;
+        float: left;
+        width: 40%;
+
+    }
+
+    /* 	Product Name */
+    #container .product-detailsj h1 {
+        font-family: 'Old Standard TT', serif;
+        display: inline-block;
+        position: relative;
+        font-size: 34px;
+        color: #344055;
+        margin: 0;
+
+    }
+
+    #container .product-detailsj h1:before {
+        position: absolute;
+        content: '';
+        right: 0%;
+        top: 0%;
+        transform: translate(25px, -15px);
+        font-family: 'Farsan', cursive;
+        display: inline-block;
+        background: #FFA69E;
+        border-radius: 5px;
+        font-size: 19px;
+        text-transform: capitalize;
+        padding: 5px;
+        color: #FFF;
+        margin: 0;
+        animation: chan-sh 6s ease infinite;
+
+    }
+
+
+    @keyframes chan-sh {
+        from {
+            content: 'swift shipping';
+        }
+
+        to {
+            content: 'New';
+        }
+
+    }
+
+    /*Product Rating  */
+    .hint-star {
+        display: inline-block;
+        margin-left: 0.5em;
+        color: gold;
+        width: 50%;
+    }
+
+
+    /* The most important information about the product */
+    #container .product-detailsj>p {
+        font-family: 'Farsan', cursive;
+        text-align: center;
+        font-size: 20px;
+        color: #7d7d7d;
+
+    }
+
+    /* control */
+
+    .control {
+        position: relative;
+        bottom: 1%;
+        left: 2.8%;
+        width: 100%;
+        align-items: center;
+
+    }
+
+    /* the Button */
+    .btnn {
+        transform: translateY(0px);
+        transition: 0.3s linear;
+        background: #49C608;
+        border-radius: 5px;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        outline: none;
+        border: none;
+        color: #eee;
+        padding: 0;
+        margin: 0;
+
+    }
+
+    .btnn:hover {
+        transform: translateY(-4px);
+    }
+
+    .btnn span {
+        font-family: 'Farsan', cursive;
+        transition: transform 0.3s;
+        display: inline-block;
+        padding: 10px 20px;
+        font-size: 1.2em;
+        margin: 0;
+
+    }
+
+    /* shopping cart icon */
+    .btnn .price,
+    .shopping-cart {
+        background: #333;
+        border: 0;
+        margin: 0;
+    }
+
+    .btnn .price {
+        transform: translateX(-10%);
+        padding-right: 15px;
+    }
+
+    /* the Icon */
+    .btnn .shopping-cart {
+        transform: translateX(-100%);
+        position: absolute;
+        background: #333;
+        z-index: 1;
+        left: 0;
+        top: 0;
+    }
+
+    /* buy */
+    .btnn .buy {
+        z-index: 3;
+        font-weight: bolder;
+    }
+
+    .btnn:hover .price {
+        transform: translateX(-110%);
+    }
+
+    .btnn:hover .shopping-cart {
+        transform: translateX(0%);
+    }
+
+
+
+    /* product image  */
+    .product-image {
+        transition: all 0.3s ease-out;
+        display: inline-block;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        float: right;
+        width: 50%;
+        display: inline-block;
+    }
+
+    #container img {
+
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    .info {
+        background: rgba(27, 26, 26, 0.9);
+        font-family: 'Farsan', cursive;
+        transition: all 0.3s ease-out;
+        transform: translateX(-100%);
+        position: absolute;
+        line-height: 1.9;
+        text-align: left;
+        font-size: 120%;
+        cursor: no-drop;
+        color: #FFF;
+        height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+    }
+
+    .grida {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        column-gap: 2%;
+    }
+
+    @media screen and (max-width:998px) {
+        .grida {
+            display: grid;
+            grid-template-columns: repeat(1, 1fr);
+
+        }
+
+        .hint-star {
+            display: inline-block;
+            margin-left: 0.1em;
+            color: gold;
+            width: 100%;
+        }
+
+        .hido {
+            display: none;
+
+        }
+
+    }
+
+    .info h2 {
+        text-align: center
+    }
+
+    .product-image:hover .info {
+        transform: translateX(0);
+        align-items: center;
+    }
+
+    .info ul li {
+        transition: 0.3s ease;
+        align-items: center;
+
+    }
+
+    .info ul li:hover {
+        transform: translateX(50px) scale(1.3);
+        align-items: center;
+
+    }
+
+    .product-image:hover img {
+        transition: all 0.3s ease-out;
+        align-items: center;
+
+    }
+
+    .product-image:hover img {
+        transform: scale(1.2, 1.2);
+        align-items: center;
+
+    }
+
+
+</style>
+
+
+<div class="row">
+    <h2 class="sectiohn-title px-1"><span class=" text-capitalize text-muted text-left"
+            >~Packages~</span></h2>
+
+    {{#if packages}}
+        <div class="text-center mt-5 mb-4 d-flex align-items-center justify-content-between">
+            <div class="">
+                <button type="button" class="btn btn-block w-30 mx-auto p-3"
+                    style="width:fit-content;background:#0c7ed6;color:bisque" data-bs-toggle="modal"
+                    data-bs-target="#exampleModalc">View Student Pictures</button>
+
+
+                <div class="modal fade" id="exampleModalc" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Close</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <form action="/parent/findstudent" method="post" class="forms-sample">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control text-center"
+                                            placeholder="Enter student code" name="find" required>
+                                        <button class="input-group-append" style="cursor: pointer;border:0;"
+                                            onclick="this.parentNode.form.submit()">
+                                            <span class="input-group-text bg-transparent  ">
+                                                <i class="fa fa-search" style="color:#7CB9E8;"></i>
+                                            </span>
+                                        </button>
+                                    </div>
+                                </form>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{!-- <h2 class="section-title px-5"><span class=" text-capitalize">{{child.name}}</span></h2> --}}
+            <div class="">
+                <button type="button" class="btn btn-block w-30 mx-auto p-3"
+                    style="width:fit-content;background:rgb(255, 0, 0);color:white" data-bs-toggle="modal"
+                    data-bs-target="#exampleModald">Scroll through
+                </button>
+
+
+                <div class="modal fade" id="exampleModald" tabindex="-1" aria-labelledby="exampleModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-body" style="background-color: #eef2f5;">
+                                <div class="row px-xl-1 pb-3" style="overflow: auto;height:50vh;">
+                                    {{#each packages}}
+
+                                        <div class="col-lg-12 col-md-6 col-sm-12 py-1">
+                                            <h1 class="btn btn-sm text-success p-0 text-capitalize" style="font-size: 30px;">
+                                                {{name}}</h1>
+
+                                            <div class="card product-item border-0 mb-4">
+                                                <div
+                                                    class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                                    <label for={{@index}}>
+                                                        <img class="img-fluid w-100 mx-auto" src={{packimg}} alt=""
+                                                            style="height: 30vh;">
+                                                    </label>
+                                                </div>
+
+                                                <div
+                                                    class="card-footer px-0 d-flex justify-content-between pl-2 bg-light border align-items-center">
+
+                                                    <span data-bs-toggle="modal" data-bs-target="#exampleModal{{@index}}">
+                                                        <i class="fas fa-eye mr-1" style="color: #7CB9E8;"></i>
+                                                    </span>
+                                                    {{!-- <span class="btn btn-sm text-dark p-0 fs-30 text-capitalize"><i class=" text-primary mr-1"></i>{{{desc}}}</span> --}}
+
+                                                    <span class="btn btn-sm text-dark p-0 fs-30 "><i
+                                                            class="fs-30 text-primary mr-1"
+                                                            style="word-break: keep-all;"></i> AED <span class="tofix px-2">{{price}}</span></span>
+                                                            
+                                                    
+
+                                                    <div class="modal fade" id="exampleModal{{@index}}" tabindex="-1"
+                                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                        <div class="modal-dialog">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header d-flex align-items-center">
+                                                                    <h5 class="modal-title" id="exampleModalLabel">View Item
+                                                                        &nbsp;</h5>
+                                                                    <button type="button" class="btn-close"
+                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body text-center justify-content-center">
+                                                                    <h1 class="text-capitalize text-left text-success">{{name}}
+                                                                    </h1>
+                                                                    <img src={{packimg}} alt=""
+                                                                        style="width:250px;">
+                                                                    <h3>{{{desc}}}</h3>
+                                                                    <h2 style="word-break: keep-all;">AED <span class="tofix">{{price}}</span></h2>
+                                                                </div>
+
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+
+
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {{/each}}
+
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+
+        <div>
+            <div>
+                <div class="row px-xl-5 pb-1 grida" style="overflow: auto;height:60vh;">
+                    {{#each packages}}
+            
+                    {{!-- <label for=""> --}}
+                        <div id="container" data-bs-toggle="modal" data-bs-target="#exampleModalt{{@index}}">
+            
+                            <div class="modal fade" id="exampleModalt{{@index}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title text-capitalize" id="exampleModalLabel"></h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <h1 class="text-capitalize">{{name}}</h1>
+            
+            
+                                            <img src={{packimg}} alt="Omar Dsoky">
+                                            <br>
+                                            <p class="hido text-center">{{{desc}}}</p>
+            
+                                            <br>
+                                            <span class="price ">AED <span class="tofix"
+                                                    style="font-size: 30px;">{{price}}</span></span>
+            
+            
+            
+            
+                                        </div>
+            
+                                    </div>
+                                </div>
+                            </div>
+            
+            
+                            <!-- Start	Product details -->
+                            <div class="product-detailsj">
+            
+                                <!-- 	Product Name -->
+                                {{!-- <h1 class="text-capitalize fs-30">{{name}}</h1> --}}
+            
+                                <span class="hint-star star">
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star" aria-hidden="true"></i>
+                                    <i class="fa fa-star-half-o" aria-hidden="true"></i>
+                                    <i class="fa fa-star-o" aria-hidden="true"></i>
+                                </span>
+            
+                                <br>
+                                <h2 class="text-capitalize fs-30">{{name}}</h2>
+                                <br>
+                                {{!-- <p class="hido">{{{desc}}}</p> --}}
+            
+                                <div class="control w-100 px-0">
+            
+                                    <br>
+            
+            
+                                    <div class="d-flex text-center  w-100">
+                                        <span class="price ">AED <span class="tofix"
+                                                style="font-size: 20px;">{{price}}</span></span>
+                                        {{!-- <small class="price ">View details</small>/ --}}
+                                    </div>
+            
+                                    <!-- End Button buying -->
+                                </div>
+            
+                            </div>
+            
+                            <!-- 	End	Product details   -->
+            
+            
+            
+                            <!-- 	Start product image & Information -->
+            
+                            <div class="product-image">
+            
+                                <img src={{packimg}} alt="Omar Dsoky">
+            
+                                <!-- 	product Information-->
+                                <div class="info align-items-center d-flex">
+                                    {{!-- <h2>The Description</h2> --}}
+                                    <ul class=" mx-auto" style="word-break: keep-all;align-items: center;
+">
+                                        {{{desc}}}
+                                    </ul>
+                                </div>
+                            </div>
+                            <!--  End product image  -->
+            
+            
+                        </div>
+                        {{!--
+                    </label> --}}
+                    {{/each}}
+            
+                </div>
+            
+            
+                {{!-- <button type="submit" class="ml-auto ">Proceed to cart</button> --}}
+            
+            
+            
+            </div>
+
+
+
+            {{!-- <button type="submit" class="ml-auto ">Proceed to cart</button> --}}
+
+
+
+        </div>
+
+
+
+
+
+
+    {{else}}
+
+    <h5 class="text-muted mx-auto">No packages available now !</h5>
+
+
+
+    {{/if}}
+
+</div>

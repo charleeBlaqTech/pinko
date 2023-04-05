@@ -1,0 +1,566 @@
+<style>
+  body {
+    margin: 0;
+    color: #6a6f8c;
+    background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e);
+
+    font: 600 16px/18px 'Open Sans', sans-serif;
+  }
+
+  *,
+  :after,
+  :before {
+    box-sizing: border-box
+  }
+
+  .clearfix:after,
+  .clearfix:before {
+    content: '';
+    display: table
+  }
+
+  .clearfix:after {
+    clear: both;
+    display: block
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none
+  }
+
+  .login-wrap {
+    align-items: center;
+    width: 100%;
+    margin: auto;
+    max-width: 600px;
+    min-height: 770px;
+    position: relative;
+    background: url("https://raw.githubusercontent.com/khadkamhn/day-01-login-form/master/img/bg.jpg") no-repeat center;
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, .24), 0 17px 50px 0 rgba(0, 0, 0, .19);
+  }
+
+  .login-html {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    padding: 90px 70px 50px 70px;
+    background: rgba(40, 57, 101, .9);
+  }
+
+  .login-html .sign-in-htm,
+  .login-html .sign-up-htm {
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: absolute;
+    transform: rotateY(180deg);
+    backface-visibility: hidden;
+    transition: all .4s linear;
+  }
+
+  .login-html .sign-in,
+  .login-html .sign-up,
+  .login-form .group .check {
+    display: none;
+  }
+
+  .login-html .tab,
+  .login-form .group .label,
+  .login-form .group .button {
+    text-transform: uppercase;
+  }
+
+  .login-html .tab {
+    font-size: 22px;
+    margin-right: 15px;
+    padding-bottom: 5px;
+    margin: 0 15px 10px 0;
+    display: inline-block;
+    border-bottom: 2px solid transparent;
+  }
+
+  .login-html .sign-in:checked+.tab,
+  .login-html .sign-up:checked+.tab {
+    color: #fff;
+    border-color: #1161ee;
+  }
+
+  .login-form {
+    min-height: 345px;
+    position: relative;
+    perspective: 1000px;
+    transform-style: preserve-3d;
+  }
+
+  .login-form .group {
+    margin-bottom: 15px;
+  }
+
+  .login-form .group .label,
+  .login-form .group .input,
+  .login-form .group .button {
+    width: 100%;
+    color: #fff;
+    display: block;
+  }
+
+  .login-form .group .input,
+  .login-form .group .button {
+    border: none;
+    padding: 15px 20px;
+    border-radius: 25px;
+    background: rgba(255, 255, 255, .1);
+  }
+
+  .login-form .group input[data-type="password"] {
+    text-security: circle;
+    -webkit-text-security: circle;
+  }
+
+  .login-form .group .label {
+    color: #aaa;
+    font-size: 12px;
+  }
+
+  .login-form .group .button {
+    background: #1161ee;
+  }
+
+  .login-form .group label .icon {
+    width: 15px;
+    height: 15px;
+    border-radius: 2px;
+    position: relative;
+    display: inline-block;
+    background: rgba(255, 255, 255, .1);
+  }
+
+  .login-form .group label .icon:before,
+  .login-form .group label .icon:after {
+    content: '';
+    width: 10px;
+    height: 2px;
+    background: #fff;
+    position: absolute;
+    transition: all .2s ease-in-out 0s;
+  }
+
+  .login-form .group label .icon:before {
+    left: 3px;
+    width: 5px;
+    bottom: 6px;
+    transform: scale(0) rotate(0);
+  }
+
+  .login-form .group label .icon:after {
+    top: 6px;
+    right: 0;
+    transform: scale(0) rotate(0);
+  }
+
+  .login-form .group .check:checked+label {
+    color: #fff;
+  }
+
+  .login-form .group .check:checked+label .icon {
+    background: #1161ee;
+  }
+
+  .login-form .group .check:checked+label .icon:before {
+    transform: scale(1) rotate(45deg);
+  }
+
+  .login-form .group .check:checked+label .icon:after {
+    transform: scale(1) rotate(-45deg);
+  }
+
+  .login-html .sign-in:checked+.tab+.sign-up+.tab+.login-form .sign-in-htm {
+    transform: rotate(0);
+  }
+
+  .login-html .sign-up:checked+.tab+.login-form .sign-up-htm {
+    transform: rotate(0);
+  }
+
+  .hr {
+    height: 2px;
+    margin: 60px 0 50px 0;
+    background: rgba(255, 255, 255, .2);
+  }
+
+  .foot-lnk {
+    text-align: center;
+  }
+
+
+
+
+  /*
+Basic input element using psuedo classes
+*/
+
+
+
+
+  h1 {
+    font-size: 25px;
+    margin-bottom: 2.5%;
+  }
+
+  input,
+  span,
+  label,
+  textarea {
+    font-family: 'Ubuntu', sans-serif;
+    display: block;
+    margin: 10px;
+    padding: 5px;
+    border: none;
+    font-size: 22px;
+  }
+
+  textarea:focus,
+  input:focus {
+    outline: 0;
+  }
+
+  /* Question */
+
+  input.question,
+  textarea.question {
+    font-size: 48px;
+    font-weight: 300;
+    border-radius: 2px;
+    margin: 0;
+    border: none;
+    width: 80%;
+    background: rgba(0, 0, 0, 0);
+    transition: padding-top 0.2s ease, margin-top 0.2s ease;
+    overflow-x: hidden;
+    /* Hack to make "rows" attribute apply in Firefox. */
+  }
+
+  /* Underline and Placeholder */
+
+  input.question+label,
+  textarea.question+label {
+    display: block;
+    position: relative;
+    white-space: nowrap;
+    padding: 0;
+    margin: 0;
+    width: 10%;
+    border-top: 1px solid red;
+    -webkit-transition: width 0.4s ease;
+    transition: width 0.4s ease;
+    height: 0px;
+  }
+
+  input.question:focus+label,
+  textarea.question:focus+label {
+    width: 80%;
+  }
+
+  input.question:focus,
+  input.question:valid {
+    padding-top: 35px;
+  }
+
+  input.question:focus+label>span,
+  input.question:valid+label>span {
+    top: -100px;
+    font-size: 22px;
+    color: #333;
+  }
+
+  textarea.question:focus+label>span,
+  textarea.question:valid+label>span {
+    top: -150px;
+    font-size: 22px;
+    color: #333;
+  }
+
+  input.question:valid+label,
+  textarea.question:valid+label {
+    border-color: green;
+  }
+
+  input.question:invalid,
+  textarea.question:invalid {
+    box-shadow: none;
+  }
+
+  input.question+label>span,
+  textarea.question+label>span {
+    font-weight: 300;
+    margin: 0;
+    position: absolute;
+    color: #8F8F8F;
+    font-size: 28px;
+    top: -66px;
+    left: 0px;
+    z-index: -1;
+    -webkit-transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+    transition: top 0.2s ease, font-size 0.2s ease, color 0.2s ease;
+  }
+
+  input[type="submit"] {
+    -webkit-transition: opacity 0.2s ease, background 0.2s ease;
+    transition: opacity 0.2s ease, background 0.2s ease;
+    display: block;
+    opacity: 1;
+    margin: 10px 0 0 0;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  input[type="submit"]:hover {
+    background: #EEE;
+  }
+
+  input[type="submit"]:active {
+    background: #999;
+  }
+
+  input.question:valid~input[type="submit"],
+  textarea.question:valid~input[type="submit"] {
+    -webkit-animation: appear 1s forwards;
+    animation: appear 1s forwards;
+  }
+
+  input.question:invalid~input[type="submit"],
+  textarea.question:invalid~input[type="submit"] {
+    display: none;
+  }
+
+  @-webkit-keyframes appear {
+    100% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes appear {
+    100% {
+      opacity: 1;
+    }
+  }
+</style>
+
+
+<div class="page-wrapper" style="margin: 0 auto;text-align:center">
+
+
+
+
+  <!-- contact section starts -->
+  {{!-- <section class="contact tcent" id="contactn">
+    <div class="form-whole tcent">
+
+      <div class="head">
+        <h1>
+          Signup Details
+        </h1>
+      </div>
+      <div class="contact-form  " style="margin: 0 auto;text-align:center;">
+        <form action="/parent/parentsignup" id="loginAccount" method="post">
+          <div class="input col-sm-10 col-lg-6 mx-auto text-center-bottom" id="name">
+            <p>FullName *</p>
+            <input type="text" name="name" id="signSurname" placeholder="e.g Michael Williams"
+              class=" text-center input-control" required />
+          </div>
+          <div class="input col-sm-10 col-lg-6 mx-auto text-center-bottom" id="name">
+            <p>Username *</p>
+            <input type="text" name="username" id="signSurname" placeholder="e.g Simeon"
+              class="text-center input-control" required />
+          </div>
+          <div class="input col-sm-10 col-lg-6 mx-auto text-center-bottom">
+            <p>Email Address *</p>
+            <input type="text" name="email" id="signEmailaddress" placeholder="example@gmail.com"
+              class="text-center input-control" required />
+          </div>
+          <div class="input col-sm-10 col-lg-6 mx-auto text-center-bottom">
+            <p>Password *</p>
+            <input type="password" name="pwrd" id="signEmailaddress" placeholder="Enter your password"
+              class="text-center input-control" required />
+          </div>
+          <div class="input-bottom">
+            <p>Confirm Password *</p>
+            <input type="password" name="cpwrd" id="signEmailaddress" placeholder="confirm password"
+              class="text-center input-control" required />
+          </div>
+          <div class="row">
+            <div class="input-bottom">
+              <p>Phone Number *</p>
+              <input type="text" name="phone" id="signPhonenumber" placeholder="070 333 444 555"
+                class="text-center input-control" required />
+            </div>
+
+
+          </div>
+          <div class="btn">
+
+            <a href="">
+              <button type="submit" class="btn">Signup</button>
+            </a>
+
+          </div>
+        </form>
+        <p>Don't have a code yet?<a href="mailto:pinkpepper@codar.com">Generate Code</a></p>
+      </div>
+    </div>
+  </section> --}}
+
+  <div class="login-wrap">
+    <div class="login-html">
+      <div class=" navbar-menu-wrapper d-flex align-items-center justify-content-between"
+        style="width:100%;margin:0;">
+        <a class="navbar-brand brand-logo-mini" href="/"><img src="/images/dashboard/logo-1.png" alt="logo" /></a>
+
+      </div>
+      <input id="tab-1" type="radio" name="tab" class="sign-in" checked><label for="tab-1" class="tab">Sign In</label>
+      <input id="tab-2" type="radio" name="tab" class="sign-up"><label for="tab-2" class="tab">Sign Up</label>
+      <div class="login-form">
+        <form action="/parent/login" id="loginAccount" method="post">
+          <div class="sign-in-htm mt-4">
+            <div class="group">
+              <label for="user" class="label">Username</label>
+              <input id="user" type="text" class="input col-sm-10 col-lg-6 mx-auto text-center" name="username"
+                required>
+            </div>
+            <div class="group">
+              <label for="pass" class="label">Password</label>
+              <input id="pass" type="password" class="input col-sm-10 col-lg-6 mx-auto text-center" data-type="password"
+                name="pwrd">
+            </div>
+            <br>
+
+
+
+            {{!-- <div class="group">
+              <input id="check" type="checkbox" class="check" checked>
+              <label for="check"><span class="icon"></span> Keep me Signed in</label>
+            </div> --}}
+            <div class="group">
+              <input type="submit" class="button col-sm-10 col-lg-6 mx-auto" value="Sign In">
+            </div>
+            
+            <div class="hr"></div>
+            <div class="foot-lnk">
+              <a href="#forgot" id="fg">Forgot Password?</a>
+
+
+
+
+
+
+
+            </div>
+          </div>
+        </form>
+        <div id="fgf" class="mt-5 text-center">
+          <form method="post" action="/parent/verifymailforgotpwrd">
+            <h4 class="text-info">I forgot my password </h4>
+            <br>
+            <br>
+            <br>
+            <input type="email" name="email" class="question text-light text-center" style="font-size: 15px;" id="nme" required autocomplete="off" />
+            <label for="nme"><span class="text-light">Enter your email?</span></label>
+        
+            <div class="group">
+              <input type="submit" class="button col-sm-10 col-lg-6 mx-auto " value="Verify Email">
+            </div>
+        
+          </form>
+        </div>
+        <div class="sign-up-htm">
+          <form action="/parent/parentsignup" id="loginAccount" method="post">
+
+            <div class="d-flex">
+              <div class="group">
+                <label for="usern" class="label">Full name</label>
+                <input id="usern" type="text" class=" input col-sm-10 col-lg-11 mx-auto text-center" name="name" required>
+              </div>
+              <div class="group">
+                <label for="username" class="label">Username</label>
+                <input id="username" type="text" class="input col-sm-10 col-lg-11 mx-auto text-center" name="username" required>
+              </div>
+            </div>
+            <div class="d-flex align-items-center">
+              <div class="group">
+                <label for="passw" class="label">Password</label>
+                <input id="passw" type="password" class="input col-sm-10 col-lg-11 mx-auto text-center" data-type="password"
+                  name="pwrd" required>
+              </div>
+              <div class="group">
+                <label for="rpass" class="label">Repeat Password</label>
+                <input id="rpass" type="password" class="input col-sm-10 col-lg-11 mx-auto text-center" data-type="password"
+                  name="cpwrd" required>
+              </div>
+            </div>
+            <div class="d-flex">
+              <div class="group">
+                <label for="email" class="label">Email Address</label>
+                <input id="email" type="email" class="input col-sm-10 col-lg-11 mx-auto text-center" name="email" required>
+              </div>
+              <div class="group">
+                <label for="num" class="label">Mobile number</label>
+                <input id="num" type="number" class="input col-sm-10 col-lg-11 mx-auto text-center" name="phone" required>
+              </div>
+            </div>
+            <br>
+            <div class="group">
+              <input type="submit" class="button mx-auto col-sm-10 col-lg-7 text-center" value="Sign Up">
+            </div>
+            {{!-- <div class="hr"></div>
+            <div class="foot-lnk">
+              <label for="tab-1">Already Member?</a>
+            </div> --}}
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- contact section end -->
+
+  <script>
+    var $firstButton = $(".first"),
+      $secondButton = $(".second"),
+      $input = $("input"),
+      $name = $(".name"),
+      $more = $(".more"),
+      $yourname = $(".yourname"),
+      $reset = $(".reset"),
+      $ctr = $(".container");
+
+    $firstButton.on("click", function (e) {
+      $(this).text("Saving...").delay(900).queue(function () {
+        $ctr.addClass("center slider-two-active").removeClass("full slider-one-active");
+      });
+      e.preventDefault();
+    });
+
+    $secondButton.on("click", function (e) {
+      $(this).text("Saving...").delay(900).queue(function () {
+        $ctr.addClass("full slider-three-active").removeClass("center slider-two-active slider-one-active");
+        $name = $name.val();
+        if ($name == "") {
+          $yourname.html("Anonymous!");
+        }
+        else { $yourname.html($name + "!"); }
+      });
+      e.preventDefault();
+    });
+
+    // copy
+    balapaCop("Step by Step Form", "#999");
+
+
+
+  </script>
+
+
+</div>

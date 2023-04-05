@@ -1,0 +1,459 @@
+<style>
+    .rowl {
+        display: flex;
+        flex-wrap: wrap;
+        padding: 0 4px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        width: 100%;
+        height: 63vh;
+
+    }
+
+    .ifesi {
+        background: slategray;
+        padding-top: 20px;
+        
+        box-shadow: -1px 6px 7px black;
+
+    }
+    .fesi {
+        
+        padding-top: 1px;
+
+
+    }
+
+    /* Create four equal columns that sits next to each other */
+    .column {
+        flex: 25%;
+        max-width: 25%;
+        padding: 0 4px;
+
+    }
+
+    .column img {
+        margin-top: 8px;
+        vertical-align: middle;
+        width: 100%;
+        height: 25vh;
+        box-shadow: 2px 4px 17px black;
+        translate: 3px 7px;
+        transform: rotateX(-25deg);
+        transform: rotateZ(-5deg);
+
+    }
+
+    .concubine {
+        display: flex;
+        justify-content: end;
+        align-items: center;
+
+    }
+    .conc {
+        display: flex;
+        justify-content:space-between;
+        align-items: center;
+
+    }
+
+    /* Responsive layout - makes a two column-layout instead of four columns */
+    @media screen and (max-width: 1000px) {
+        .column {
+            flex: 50%;
+            max-width: 50%;
+        }
+
+        .ifesi {
+            width: 100%;
+            padding: 0 4%;
+        }
+        .remova,.relad{
+            display: none;
+        }
+
+        .concubine {
+
+            justify-content: space-evenly;
+
+        }
+    }
+
+    .multiple-uploader {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        border-radius: 15px;
+        border: 2px dashed #858585;
+        min-height: 150px;
+        margin: 20px auto;
+        cursor: pointer;
+        width: 80%;
+    }
+
+    .mup-msg {
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .mup-msg span {
+        margin-bottom: 10px;
+    }
+
+    .mup-msg .mup-main-msg {
+        color: #606060;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .mup-msg .mup-msg {
+        color: #737373;
+    }
+
+    .image-container {
+        margin: 1rem;
+        width: 120px;
+        height: 120px;
+        position: relative;
+        cursor: auto;
+        pointer-events: unset;
+    }
+
+    .image-container:before {
+        z-index: 3;
+        content: "\2716";
+        align-content: center;
+        font-size: 10px;
+        font-weight: bold;
+        text-align: center;
+        line-height: 22px;
+        color: white;
+        position: absolute;
+        top: -5px;
+        left: -5px;
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        background: #e50000;
+        pointer-events: all;
+        cursor: pointer;
+    }
+
+    .image-preview {
+        position: absolute;
+        width: 120px;
+        height: 120px;
+        border-radius: 12px;
+    }
+
+    .image-size {
+        position: absolute;
+        z-index: 1;
+        height: 120px;
+        width: 120px;
+        backdrop-filter: blur(4px);
+        font-weight: bolder;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        opacity: 0;
+        pointer-events: unset;
+    }
+
+    .image-size:hover {
+        opacity: 1;
+    }
+
+    .exceeded-size {
+        position: absolute;
+        z-index: 2;
+        height: 120px;
+        width: 120px;
+        display: flex;
+        font-weight: bold;
+        font-size: 12px;
+        text-align: center;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        color: white;
+        background: rgba(255, 0, 0, 0.6);
+        pointer-events: unset;
+    }
+</style>
+
+
+
+<div class="main-panedl felaa">
+
+    <div class="fesi">
+        <div class="ifesi ">
+            <h1 class="letters text-center" style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); ;color:aliceblue;">~My
+                Gallery~</h1>
+            <div class="conc">
+                <div class="d-none px-lg-5 d-flex justify-content-end">
+                    <a href="" class="btn btn-behance bg-success text-center px-3 py-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                        <i class="fa fa-cloud-upload"></i>
+                    </a>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content ">
+                                <div class="modal-header">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <br>
+
+                                    <h5 class="modal-title" id="exampleModalLabel">Upload new files</h5>
+
+                                </div>
+                                <div class="modal-body  w-100">
+
+                                    <div class="mother">
+                                        <div class="multiple-uploader mt-2 " id="multiple-uploader">
+                                            <div class="mup-msg">
+                                                <span class="mup-main-msg">click to upload images.</span>
+                                                <span class="mup-msg" id="max-upload-number">Upload up to 10 images</span>
+                                                <span class="mup-msg">Only image files are allowed for upload</span>
+                                            </div>
+                                        </div>
+                                        <form class="forms-sample mx-auto d-flex justify-content-center" id="exo" enctype="multipart/form-data"
+                                            action="/admin/personalpictures" method="post">
+                                    
+                                    
+                                    
+                                            <button type="submit" class="btn btn-primary mr-2">
+                                                Upload
+                                            </button>
+                                    
+                                        </form>
+                                    </div>
+                                    
+                                </div>
+                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="concubine " style="">
+                
+                    <input class="btn btn-transparent personalss" type="button" value="{{personals.length}} Gallery ">
+                    <button class="btn btn-transparent live" type="submit">{{pictures.length}} Live </button>
+                    <input class="btn btn-transparent allpicturess" type="button" value="{{allpictures.length}} All">
+                    {{!-- <input class="btn btn-transparent " type="submit" value="Recent ">
+                    <input class="btn btn-transparent fa-solid fa-arrow-down" type="reset" value="Not recent"> --}}
+                </div>
+            </div>
+        
+        
+            <div class="">
+                <div class="rowl personals">
+                    {{#if personals}}
+        
+        
+                    {{#each personals}}
+                    <div class=" column" style="position:relative;" data-bs-toggle="modal" data-bs-target="#exampleModaliop{{@index}}">
+                        <img src={{imgdir}} class="person melo" style="padding: 0;" alt="...">
+                        <p class="  mt-n5 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;"><i class="fa fa-camera"></i> {{uploadedby}}</p>
+                        <p class="mt-n4 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;">{{momentago}}</p>
+                        
+        
+                    </div>
+                    <div class="modal fade" id="exampleModaliop{{@index}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h2 class="modal-title text-capitalize text-center" id="exampleModalLabel"><small>uploaded by </small>{{uploadedby}}
+                                    </h2>
+                                
+                                
+                                    {{!-- <h5 class="modal-title" id="exampleModalLabel">exit </h5> --}}
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="my-3 mx-auto text-center">
+                                        <a class=" text-center" href={{imgdir}} style="display: block;margin:0 auto;">
+                                            <img src={{imgdir}} style="width:100%;" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="d-flex justify-content-end w-100 ">
+                                        <small class="text-capitalize text-end text-info">
+                                            {{momentago}}</small>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    
+                                    <div class="d-flex justify-content-end">
+                                        <a href="/admin/deletepersonalpicture/{{picode}}"><i
+                                                class="fa fa-trash text-danger"></i></a>
+        
+        
+                                    </div>
+                                </div>
+        
+                            </div>
+                        </div>
+                    </div>
+        
+                    {{/each}}
+        
+                    {{else}}
+                    <div class="d-flex p-2 " style="width:100%;">
+                        <h4 class="text-dark text-center m-auto" style="width:100%;">No Pictures
+                            yet !</h4>
+        
+                    </div>
+                    {{/if}}
+                </div>
+                <div class="rowl pictures">
+                    {{#if pictures}}
+        
+        
+                        {{#each pictures}}
+                            <div class=" column" style="position:relative;" data-bs-toggle="modal" data-bs-target="#exampleModalio{{@index}}">
+                                <img src={{imgdir}} class="pict melo" style="padding: 0;" alt="...">
+                                <p class="  mt-n5 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;"><i
+                                        class="fa fa-camera"></i> {{uploadedby}}</p>
+                                <p class="mt-n4 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;">
+                                    {{momentago}}</p>
+                
+                            </div>
+                            <div class="modal fade" id="exampleModalio{{@index}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h2 class="modal-title text-capitalize text-center" id="exampleModalLabel"><small>uploaded by </small>{{uploadedby}}
+                                            </h2>
+                                        
+                                        
+                                            {{!-- <h5 class="modal-title" id="exampleModalLabel">exit </h5> --}}
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="my-3 mx-auto text-center">
+                                                <a class=" text-center" href={{imgdir}} style="display: block;margin:0 auto;">
+                                                    <img src={{imgdir}} style="width:100%;" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="d-flex justify-content-end w-100 ">
+                                                <small class="text-capitalize text-end text-info">
+                                                    {{momentago}}</small>
+                                            </div>
+                                            <br>
+                                            <div class="d-flex justify-content-end">
+                                                <a href="/admin/deletepersonalpicture/{{picode}}"><i
+                                                        class="fa fa-trash text-danger"></i></a>
+                
+                
+                
+                
+                                            </div>
+                                        </div>
+                
+                                    </div>
+                                </div>
+                            </div>
+            
+            
+            
+            
+                        {{/each}}
+        
+                    {{else}}
+                        <div class="d-flex p-2 " style="width:100%;">
+                            <h4 class="text-dark text-center m-auto" style="width:100%;">No Live Pictures
+                                !</h4>
+            
+                        </div>
+                    {{/if}}
+                </div>
+                <div class="rowl allpictures">
+                    {{#if allpictures}}
+        
+        
+                        {{#each allpictures}}
+                            <div class=" column"  style="position:relative;" data-bs-toggle="modal" data-bs-target="#exampleModalioq{{@index}}">
+                                <img src={{imgdir}} class="allp melo" style="padding: 0;" alt="...">
+                                <p class="  mt-n5 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;"><i
+                                        class="fa fa-camera"></i> {{uploadedby}}</p>
+                                <p class="mt-n4 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;">
+                                    {{momentago}}</p>
+                
+                            </div>
+                            <div class="modal fade" id="exampleModalioq{{@index}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h2 class="modal-title text-capitalize text-center" id="exampleModalLabel"><small>uploaded by </small>{{uploadedby}} </h2>
+                                            
+                
+                                            <h5 class="modal-title" id="exampleModalLabel">exit </h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        
+                                        <div class="modal-body">
+                                            <div class="my-3 mx-auto text-center">
+                                                <a class=" text-center" href={{imgdir}} style="display: block;margin:0 auto;">
+                                                    <img src={{imgdir}} style="width:100%;" alt="">
+                                                    
+                                                </a>
+                                                
+                                            </div>
+                                            <div class="d-flex justify-content-end w-100 ">
+                                                <small class="text-capitalize text-end text-info">
+                                                    {{momentago}}</small>
+                                            </div>
+                                            
+                                            <div class="d-flex justify-content-end">
+                                                <a href="/admin/deletepersonalpicture/{{picode}}"><i
+                                                        class="fa fa-trash text-danger"></i></a>
+                
+                
+                                            </div>
+                                            <br>
+                                        </div>
+                
+                                    </div>
+                                </div>
+                            </div>
+                
+            
+            
+            
+                        {{/each}}
+        
+                    {{else}}
+                        <div class="d-flex p-2 " style="width:100%;">
+                            <h4 class="text-dark text-center m-auto" style="width:100%;">Not Available !</h4>
+            
+                        </div>
+                    {{/if}}
+                </div>
+        
+        
+            </div>
+            <nav aria-label="Page navigation examplen d-flex justify-contents-end ">
+                
+                <ul class="pagination d-flex justify-content-end">
+                    
+                    <li class="page-item relad"><a class="page-link" href="#">Details</a></li>
+                    
+                    
+                </ul>
+            </nav>
+        </div>
+        
+    </div>
+
+    
+
+    
+
+
+</div>
+

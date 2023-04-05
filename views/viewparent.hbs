@@ -1,0 +1,138 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script:wght@400;500;600;700&family=La+Belle+Aurore&family=Lobster&family=Montserrat:ital,wght@0,200;1,900&family=Pacifico&family=Patrick+Hand&family=Poor+Story&family=Poppins:ital,wght@0,400;1,100;1,400&family=Rubik+Glitch&display=swap');
+
+
+    .playw {
+        text-transform: capitalize;
+        word-break: keep-all;
+        font-weight: 700;
+        font-size: 30px;
+
+    }
+
+    .playw:nth-child(odd) {
+        color: green;
+    }
+
+    .playw:nth-child(even) {
+        color: blue;
+    }
+</style>
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="container">
+            <div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                    <div class="card-body">
+                        <h2 class="text-center text-capitalize mb-5">~{{parent.username}}'s  Page~</h2>
+                        <div class="col-12 col-xl-10 col-12 mb-4 mb-xl-0">
+                            <h3 class="font-weight-bold text-capitalize ">{{parent.name}}</h3>
+                            <small class="text-capitalize text-muted">Last seen : {{parent.lastlogin}}</small><br>
+                            <small class="text-capitalize text-muted">Registered on : {{parent.regdate}}</small><br>
+                            <small class="text-capitalize text-muted">Logged in : {{parent.logintimes}} times</small>
+                            <br>
+                         
+                            {{#if parent.laststudentid}}
+                                <small class="text-capitalize text-muted">Last viewed : <a
+                                        href="/admin/indstudents/{{parent.laststudentid}}">{{parent.laststudentname}}</a></small>
+                                <br>
+
+                            {{/if}}
+                            <small class="text-capitalize text-muted"><a href="mailto:{{parent.email}}"> <i class="fa fa-envelope"></i> {{parent.email}}</a></small> <br>
+                            <small class="text-capitalize text-muted"><i class="fa fa-phone"></i> {{parent.phone}}</small>
+                            <br>
+                            <br>
+                            <br>
+                            <br>
+                            
+                            
+                        
+                        <br>
+                        <div class="row px-3">
+
+
+
+                            {{#if orders }}
+                            
+                                <div class="table-responsive">
+                                    <h6 class="font-weight-bold text-capitalize text-muted">All Orders made by
+                                        {{parent.username}}</h6>
+                                    
+                                    <table class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                {{!-- <th>Orders</th> --}}
+                                                <th>Date</th>
+                                                {{!-- <th>Username</th> --}}
+                                                <th>Avatar</th>
+                                                <th>Package</th>
+                                                <th>Quantity </th>
+                                                <th class="text-center">Unit Price <br><small class="text-muted text-center">AED</small></th>
+                                                <th class="text-center">Gross <br><small class="text-muted text-center">AED</small></th>
+                                                <th class="text-center">Shipping <br><small class="text-muted text-center">AED</small></th>
+                                                <th class="text-center">Total <br><small class="text-muted text-center">AED</small></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="cele">
+
+                                            {{#each orders}}
+
+
+                                            <tr class="cele">
+                                                <td class="text-capitalize">
+                                                    {{justdate}}
+                                                </td>
+                                                {{!-- <td class="text-capitalize">
+                                                    <a href="/parent/viewparent/{{parentid}}">{{username}}</a>
+                                                </td> --}}
+                                                <td>
+                                                    <a href={{orderavatar}} class="p-0">
+                                                        <img src={{orderavatar}} alt="" style="object-fit:contain;">
+                                                    </a>
+
+                                                </td>
+                                                <td class="playw">
+                                                    {{packagename}}
+
+
+                                                </td>
+                                                <td class="text-center">{{quantity}}</td>
+                                                <td class="text-center tofix">{{priceperpackage}}</td>
+                                                <td class="text-center tofix">{{totalunitsprice}}</td>
+                                                <td>na</td>
+                                                <td>na</td>
+
+                                            </tr>
+
+
+
+                                            {{/each}}
+
+
+
+                                        </tbody>
+                                    </table>
+
+
+                                </div>
+
+
+                            {{else}}
+                                <h4 class="mx-auto text-center text-muted">No Orders yet</h4>
+                            {{/if}}
+                        </div>
+
+                        <div class="sedwe mt-5" style="display: flex;justify-content:end;width:100%;">
+                            <a style="font-family: cursive;color:red;" href="/admin/deleteparent/{{parent.userid}}"><i class="fa fa-trash"></i><span class="text-capitalize">{{ parent.name}}'s</span> account</a>
+                            
+                        </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
