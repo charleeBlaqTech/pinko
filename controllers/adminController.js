@@ -2295,7 +2295,7 @@ module.exports = {
     const idd = req.params.class;
 
     const schoolcode = req.cookies.schoolcode;
-    res.cookie('classcode', idd);
+    res.cookie('classid', idd);
 
     const cla = await classModel.findOne({ idd });
     const school = await schoolModel.findOne({ schoolcode });
