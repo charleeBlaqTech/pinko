@@ -1767,7 +1767,7 @@ module.exports = {
       } else {
         buta = 0;
       }
-      const classn = classs.students;
+      // const classn = classs.students;
       classs.students = students.length;
       await classs.save();
 
