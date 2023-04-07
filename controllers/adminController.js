@@ -1233,7 +1233,6 @@ module.exports = {
 
     const pix = await pictureModel.find({ classid: idd });
 
-    await wmModel.deleteMany({ classid: idd });
 
     schoolz();
     let classss = await classModel.findOne({ idd: idd });
@@ -1241,7 +1240,7 @@ module.exports = {
     await Orders.deleteMany({ schoolcode: schoolcode });
 
     await classModel.deleteOne({ idd: idd });
-
+    
     const classses = await classModel.find({ schoolcode }).sort({ sn: -1 });
     classses.map(async (el) => {
       const students = await Students.find({ classid: el.idd });
@@ -2079,6 +2078,19 @@ module.exports = {
               const students = await Students.find().sort({ sn: 'desc' });
               const parents = await Parents.find().sort({ sn: 'desc' });
               const orders = await Orders.find();
+
+              const pictures = await pictureModel.find();
+              const personals = await personalModel.find();
+              pictures.map(async (el) => {
+                el.momentago = getTime(el.moment);
+                await el.save();
+                console.log(el.momentago + ' parents from checkuser');
+              });
+              personals.map(async (el) => {
+                el.momentago = getTime(el.moment);
+                await el.save();
+                console.log(el.momentago + ' parents from checkuser');
+              });
 
               res.render('admindb', {
                 layout: 'admin',

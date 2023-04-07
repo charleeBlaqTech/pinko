@@ -59,7 +59,7 @@ const checkUserp = async (req, res, next) => {
     }
     else{
       res.render('signuppage', {
-        layout: 'login',
+        layout: 'nothing',
         alerte:
           'You can not have both admin and user accounts running simultaneously on one device kindly enter your login details again',
         icon: 'error',
@@ -76,7 +76,7 @@ const checkUserp = async (req, res, next) => {
     
 
     res.render('signuppage', {
-      layout: 'login',
+      layout: 'nothing',
       icon: 'error',
       title: 'Authentication expired !',
       alerte: 'Pls login again ',
