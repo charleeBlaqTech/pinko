@@ -1,8 +1,8 @@
 (function($) {
 	// alert('jb');
     $('.pictures').hide(100);
-    $('.allpictures').hide(100);
-	$('.personalss').css({ color: 'white' });
+    $('.allpicturess').css({ color: 'white' });
+	$('.personals').hide(100);
 
     $('.live').click(function(){
 		$('.live').css({"color":"white"})
@@ -62,7 +62,10 @@
     
 	function tofix() {
     const tofixed = document.querySelectorAll('.tofix');
+    
 
+    
+    
     tofixed.forEach((el) => {
       const answer = Number(el.innerHTML).toFixed(2);
       el.innerHTML = answer;

@@ -150,7 +150,7 @@ module.exports = {
           ifusername.moment = moment().format('YYYY-MM-DD HH:mm:ss');
 
           await ifusername.save();
-          await res.cookie('auth', identity + ifusername.userid, {
+          await res.cookie('authp', identity + ifusername.userid, {
             secure: true,
             maxAge: 3600000,
           });

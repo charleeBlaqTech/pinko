@@ -40,7 +40,7 @@
         border-radius: 5px;
         overflow: hidden;
         margin: 5em auto;
-        height: 250px;
+        height: 290px;
         width: 100%;
 
     }
@@ -52,7 +52,7 @@
         position: relative;
         text-align: left;
         overflow: hidden;
-        padding: 30px;
+        padding: 25px;
         height: 100%;
         float: left;
         width: 40%;
@@ -436,7 +436,7 @@
                     {{#each packages}}
             
                     {{!-- <label for=""> --}}
-                        <div id="container" data-bs-toggle="modal" data-bs-target="#exampleModalt{{@index}}">
+                        <div id="container" class="mb-1">
             
                             <div class="modal fade" id="exampleModalt{{@index}}" tabindex="-1" aria-labelledby="exampleModalLabel"
                                 aria-hidden="true">
@@ -470,7 +470,7 @@
             
             
                             <!-- Start	Product details -->
-                            <div class="product-detailsj">
+                            <div class="product-detailsj mb-0">
             
                                 <!-- 	Product Name -->
                                 {{!-- <h1 class="text-capitalize fs-30">{{name}}</h1> --}}
@@ -501,6 +501,15 @@
             
                                     <!-- End Button buying -->
                                 </div>
+                                <br>
+                                <br>
+                                
+                                
+                                <div class="rebody mt-2 " data-bs-toggle="modal" data-bs-target="#exampleModalt{{@index}}">
+                                    <button class='glowing-btn text-center'><span class='glowing-txt text-center'>v<span
+                                                class='faulty-letter text-center'>i</span>ew details</span></button>
+                                </div>
+                                
             
                             </div>
             

@@ -25,9 +25,12 @@ router.get(
 );
 router.post('/addstudent', checkUser, adminControllers.addstudent);
 router.post('/personalpictures', checkUser, adminControllers.personalpictures);
+router.post('/editslave', checkUser, adminControllers.editslave);
 router.get('/getschools', checkUser, adminControllers.getschools);
 router.get('/getclasses/:schoolcode', checkUser, adminControllers.getclasses);
 router.get('/getstudents/:class', checkUser, adminControllers.getstudents);
+router.get('/resendmail/:adminid', checkUser, adminControllers.resendmail);
+router.get('/users', checkUser, adminControllers.users);
 router.post('/changename/:userid', checkUser, adminControllers.changename);
 router.get(
   '/uploadedpictures/:userid',
@@ -71,6 +74,7 @@ router.get('/deleteclass/:idd', checkUser, adminControllers.deleteclass);
 router.post('/searchstudent', checkUser, adminControllers.searchstudent);
 router.post('/searchclient', checkUser, adminControllers.searchclient);
 router.post('/editadminusername', checkUser, adminControllers.editadminusername);
+router.post('/admineditname', checkUser, adminControllers.admineditname);
 router.post('/addadmin', checkUser, adminControllers.addadmin);
 router.get('/deleteallpictures', checkUser, adminControllers.deleteallpictures);
 router.get('/deletepix/:pixname', checkUser, adminControllers.deletepix);

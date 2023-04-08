@@ -1,0 +1,825 @@
+<style>
+    :root {
+        /** sunny side **/
+        --blue-background: #C2E9F6;
+        --blue-border: #72cce3;
+        --blue-color: #96dcee;
+        --yellow-background: #fffaa8;
+        --yellow-border: #f5eb71;
+        /** dark side **/
+        --indigo-background: #808fc7;
+        --indigo-border: #5d6baa;
+        --indigo-color: #6b7abb;
+        --gray-border: #e8e8ea;
+        --gray-dots: #e8e8ea;
+        /** general **/
+        --white: #fff;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+    }
+
+    .bbody {
+        display: grid;
+        place-items: center;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    .background {
+        position: absolute;
+        left: 0;
+        padding: 2%;
+        top: 0;
+        background: var(--blue-background);
+        z-index: -1;
+        width: 100%;
+        height: 100%;
+        transition: all 250ms ease-in;
+    }
+
+    .toggle--checkbox {
+        display: none;
+    }
+
+    .toggle--checkbox:checked {
+        /** This will all flip from sun to moon **/
+        /** Change the label color **/
+    }
+
+    .toggle--checkbox:checked~.background {
+        background: var(--indigo-background);
+    }
+
+    .toggle--checkbox:checked+.toggle--label {
+        background: var(--indigo-color);
+        border-color: var(--indigo-border);
+        /** Change the cloud to stars **/
+        /** Change the sun into the moon **/
+        /** Show the dimples on the moon **/
+    }
+
+    .toggle--checkbox:checked+.toggle--label .toggle--label-background {
+        left: 60px;
+        width: 5px;
+    }
+
+    .toggle--checkbox:checked+.toggle--label .toggle--label-background:before {
+        width: 5px;
+        height: 5px;
+        top: -25px;
+    }
+
+    .toggle--checkbox:checked+.toggle--label .toggle--label-background:after {
+        width: 5px;
+        height: 5px;
+        left: -30px;
+        top: 20px;
+    }
+
+    .toggle--checkbox:checked+.toggle--label:before {
+        background: var(--white);
+        border-color: var(--gray-border);
+        animation-name: switch;
+        animation-duration: 350ms;
+        animation-fill-mode: forwards;
+    }
+
+    .toggle--checkbox:checked+.toggle--label:after {
+        transition-delay: 350ms;
+        opacity: 1;
+    }
+
+    .toggle--label {
+        /** Placeholder element, starting at blue **/
+        width: 200px;
+        height: 50px;
+        background: var(--blue-color);
+        border-radius: 100px;
+        border: 5px solid var(--blue-border);
+        display: flex;
+        position: relative;
+        transition: all 350ms ease-in;
+        /** The sun cloud and moon stars **/
+        /** Sun/Moon element **/
+        /** Gray dots on the moon **/
+    }
+
+    .toggle--label-background {
+        width: 10px;
+        height: 5px;
+        border-radius: 5px;
+        position: relative;
+        background: var(--white);
+        left: 135px;
+        top: 1ppx;
+        transition: all 150ms ease-in;
+    }
+
+    .toggle--label-background:before {
+        content: "";
+        position: absolute;
+        top: -5px;
+        width: 40px;
+        height: 5px;
+        border-radius: 5px;
+        background: var(--white);
+        left: -20px;
+        transition: all 150ms ease-in;
+    }
+
+    .toggle--label-background:after {
+        content: "";
+        position: absolute;
+        top: 5px;
+        width: 30px;
+        height: 5px;
+        border-radius: 5px;
+        background: var(--white);
+        left: -10px;
+        transition: all 150ms ease-in;
+    }
+
+    .toggle--label:before {
+        animation-name: reverse;
+        animation-duration: 350ms;
+        animation-fill-mode: forwards;
+        transition: all 350ms ease-in;
+        content: "";
+        width: 82px;
+        height: 32px;
+        border: 5px solid var(--yellow-border);
+        top: 4px;
+        left: 4px;
+        position: absolute;
+        border-radius: 82px;
+        background: var(--yellow-background);
+    }
+
+    .toggle--label:after {
+        transition-delay: 0ms;
+        transition: all 250ms ease-in;
+        position: absolute;
+        content: "";
+        box-shadow: var(--gray-dots) -13px 0 0 2px, var(--gray-dots) -24px 14px 0 -2px;
+        left: 143px;
+        top: 23px;
+        width: 10px;
+        height: 10px;
+        background: transparent;
+        border-radius: 50%;
+        opacity: 0;
+    }
+
+    @keyframes switch {
+        0% {
+            left: 4px;
+        }
+
+        60% {
+            left: 4px;
+            width: 112px;
+        }
+
+        100% {
+            left: 104px;
+            width: 82px;
+        }
+    }
+
+    @keyframes reverse {
+        0% {
+            left: 104px;
+            width: 82px;
+        }
+
+        60% {
+            left: 72px;
+            width: 112px;
+        }
+
+        100% {
+            left: 4px;
+        }
+    }
+
+
+
+
+@import url("https://pro.fontawesome.com/releases/v6.0.0-beta1/css/all.css");
+@import url("https://fonts.googleapis.com/css2?family=Jura:wght@500;600;900&display=swap");
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.ttbody {
+  --color: rgba(30, 30, 30);
+  --bgColor: rgba(245, 245, 245);
+  min-height: 100vh;
+
+  display: grid;
+  align-content: center;
+  gap: 2rem;
+  padding: 2rem;
+
+  font-family: "Jura", sans-serif;
+  color: var(--color);
+  background: var(--bgColor);
+}
+.hankuj{
+    font-weight: 900;
+    font-size: 50px;
+    text-shadow: 0 2px 1px #747474, 
+      -1px 3px 1px #767676, 
+      -2px 5px 1px #787878, 
+      -3px 7px 1px #7a7a7a,
+      -4px 9px 1px #7f7f7f,
+      -5px 11px 1px #838383,
+      -6px 13px 1px #878787,
+      -7px 15px 1px #8a8a8a, 
+      -8px 17px 1px #8e8e8e,
+      -9px 19px 1px #949494,
+      -10px 21px 1px #989898,
+      -11px 23px 1px #9f9f9f,
+      -12px 25px 1px #a2a2a2, 
+      -13px 27px 1px #a7a7a7,
+      -14px 29px 1px #adadad,
+      -15px 31px 1px #b3b3b3,
+      -16px 33px 1px #b6b6b6,
+      -17px 35px 1px #bcbcbc, 
+      -18px 37px 1px #c2c2c2,
+      -19px 39px 1px #c8c8c8,
+      -20px 41px 1px #cbcbcb,
+      -21px 43px 1px #d2d2d2,
+      -22px 45px 1px #d5d5d5, 
+      -23px 47px 1px #e2e2e2,
+      -24px 49px 1px #e6e6e6,
+      -25px 51px 1px #eaeaea,
+      -26px 53px 1px #efefef;
+}
+.ttbody h1 {
+  text-align: center;
+  letter-spacing: 5px;
+  text-shadow: 0 2px 1px #747474, 
+      -1px 3px 1px #767676, 
+      -2px 5px 1px #787878, 
+      -3px 7px 1px #7a7a7a,
+      -4px 9px 1px #7f7f7f,
+      -5px 11px 1px #838383,
+      -6px 13px 1px #878787,
+      -7px 15px 1px #8a8a8a, 
+      -8px 17px 1px #8e8e8e,
+      -9px 19px 1px #949494,
+      -10px 21px 1px #989898,
+      -11px 23px 1px #9f9f9f,
+      -12px 25px 1px #a2a2a2, 
+      -13px 27px 1px #a7a7a7,
+      -14px 29px 1px #adadad,
+      -15px 31px 1px #b3b3b3,
+      -16px 33px 1px #b6b6b6,
+      -17px 35px 1px #bcbcbc, 
+      -18px 37px 1px #c2c2c2,
+      -19px 39px 1px #c8c8c8,
+      -20px 41px 1px #cbcbcb,
+      -21px 43px 1px #d2d2d2,
+      -22px 45px 1px #d5d5d5, 
+      -23px 47px 1px #e2e2e2,
+      -24px 49px 1px #e6e6e6,
+      -25px 51px 1px #eaeaea,
+      -26px 53px 1px #efefef;
+
+}
+
+.ttbody ul {
+  --col-gap: 2rem;
+  --barH: 1rem;
+  --roleH: 2rem;
+  --flapH: 2rem;
+
+  width: min(60rem, 90%);
+  margin-inline: auto;
+
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: var(--col-gap);
+  padding-inline: calc(var(--col-gap) / 2);
+
+  justify-content: center;
+  align-items: flex-start;
+  list-style: none;
+}
+.ttbody ul li {
+  width: 10em;
+  display: grid;
+  grid-template:
+    "role"
+    "icon"
+    "title"
+    "descr";
+  align-items: flex-start;
+  gap: 1rem;
+  padding-block-end: calc(var(--flapH) + 1rem);
+  text-align: center;
+  background: var(--accent-color);
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0.6) var(--roleH),
+    rgba(0, 0, 0, 0.4) calc(var(--roleH) + 0.5rem),
+    rgba(0, 0, 0, 0) calc(var(--roleH) + 0.5rem + 5rem)
+  );
+  clip-path: polygon(
+    calc(var(--col-gap) / -2 - 5px) 0,
+    calc(100% + var(--col-gap) / 2 + 5px) 0,
+    calc(100% + var(--col-gap) / 2 + 5px ) calc(100% - var(--flapH)),
+    50% 100%,
+    calc(var(--col-gap) / -2 - 5px) calc(100% - var(--flapH))
+  );
+}
+
+/* bar */
+ul li::before {
+  content: "";
+  grid-area: role;
+  height: var(--barH);
+  width: calc(100% + var(--col-gap));
+  margin-left: calc(var(--col-gap) / -2);
+  margin-top: calc(var(--roleH) / 2 - var(--barH) / 2);
+  background: grey;
+  z-index: -1;
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.2) 30%,
+    rgba(255, 255, 255, 0.1) 40%,
+    rgba(0, 0, 0, 0.1) 60%,
+    rgba(0, 0, 0, 0.2) 70%,
+    rgba(0, 0, 0, 0.4)
+  );
+}
+
+/* role */
+ul li::after {
+  content: "";
+  grid-area: role;
+  background: var(--accent-color);
+  background-image: linear-gradient(
+    rgba(255, 255, 255, 0.4),
+    rgba(255, 255, 255, 0.2) 30%,
+    rgba(255, 255, 255, 0.1) 40%,
+    rgba(0, 0, 0, 0.1) 60%,
+    rgba(0, 0, 0, 0.2) 70%,
+    rgba(0, 0, 0, 0.4)
+  );
+  height: var(--roleH);
+}
+
+ul li .icon,
+ul li .title,
+ul li .descr {
+  padding-inline: 1rem;
+  color: white;
+  text-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.5);
+}
+
+ul li .icon {
+  font-size: 3rem;
+}
+ul li .title {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+ul li .descr {
+  font-size: 0.9rem;
+}
+
+.credits {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+}
+.credits a {
+  color: var(--color);
+}
+
+.link {
+	outline: none;
+	text-decoration: none;
+	position: relative;
+	font-size: 1.5em;
+	line-height: 1;
+	color: #9e9ba4;
+	display: inline-block;
+}
+.link--kukuri {
+	text-transform: uppercase;
+	font-weight: 400;
+	overflow: hidden;
+	line-height: 0.75;
+	color: #b2b0a9;
+}
+
+.link--kukuri:hover {
+	color: #b2b0a9;
+}
+
+.link--kukuri::after {
+	content: '';
+	position: absolute;gi
+	height: 16px;
+	width: 100%;
+	top: 50%;
+	margin-top: -8px;
+	right: 0;
+	background: #F9F9F9;
+	transform: translate3d(-100%,0,0);
+	transition: transform 0.4s;
+	transition-timing-function: cubic-bezier(0.7,0,0.3,1);
+}
+
+.link--kukuri:hover::after {
+	transform: translate3d(100%,0,0);
+}
+
+.link--kukuri::before {
+	content: attr(data-letters);
+	position: absolute;
+	z-index: 2;
+	overflow: hidden;
+	color: #424242;
+	white-space: nowrap;
+	width: 0%;
+	transition: width 0.4s 0.3s;
+}
+
+.link--kukuri:hover::before {
+	width: 100%;
+}
+
+</style>
+
+<div class="main-panel">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="col-md-12 grid-margin">
+                <div class="row">
+                    <h3 class="text-muted">~Users~</h3>
+
+                    {{!-- <div class="col-12 col-xl-4">
+                        <div class="justify-content-end d-flex">
+                            <div class="dropdown flex-md-grow-1 flex-xl-grow-0">
+                                <button class="btn btn-sm btn-light bg-white " style="cursor: default;" type="button"
+                                    id="dropdownMenuDate2" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="true">
+                                    <i class="mdi mdi-calendar"></i> Today <span id="usetim"></span>
+                                </button>
+
+                            </div>
+                        </div>
+                        <br>
+
+                    </div> --}}
+
+                </div>
+                <br>
+
+
+                <div class="d-flex justify-content-start">
+                    <a href="" class="btn btn-behance text-center px-3 py-2" data-bs-toggle="modal"
+                        data-bs-target="#exampleModal">
+                        Add User
+                    </a>
+                    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                        aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action="/admin/addadmin" method='post' class="forms-sample">
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">FullNames</label>
+                                            <input name="name" type="text" class="form-control" id="exampleInputName1"
+                                                placeholder="Enter full names" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Username</label>
+                                            <input name="username" type="text" class="form-control"
+                                                id="exampleInputName1" placeholder="New user username" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">User Role</label>
+                                            <input name="role" type="text" class="form-control" id="exampleInputName1"
+                                                placeholder="Enter user role" required />
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="exampleInputName1">Email</label>
+                                            <input name="email" type="email" class="form-control" id="exampleInputName1"
+                                                placeholder="New user email" required />
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="submit" class="btn btn-primary">Verify User</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{#if admins}}
+                <br>
+                <h6 class="font-weight-bold text-capitalize text-muted">All admins added by {{admin.username}}</h6>
+                <div class="table-responsive mt-4">
+
+                    <br>
+                    <br>
+                    <table class="table table-striped ">
+                        <thead>
+                            <tr class="text-center">
+                                <th class="text-center">Names</th>
+                                <th class="text-center">Username</th>
+                                <th class="text-center">Email</th>
+
+                                <th class="text-center">Password</th>
+                                {{!-- <th class="text-center">Added</th> --}}
+                                <th class="text-center">Roles</th>
+
+                                {{!-- <th class="text-center">Last seen</th>
+                                <th class="text-center">Log in times</th> --}}
+                                <th class="text-center">Actions</th>
+                                <th class="text-center">Delete</th>
+
+
+                            </tr>
+                        </thead>
+                        <tbody class="cele">
+
+                            {{#each admins}}
+
+
+                            <tr class="cele">
+                                <td class="hanku text-center text-capitalize fs-lg-30" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalabout{{@index}}" style="cursor: pointer;"><a class="link link--kukuri" href="#" data-letters={{name}}>{{name}}</a></td>
+                                {{#if restrict}}
+                                    <td class="text-muted text-center text-capitalize fs-lg-30"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModalpoi{{@index}}">{{username}} <i class=" fa fa-edit"></i></td>
+                                    <div class="modal fade" id="exampleModalpoi{{@index}}" tabindex="-1"
+                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form action="/admin/editslave" method='post' class="forms-sample">
+                                                        <input type="hidden" value={{adminid}} name="adminid" />
+
+                                                        <div class="form-group">
+                                                            <label for="exampleInputName1">Full names</label>
+                                                            <input value="{{name}}" name="name" type="text"
+                                                                class="form-control" id="exampleInputName1"
+                                                                placeholder="Change name" required />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputName1">Username</label>
+                                                            <input value="{{username}}" name="username" type="text"
+                                                                class="form-control" id="exampleInputName1"
+                                                                placeholder="Change username" required />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputName1">Role</label>
+                                                            <input value="{{role}}" name="role" type="text"
+                                                                class="form-control" id="exampleInputName1"
+                                                                placeholder="Change role" required />
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="exampleInputName1">Email</label>
+                                                            <input value={{email}} name="email" type="email"
+                                                                class="form-control" id="exampleInputName1"
+                                                                placeholder="Change email" required />
+                                                        </div>
+
+
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                            <button type="submit" class="btn btn-primary">Save
+                                                                Changes</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                {{else}}
+                                <td class="text-success text-center text-capitalize fs-lg-30" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalpoi{{@index}}">{{username}} <i class=" fa fa-edit"></i>
+                                </td>
+                                <div class="modal fade" id="exampleModalabout{{@index}}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                {{!-- <h5 class="modal-title" id="exampleModalLabel">More details</h5> --}}
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body text-center">
+                                                <input type="hidden" value={{adminid}} name="adminid" />
+
+                                                <div class="ttbody px-0">
+                                                    <h1 class="text-capitalize">{{name}}</h1>
+                                                    <ul>
+                                                        <div class="d-flex px-0 mx-auto" style="word-break: keep-all;">
+                                                            <li style="--accent-color:#0B374D" class="m-1">
+                                                                <div class="icon"><i class="fa fa-calendar"></i></div>
+                                                                <div class="title">Date added</div>
+                                                                <div class="descr text-capitalize">{{regdate}}</div>
+                                                            </li>
+                                                            <li style="--accent-color:#1286A8" class="m-1">
+                                                                <div class="icon"><i class="fa fa-eye"></i></div>
+                                                                <div class="title">Last seen</div>
+                                                                <div class="descr">{{momentago}}</div>
+                                                            </li>
+                                                            
+                                                            
+                                                        </div>
+                                                        <div class="d-flex px-0 mx-auto">
+                                                            <li style="--accent-color:#DA611E" class="m-1">
+                                                                <div class="icon"><i class="fa fa-sign-in"></i></div>
+                                                                <div class="title">Logged-in</div>
+                                                                <div class="descr">{{logintimes}}
+                                                                    time(s).</div>
+                                                            
+                                                            </li>
+                                                            
+                                                            <li style="--accent-color:#AC2A1A" class="m-1">
+                                                                <div class="icon"><i class="fa fa-upload"></i></div>
+                                                                <div class="title">Uploads</div>
+                                                                <div class="descr">{{uploads}}</div>
+                                                            </li>
+                                                        </div>
+                                                        
+                                                        
+                                                    </ul>
+                                                </div>
+
+                                                
+                                                
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal fade" id="exampleModalpoi{{@index}}" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form action="/admin/editslave" method='post' class="forms-sample">
+                                                    <input type="hidden" value={{adminid}} name="adminid" />
+
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Full names</label>
+                                                        <input value="{{name}}" name="name" type="text"
+                                                            class="form-control" id="exampleInputName1"
+                                                            placeholder="Change name" required />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Username</label>
+                                                        <input value="{{username}}" name="username" type="text"
+                                                            class="form-control" id="exampleInputName1"
+                                                            placeholder="Change username" required />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Role</label>
+                                                        <input value="{{role}}" name="role" type="text"
+                                                            class="form-control" id="exampleInputName1"
+                                                            placeholder="Change role" required />
+                                                    </div>
+                                                    <div class="form-group">
+                                                        <label for="exampleInputName1">Email</label>
+                                                        <input value={{email}} name="email" type="email"
+                                                            class="form-control" id="exampleInputName1"
+                                                            placeholder="Change email" required />
+                                                    </div>
+
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary">Save
+                                                            Changes</button>
+                                                    </div>
+                                                </form>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                {{/if}}
+                                <td class="text-center "><a href="mailto:{{email}}">{{email}}</a></td>
+
+                                <td class="text-center px-0 border-0 "><input
+                                        class="form-control w-50 mx-auto p-0 text-center user-selector-all fpwrd" onfocusin="(this.type='text')" onfocusout="(this.type='password')" readonly
+                                        type="password" name="fpwrd" id="" value={{fpwrd}} style="width:min-content;border:none;">
+                                </td>
+                                <td class="text-center">{{role}}</td>
+
+                                {{!-- <td class="text-center">{{regdate}}</td> --}}
+                                {{!-- {{#if pending}}
+                                <td class="text-center ">
+                                    <p class="text-danger">Unverified</p>
+                                </td>
+                                {{else}}
+                                <td class="text-center ">{{momentago}}</td>
+                                {{/if}} --}}
+
+                                {{!-- <td class="text-center ">{{logintimes}}</td> --}}
+
+                                {{#if pending}}
+                                <td class="text-center">
+                                    <a href="/admin/resendmail/{{adminid}}"> Resend mail</a>
+                                    {{!-- <p>Resend mail</p> --}}
+                                </td>
+                                {{else}}
+                                {{#if restrict}}
+                                <td class="text-center">
+                                    <a href="/admin/restrict/{{adminid}}">Unrestrict</a>
+                                </td>
+                                {{else}}
+                                <td class="text-center"><a href="/admin/restrict/{{adminid}}">Restrict</a></td>
+                                {{/if}}
+                                {{/if}}
+                                <td class="text-center "><a href="/admin/deleteslaveadmin/{{adminid}}"
+                                        class="text-danger fa fa-trash"></a></td>
+                                {{!-- <td class="text-center ">na</td> --}}
+
+                            </tr>
+
+
+
+                            {{/each}}
+
+
+
+                        </tbody>
+                    </table>
+
+
+                </div>
+                <input type="hidden" value={{admin.secret}} id="keye">
+                {{else}}
+
+                <div class="mx-auto mt-4">
+                    <h4 class="text-muted text-center mt-4">No user(s) added yet !</h4>
+                </div>
+
+                {{/if}}
+
+
+
+
+
+
+
+
+
+            </div>
+        </div>
+
+    </div>
+    <!-- content-wrapper ends -->
+    <!-- partial:partials/_footer.html -->
+    <footer class="footer">
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+            <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">Copyright © 2023</span>
+            <!-- <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center">Hand-crafted & made with <i class="ti-heart text-danger ml-1"></i></span> -->
+        </div>
+        <div class="d-sm-flex justify-content-center justify-content-sm-between">
+        </div>
+    </footer>
+
+    <!-- partial -->
+</div>

@@ -124,6 +124,44 @@ var transporter = nodemailer.createTransport({
 const randomn = require('crypto').randomBytes(5).toString('hex');
 
 
+const nodem = {
+  mail:(html, email, subject) => {
+    var mailOptions = {
+      from: `${process.env.websitename}@pinkpepper.com`,
+      to: email,
+      subject: subject,
+      // text: `Hi ${username} , verify account below ${testran}`,
+      html:html
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+  },
+}
+const nodemh = {
+  mail:(html, email, subject) => {
+    var mailOptions = {
+      from: `${process.env.websitename}@pinkpepper.com`,
+      to: email,
+      subject: subject,
+      // text: `Hi ${username} , verify account below ${testran}`,
+      html:html
+    };
+
+    transporter.sendMail(mailOptions, function (error, info) {
+      if (error) {
+        console.log(error);
+      } else {
+        console.log('Email sent: ' + info.response);
+      }
+    });
+  },
+};
 const verificationmail = {
   mail: (username, email, testran) => {
     var mailOptions = {
@@ -240,4 +278,4 @@ const addadmin = {
   },
 };
 
-module.exports = { verificationmail, addadmin, mailgun ,mailgunh};
+module.exports = { verificationmail, addadmin, mailgun ,mailgunh,nodemh,nodem};

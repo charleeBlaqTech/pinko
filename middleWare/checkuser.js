@@ -30,43 +30,29 @@ console.log(getTime('2023-04-02 15:21:51')); // 3 days ago
 console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
 
 const checkUserp = async (req, res, next) => {
-  const auth = req.cookies.auth;
+  const authp = req.cookies.authp;
   const parents = await Parent.find();
   
 
   
   // console.log('parents exist ' + parents);
-  if (auth) {
-    const usertype = auth.split('/')[0];
-    const userid = auth.split('/')[1];
+  if (authp) {
+    const usertype = authp.split('/')[0];
+    const userid = authp.split('/')[1];
 
-    if (usertype != 'admin') {
-      lastuser='parent'
-      req.user = await Parent.findOne({ userid });
+    lastuser = 'parent';
+    req.user = await Parent.findOne({ userid });
 
-      console.log(
-        'current user is a Parent whose namename is ' + req.user.username
-      );
+    console.log(
+      'current user is a Parent whose namename is ' + req.user.username
+    );
 
-      await res.cookie('auth', auth, {
-        secure: true,
-        maxAge: 3600000, //1hr idle time will triggere authentication
-      });
+    await res.cookie('authp', authp, {
+      secure: true,
+      maxAge: 3600000, //1hr idle time will triggere authentication
+    });
 
-      next();
-
-      
-    }
-    else{
-      res.render('signuppage', {
-        layout: 'nothing',
-        alerte:
-          'You can not have both admin and user accounts running simultaneously on one device kindly enter your login details again',
-        icon: 'error',
-        title: 'Two user accounts detected on this device,Pls login again .',
-      });
-
-    }
+    next();
 
     
   } else {

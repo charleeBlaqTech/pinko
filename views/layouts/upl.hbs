@@ -32,10 +32,13 @@
     <link rel="shortcut icon" href="/images/dashboard/logo-1.png" type="image/x-icon">
     <!-- End plugin css for this page -->
     <!-- inject:css -->
-    {{!-- <link rel="stylesheet" href="/css/vertical-layout-light/style (2).css">
+    {{!--
+    <link rel="stylesheet" href="/css/vertical-layout-light/style (2).css">
     <link rel="stylesheet" href="/css/style (5).css"> --}}
-    {{!-- <link rel="stylesheet" href="/css/vertical-layout-light/style.css"> --}}
-    {{!-- <link rel="stylesheet" href="/css/vertical-layout-light/style.css"> --}}
+    {{!--
+    <link rel="stylesheet" href="/css/vertical-layout-light/style.css"> --}}
+    {{!--
+    <link rel="stylesheet" href="/css/vertical-layout-light/style.css"> --}}
     <link rel="stylesheet" href="/css/style (5).css">
     <link rel="stylesheet" href="/css/vertical-layout-light/style (2).css">
 
@@ -153,30 +156,34 @@
     <div class="container-scroller">
         <!-- partial:partials/_navbar.html -->
         <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
-        
-            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between" style="width:100%;margin:0;">
-                <a class="navbar-brand brand-logo-mini" href="/"><img src="/images/dashboard/logo-1.png" alt="logo" /></a>
+
+            <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between"
+                style="width:100%;margin:0;">
+                <a class="navbar-brand brand-logo-mini" href="/"><img src="/images/dashboard/logo-1.png"
+                        alt="logo" /></a>
                 <ul class="navbar-nav navbar-nav-right">
                     <li class="nav-item dropdown">
                         <h4 class="text-capitalize tonyy px-2">{{student.name}}</h4>
-                
-                
+
+
                     </li>
-                    <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                    <button class="navbar-toggler navbar-toggler align-self-center" type="button"
+                        data-toggle="minimize">
                         <span class="icon-menu"></span>
                     </button>
-                
+
                 </ul>
-                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+                <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                    data-toggle="offcanvas">
                     <span class="icon-menu"></span>
                 </button>
-                
+
             </div>
         </nav>
-        
+
         <!-- partial -->
         <div class="container-fluid page-body-wrapper">
-            
+
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
                     <li class="nav-item">
@@ -185,14 +192,14 @@
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    {{#if parents}}
+                    
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/getclients">
                             <i class="icon-user-circle-o menu-icon"></i>
                             <span class="menu-title">Clients</span>
                         </a>
                     </li>
-                    {{/if}}
+                    
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/orders">
                             <i class="icon-shopping-cart menu-icon"></i>
@@ -206,14 +213,31 @@
                         </a>
                     </li>
                     <li class="nav-item">
+                        <a class="nav-link" href="/admin/users">
+                            <i class="icon-users menu-icon"></i>
+                            <span class="menu-title">Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link" href="/admin/manager">
                             <i class="icon-shopping-bag menu-icon"></i>
                             <span class="menu-title">File Manager</span>
                         </a>
-                    </li>                   
+                    </li>
+                    {{#if admin.host}}
+                    
+                        <li class="nav-item ">
+                            <a class="nav-link " href="/admin/users">
+                                <i class="icon-users menu-icon"></i>
+                                <span class="menu-title">Users</span>
+                            </a>
+                        </li>
+                    
+                    {{/if}}
+
                     <li class="nav-item">
-                        <a class="nav-link" style="height: 10vh;align-items:center;" data-toggle="collapse" href="#ui-basic" aria-expanded="false"
-                            aria-controls="ui-basic">
+                        <a class="nav-link" style="height: 10vh;align-items:center;" data-toggle="collapse"
+                            href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
                             <i class="fa fa-angle-double-left"></i>
                             <span class="menu-title text-capitalize"> &nbsp; Back to</span>
                             {{!-- <i class="menu-arrow"></i> --}}
@@ -233,13 +257,20 @@
                             </ul>
                         </div>
                     </li>
+                    <li class="nav-item ">
+                        <a class="nav-link " href="/admin/settings">
+                            <i class="icon-settings menu-icon"></i>
+                            <span class="menu-title">Settings</span>
+                        </a>
+                    </li>
+                    <br>
                     <li class="nav-item" style="cursor: not-allowed;">
                         <a class="nav-link" href="/admin/logout">
                             <i class="fa fa-sign-out" aria-hidden="true"></i>
                             <span class="menu-title text-danger">Log out</span>
                         </a>
                     </li>
-                    
+
 
                 </ul>
             </nav>
@@ -268,10 +299,10 @@
     <script src="/vendors/datatables.net/jquery.dataTables.js"></script>
     <script src="/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
     <script src="/js/dataTables.select.min.js"></script>
-    
+
     <!-- End plugin js for this page -->
     <!-- inject:js -->
-    
+
     <!-- endinject -->
     <!-- Custom js for this page-->
     <script src="/js/dashboard.js"></script>
@@ -279,32 +310,32 @@
     <!-- End custom js for this page-->
     <script src="/js/moment.min.js">
         <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
-    
-    
+
+
     <script src="/js/popper.js"></script>
-    
+
     <script src="/js/bootstrap.min.js"></script>
     <script src="/js/owl.carousel.min.js"></script>
     <script src="./vendors/js/vendor.bundle.base.js"></script>
-    
+
     <script src="/vendors/datatables.net/jquery.dataTables.js"></script>
     <script src="/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
     <script src="/js/dataTables.select.min.js"></script>
-    
-    
-    
+
+
+
     <script src="/js/off-canvas.js"></script>
     <script src="/js/hoverable-collapse.js"></script>
     <script src="/js/template.js"></script>
-    
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    
+
     </script>
     <script src="/js/settings.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
     <script>
 
-             
+
             var today = moment().format('D MMM, YYYY');
             const usetim = document.getElementById('usetim');
             usetim.innerHTML = today;
@@ -327,13 +358,13 @@
                 });
             }
     </script>
-    
+
     <script src="/js/todolist.js"></script>
 
     {{!-- put below --}}
 
-    
-    
+
+
     <script src="/js/todolist.js"></script>
 
     <script src="/js/multiple-uploader.js"></script>
@@ -348,39 +379,90 @@
 
     </script>
     <script>
+            window.Clipboard = (function(window, document, navigator) {
+                var textArea,
+                copy
+
+                function isOS() {
+                        return navigator.userAgent.match(/ipad|iphone/i);
+                }
+
+                function createTextArea(text) {
+                    textArea = document.createElement('textArea');
+                textArea.value = text;
+                document.body.appendChild(textArea);
+                }
+
+                function selectText() {
+                var range,
+                    selection;
+
+                    if (isOS()) {
+                        range = document.createRange();
+                    range.selectNodeContents(textArea);
+                    selection = window.getSelection();
+                    selection.removeAllRanges();
+                    selection.addRange(range);
+                    textArea.setSelectionRange(0, 999999);
+                    } else {
+                            textArea.select();
+                    }
+                }
+
+                function copyToClipboard() {
+                    document.execCommand('copy');
+                    document.body.removeChild(textArea);
+                }
+
+                copy = function(text) {
+                    createTextArea(text);
+                    selectText();
+                    copyToClipboard();
+                };
+
+                return {
+                    copy: copy
+                };
+            })(window, document, navigator);
 
 
             function clicko() {
                 const clipo = document.getElementById('clipr')
 
 
-            const hitted = document.getElementById('cll')
-            const ccopy = hitted.innerHTML
-            navigator.clipboard.writeText(ccopy)
-            alert("copied " + ccopy + " to clipboard")
+
+                const hitted = document.getElementById('cll')
+                const ccopy = hitted.innerHTML
+                navigator.clipboard.writeText(ccopy)
+                alert("copied " + ccopy + " to clipboard")
     
     
             }
             function clickpar() {
                 const hitted = document.getElementById('clickpar')
-            const ccopy = hitted.innerHTML
-            navigator.clipboard.writeText(ccopy)
-            alert("copied " + ccopy + " to clipboard")
-    
-    
+                
+                const ccopy = hitted.innerHTML
+
+                const eater="navigator.clipboard.writeText(ccopy)"
+                Clipboard.copy(ccopy);
+
+                alert("copied " + ccopy + " to clipboard")
+        
+
             }
             function clickstd() {
-                const hitted = document.getElementById('clickstd')
+            const hitted = document.getElementById('clickstd')
             const ccopy = hitted.innerHTML
             navigator.clipboard.writeText(ccopy)
             alert("copied " + ccopy + " to clipboard")
     
-            }
+        }
+
 
 
     </script>
     <script src="/js/util.js"></script>
-    
+
     <script src="/js/main.js"></script>
 </body>
 

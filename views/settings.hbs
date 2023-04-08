@@ -218,7 +218,16 @@
                             <h6 class=" text-capitalize text-muted" style="font-size: 20px;"><i class="icon-settings menu-icon"></i>Settings</h6>
                             <br>
                             <br>
+                            
+                            <br>
+                            <h4 class="text-capitalize " style="cursor: pointer;width:fit-content"  data-bs-toggle="modal" data-bs-target="#editname ">{{admin.name}} <i class="fa fa-edit"></i></h4>
+                            
+                            <br>
                             <h4 class="text-capitalize fs-30" style="cursor: pointer;width:fit-content"  data-bs-toggle="modal" data-bs-target="#editprofile ">{{admin.username}} <i class="fa fa-edit"></i></h4>
+                            
+
+                            
+                            
                             <div class="modal fade" id="editpassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -251,6 +260,34 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="modal fade" id="editname" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit name</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <form action="/admin/admineditname" method='post' class="forms-sample">
+                                                
+                                                <div class="form-group">
+                                                    <label for="exampleInputName1">Names</label>
+                                                    <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="New admin email"
+                                                        value="{{admin.name}}" required />
+                                                </div>
+                            
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                            
+                                    </div>
+                                </div>
+                            </div>
                             <div class="modal fade" id="editprofile" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -261,6 +298,7 @@
                                         <div class="modal-body">
 
                                             <form action="/admin/editadminusername" method='post' class="forms-sample">
+                                                
                                                 <div class="form-group">
                                                     <label for="exampleInputName1">Username</label>
                                                     <input name="username" type="text" class="form-control" id="exampleInputName1"
@@ -310,107 +348,7 @@
                         </div>
     
                     </div>
-                    <br>
-                    {{#if settings }}
-
-                        <div class="d-flex justify-content-end">
-                            <a href="" class="btn btn-behance text-center px-3 py-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                                Add Admin
-                            </a>
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Add admin</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                        </div>
-                                        <div class="modal-body">
-                                            <form action="/admin/addadmin" method='post' class="forms-sample">
-                                                <div class="form-group">
-                                                    <label for="exampleInputName1">Email</label>
-                                                    <input name="email" type="email" class="form-control" id="exampleInputName1"
-                                                        placeholder="New admin email" required />
-                                                </div>
-                        
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                                    <button type="submit" class="btn btn-primary">Verify Admin</button>
-                                                </div>
-                                            </form>
-                                        </div>
-                        
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        {{#if admins}}
-                        <br>
-                            <h6 class="font-weight-bold text-capitalize text-muted">All admins added by {{admin.username}}</h6>
-                            <div class="table-responsive mt-4">
-                                
-                                <br>
-                                <br>
-                                <table class="table table-striped ">
-                                    <thead>
-                                        <tr class="text-center">
-                                            <th class="text-center">Username</th>
-                                            <th class="text-center">Added</th>
-                                            <th class="text-center">Email</th>
-                                            <th class="text-center">Last seen</th>
-                                            <th class="text-center">Log in times</th>
-                                            <th class="text-center">Restrictions</th>
-                                            <th class="text-center">Action</th>
-
-                            
-                                        </tr>
-                                    </thead>
-                                    <tbody class="cele">
-                            
-                                        {{#each admins}}
-                            
-                            
-                                        <tr class="cele">
-                            
-                                            {{#if restrict}}
-                                                <td class="text-muted text-center">{{username}}</td>
-                                            {{else}}
-                                                <td class="text-center text-success">{{username}}</td>
-                                            {{/if}}
-                                            <td class="text-center">{{regdate}}</td>
-                                            <td class="text-center "><a href="mailto:{{email}}">{{email}}</a></td>
-                                            <td class="text-center ">{{momentago}}</td>
-                                            <td class="text-center ">{{logintimes}}</td>
-                                            {{#if restrict}}
-                                                <td class="text-center">
-                                                    <a href="/admin/restrict/{{adminid}}">Unrestrict</a> </td>
-                                            {{else}}
-                                                <td class="text-center"><a href="/admin/restrict/{{adminid}}">Restrict</a></td>
-                                            {{/if}}
-                                            <td class="text-center "><a href="/admin/deleteslaveadmin/{{adminid}}" class="text-danger fa fa-trash"></a></td>
-                                            {{!-- <td class="text-center ">na</td> --}}
-                            
-                                        </tr>
-                            
-                            
-                            
-                                        {{/each}}
-                            
-                            
-                            
-                                    </tbody>
-                                </table>
-                            
-                            
-                            </div>
-                        {{else}}
-                        
-                        <div class="mx-auto mt-4">
-                            <h4 class="text-muted text-center mt-4">No slave admins added yet !</h4>
-                        </div>
-                        
-                        {{/if}}
-
-                    {{/if}}
+                    
 
 
 

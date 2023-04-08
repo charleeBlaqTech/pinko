@@ -34,6 +34,7 @@
     <link rel="stylesheet" href="/vendors/datatables.net-bs4/dataTables.bootstrap4.css" />
     <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css" />
     <link rel="stylesheet" type="text/css" href="/js/select.dataTables.min.css" />
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twbs-pagination/1.4.1/jquery.twbsPagination.min.js"></script>
     <!-- End plugin css for this page -->
     <link rel="shortcut icon" href="/images/dashboard/logo-1.png" type="image/x-icon">
@@ -106,14 +107,14 @@
                         </a>
                     </li>
                     
-                    {{#if parents}}
+                    {{!-- {{#if parents}} --}}
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/getclients">
                             <i class="icon-user-circle-o menu-icon"></i>
                             <span class="menu-title">Clients</span>
                         </a>
                     </li>
-                    {{/if}}
+                    {{!-- {{/if}} --}}
 
                     <li class="nav-item">
                         <a class="nav-link" href="/admin/orders">
@@ -167,6 +168,16 @@
                             <span class="menu-title">File manager</span>
                         </a>
                     </li>
+                    {{#if admin.host}}
+
+                        <li class="nav-item ">
+                            <a class="nav-link " href="/admin/users">
+                                <i class="icon-users menu-icon"></i>
+                                <span class="menu-title">Users</span>
+                            </a>
+                        </li>
+                        
+                    {{/if}}
                     <li class="nav-item ">
                         <a class="nav-link " href="/admin/settings">
                             <i class="icon-settings menu-icon"></i>

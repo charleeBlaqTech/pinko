@@ -16,7 +16,7 @@ const homeRoutes = require('./routes/homeRoutes');
 const adminRoutes = require('./routes/adminRoutes');
 const parentRoutes = require('./routes/parentRoutes');
 const cookieParser = require('cookie-parser');
-const  setUser  = require('./middleWare/setuser');
+const  {setUser,setUserp}  = require('./middleWare/setuser');
 // const {bila} = require('./middleWare/setUser')
 // const multer = require('multer')
 // const upload = multer()
@@ -57,6 +57,7 @@ app.use(
   })
 );
 app.use(setUser);
+app.use(setUserp);
 app.use(
   fileUpload({
     // useTempFiles: true,

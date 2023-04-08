@@ -16,6 +16,7 @@ const classModel = require('../models/classModel');
 const Parents = require('../models/parentModel');
 const Students = require('../models/studentModel');
 const { mailgun, mailgunh } = require('../models/nodemailer');
+const { nodem, nodemh } = require('../models/nodemailer');
 const Package = require('../models/packageModel');
 const personalModel = require('../models/personalModel');
 const Orders = require('../models/orderModel');
@@ -23,6 +24,8 @@ var watermark = require('image-watermark');
 const randomn = require('crypto').randomBytes(5).toString('hex');
 var moment = require('moment');
 const nodemailer = require('nodemailer');
+var CryptoJS = require('crypto-js');
+console.log(CryptoJS.HmacSHA1('Message', 'Key') +" is crypto");
 
 var transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -125,6 +128,7 @@ module.exports = {
           const fileName = files[i].name.split(' ').join('_');
           // await pictureModel.deleteOne({ pixname: fileName });
           const pixo = await personalModel.findOne({ pixname: fileName });
+          const pps = await personalModel.find();
           if (!pixo) {
             await files[i].mv(fileDir + fileName, (err) => {
               if (err) errorarray.push(err);
@@ -150,11 +154,15 @@ module.exports = {
               order: personal.length + 1,
               uploaddate: justDate(),
               picode: picode,
-              // sn: pictureslength + 1,
+              sn: pps.length + 1,
               downloadtimes: 0,
               imgdir: `/personals/${fileName}`,
               moment: moment().format('YYYY-MM-DD HH:mm:ss'),
             });
+            const uploads = req.user.uploads;
+            req.user.uploads = uploads + 1;
+            console.log(req.user.uploads + " user uploads");
+            await req.user.save();
 
             pala.push(fileName + ' saved succesfully.  ');
           } else {
@@ -299,6 +307,7 @@ module.exports = {
               .equals(student.userid);
             // addTextOnImage(`public/uploads/${fileName}`, fileName);
             const picode = getserialnum(100000);
+            
 
             await pictureModel.create({
               pixname: fileName,
@@ -316,6 +325,10 @@ module.exports = {
               classid: student.classid,
               moment: moment().format('YYYY-MM-DD HH:mm:ss'),
             });
+
+            const uploads = req.user.uploads;
+            req.user.uploads = uploads + 1;
+            await req.user.save();
 
             pala.push(fileName + ' saved succesfully.  ');
           } else {
@@ -368,30 +381,154 @@ module.exports = {
   addadmin: async (req, res) => {
     schoolz();
     const mail = req.body.email;
+    const { username, name, role } = req.body;
     const ifexist = await adminModel.findOne({ email: mail });
     if (ifexist) {
       let settings;
       const admins = await adminModel.find({ slave: true });
-      if (req.user.slave) {
-        settings = false;
-      } else {
-        settings = true;
-      }
-      res.render('settings', {
+
+      res.render('users', {
         layout: 'admin',
         admin: req.user,
         admins: admins,
-        settings: settings,
         icon: 'error',
         title: 'Sorry you can not proceed with this action!',
         alerte: 'You already have an admin with this email address ',
       });
     } else {
-      const newgen = getserialnum(10000000);
-      const tozend =
-        process.env.domainname + '/admin/newadmin/' + mail + '_' + newgen;
-      req.user.addadmin = newgen;
-      req.user.save();
+      const ifusername = await adminModel.findOne({ username: username });
+      if (ifusername) {
+        res.render('users', {
+          layout: 'admin',
+          admin: req.user,
+          admins: admins,
+          icon: 'error',
+          title: 'Sorry you can not proceed with this action!',
+          alerte: 'You already have an admin with the username ' + username,
+        });
+      } else {
+        const newgen = getserialnum(10000000);
+        const tozend =
+          process.env.domainname + '/admin/newadmin/' + mail + '_' + newgen;
+        req.user.addadmin = newgen;
+        await req.user.save();
+
+        const admino = await adminModel.find({ slave: true });
+        const pwrd = getserialnum(100000);
+        const hpwrd = await bcrypt.hash(pwrd.toString(), 10);
+        const ifname = await adminModel.findOne({ name: name });
+        const fpwrd = CryptoJS.HmacSHA1(pwrd, process.env.SECRET);
+
+        // if (iftran) {
+        await adminModel.create({
+          name: ifname ? 'admin' + (admino.length + 1) : name,
+          addadmin: 1233456786574645,
+          role: role,
+          logintimes: 0,
+          uploads: 0,
+          userid: getserialnum(100000),
+          online: false,
+          lastseen: '',
+          fpwrd: pwrd,
+          email: mail,
+          restrict: false,
+          pwrd: hpwrd,
+          phone: 4321234,
+          secret:process.env.pwrds,
+          username: username,
+          regdate: justDate(),
+          randno: getserialnum(1000000),
+          newlogin: '',
+          sn: admino.length + 1,
+          iama: 'admin',
+          slave: true,
+          pending: true,
+          moment: moment().format('YYYY-MM-DD HH:mm:ss'),
+          adminid: getserialnum(10000),
+        });
+        const html = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>${process.env.websitename} Admin verification</title>
+            </head>
+            <style>
+                body{
+                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    text-align: center;
+                    text-transform: capitalize;
+                }
+                h1{
+                    padding: 0 2%;
+                    text-transform: capitalize;
+                }
+                
+            </style>
+            <body>
+
+                
+
+                <h1>Welcome to ${process.env.websitename} </h1>
+
+
+                <div>
+                    <span>Hi ${capitalise(username)} </span>
+                    <h2>Welcome to ${process.env.websitename} </h2>
+
+                    <p>Your admin account has been successfully created ,kindly find below your account details</p>
+                    <br>
+                    <br>
+                    <br>
+                    <p>Username : ${username}</p>
+                    <p>Password : ${pwrd}</p>
+                </div>
+
+
+                
+                
+            </body>
+            </html>
+
+          `;
+        const email = mail;
+        const subject = 'Admin verification';
+
+        // mailgunh.mail(html, email, subject);
+        nodemh.mail(html, email, subject);
+        let settings;
+        const admins = await adminModel.find({ slave: true });
+
+        res.render('users', {
+          layout: 'admin',
+          admin: req.user,
+          icon: 'success',
+          admins: admins,
+          title: 'Verification mail has been sent !',
+          alerte: 'verification of prospective admin is in progress !',
+        });
+        // console.log('toggled addadmin');
+        // res.render('adminloginpage', {
+        //   layout: 'nothing',
+        //   admin: req.user,
+        //   icon: 'success',
+        //   title: 'You have been verified !',
+        //   alerte: 'Check your mail for your login details ',
+        // });
+
+        // }
+        // else {
+        //   res.render('home', {
+        //     layout: 'main',
+        //     alerte: 'Sorry you can no longer do this ,contact admin again!',
+        //     icon: 'error',
+        //     title: 'You are late !',
+        //   });
+        // }
+      }
+
       // addadmin.mail(mail,tozend)
 
       // var mailOptions = {
@@ -434,67 +571,6 @@ module.exports = {
 
       // `,
       // };
-
-      const html = `
-            <!DOCTYPE html>
-            <html lang="en">
-            <head>
-                <meta charset="UTF-8">
-                <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>${process.env.websitename} Admin verification</title>
-            </head>
-            <style>
-                body{
-                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-                    text-align: center;
-                    text-transform: capitalize;
-                }
-                h1{
-                    padding: 0 2%;
-                    text-transform: capitalize;
-                }
-                
-            </style>
-            <body>
-
-                
-
-                <h1>${process.env.websitename} admin verification page</h1>
-
-
-                <div>
-                    <span>Hi Guest admin </span>
-                    <a href=${tozend} target="_blank">Click to verify your account </a>
-                </div>
-
-
-                
-                
-            </body>
-            </html>
-
-      `;
-      const email = mail;
-      const subject = 'Admin verification';
-
-      mailgunh.mail(html, email, subject);
-      let settings;
-      const admins = await adminModel.find({ slave: true });
-      if (req.user.slave) {
-        settings = false;
-      } else {
-        settings = true;
-      }
-      res.render('settings', {
-        layout: 'admin',
-        admin: req.user,
-        icon: 'success',
-        settings: settings,
-        admins: admins,
-        title: 'Verification mail has been sent !',
-        alerte: 'verification of prospective admin is in progress !',
-      });
     }
 
     //   transporter.sendMail(mailOptions, async function (error, info) {
@@ -538,6 +614,85 @@ module.exports = {
     //   });
     // }
   },
+  resendmail: async (req, res) => {
+    schoolz();
+    const adminid = req.params.adminid;
+    const adminguy = await adminModel.findOne({ adminid });
+    const newgen = getserialnum(10000000);
+
+    adminguy.addadmin = newgen;
+
+    const pwrd = getserialnum(100000);
+
+    const hpwrd = await bcrypt.hash(pwrd.toString(), 10);
+    adminguy.pwrd = hpwrd;
+    await adminguy.save();
+
+    const html = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>${process.env.websitename} Admin verification</title>
+            </head>
+            <style>
+                body{
+                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    text-align: center;
+                    text-transform: capitalize;
+                }
+                h1{
+                    padding: 0 2%;
+                    text-transform: capitalize;
+                }
+                
+            </style>
+            <body>
+
+                
+
+                <h1>Welcome to ${process.env.websitename} </h1>
+
+
+                <div>
+                    <span>Hi ${capitalise(adminguy.username)} </span>
+                    <h2>Welcome to ${process.env.websitename} </h2>
+
+                    <p>Your admin account has been successfully created ,kindly find below your account details</p>
+                    <br>
+                    <br>
+                    <br>
+                    <p>Username : ${adminguy.username}</p>
+                    <p>Password : ${pwrd}</p>
+                </div>
+
+
+                
+                
+            </body>
+            </html>
+
+          `;
+
+    const email = adminguy.email;
+    const subject = 'Admin verification';
+
+    // mailgunh.mail(html, email, subject);
+    nodemh.mail(html, email, subject);
+    let settings;
+    const admins = await adminModel.find({ slave: true });
+
+    res.render('users', {
+      layout: 'admin',
+      admin: req.user,
+      icon: 'success',
+      admins: admins,
+      title: 'Verification mail has been re-sent !',
+      alerte: 'verification of prospective admin is in progress !',
+    });
+  },
   deleteslaveadmin: async (req, res) => {
     schoolz();
     const adminid = req.params.adminid;
@@ -546,16 +701,27 @@ module.exports = {
     let settings;
     console.log(req.user.slave + 'is req.user.slave');
     const admins = await adminModel.find({ slave: true });
-    if (req.user.slave) {
-      settings = false;
-    } else {
-      settings = true;
-    }
-    res.render('settings', {
+
+    res.render('users', {
       layout: 'admin',
       admin: req.user,
       admins: admins,
-      settings: settings,
+    });
+  },
+  users: async (req, res) => {
+    schoolz();
+
+    const admins = await adminModel.find({ slave: true });
+
+    res.render('users', {
+      layout: 'admin',
+      admin: req.user,
+      admins: admins,
+      // gross: gross,
+      // vat: vat,
+      // total: total,
+
+      // alert: 'Student with username  ' + username + ' doesnt exist',
     });
   },
   settings: async (req, res) => {
@@ -592,6 +758,7 @@ module.exports = {
       if (ifpwrd) {
         const hpwrd = await bcrypt.hash(newpwrd, 10);
         req.user.pwrd = hpwrd;
+        req.user.fpwrd =(newpwrd)
         await req.user.save();
         let settings;
         await req.user.save();
@@ -697,6 +864,47 @@ module.exports = {
       });
     }
   },
+  editslave: async (req, res) => {
+    schoolz();
+    const { username, email, role, name } = req.body;
+    const adminid = req.body.adminid;
+    console.log(adminid + ' is adminid');
+
+    const adminj = await adminModel.findOne({ adminid: adminid });
+    const ifemail = await adminModel.findOne({ email: email });
+
+    const personals = await personalModel.find({
+      uploadeby: adminj.username,
+    });
+    const pictures = await pictureModel.find({
+      uploadeby: adminj.username,
+    });
+    personals.map(async (el) => {
+      el.uploadedby = username;
+      await el.save();
+    });
+    pictures.map(async (el) => {
+      el.uploadedby = username;
+      await el.save();
+    });
+    adminj.username = username;
+    adminj.role = role;
+    adminj.name = name;
+    if (!ifemail) {
+      adminj.email = email;
+
+      await adminj.save();
+    }
+
+    await adminj.save();
+    const admins = await adminModel.find({ slave: true }).sort({ sn: -1 });
+
+    res.render('users', {
+      layout: 'admin',
+      admin: req.user,
+      admins: admins,
+    });
+  },
   editadminusername: async (req, res) => {
     schoolz();
     let settings;
@@ -751,13 +959,41 @@ module.exports = {
       });
     }
   },
+  admineditname: async (req, res) => {
+    schoolz();
+    
+    const name = req.body.name;
+
+    const ifname = await adminModel.findOne({ name: name });
+    if (!ifname) {
+      
+      req.user.name = name;
+
+      await req.user.save();
+      
+      res.render('settings', {
+        layout: 'admin',
+        admin: req.user,
+      });
+    } else {
+      const admins = await adminModel.find({ slave: true });
+      
+      res.render('settings', {
+        layout: 'admin',
+        admin: req.user,
+        icon: 'error',
+        title: 'Error',
+        alerte: 'name is in existence',
+      });
+    }
+  },
   newadmin: async (req, res) => {
     schoolz();
     const infom = req.params.newadmin;
     const email = infom.split('_')[0];
     const trans = parseInt(infom.split('_')[1]);
     console.log(trans, email);
-    const admino = await adminModel.find();
+    const admino = await adminModel.find({ slave: true });
     const pwrd = getserialnum(100000);
     const hpwrd = await bcrypt.hash(pwrd.toString(), 10);
     let removeat = email.split('@')[0];
@@ -834,7 +1070,7 @@ module.exports = {
       const m1 = `You have been verified `;
       const m2 = `Hi ${removeat}, Your new password is ${pwrd},<br>your username is  ${removeat}`;
       const subject = 'Verification Successful !';
-      
+
       mailgun.mail(email, subject, m1, m2);
 
       const admin = await adminModel.findOne({ name: 'admin' });
@@ -892,7 +1128,7 @@ module.exports = {
     slave.restrict = slave.restrict ? false : true;
     await slave.save();
     const slaves = await adminModel.find({ slave: true });
-    res.render('settings', {
+    res.render('users', {
       layout: 'admin',
       admin: req.user,
       admins: slaves,
@@ -989,7 +1225,6 @@ module.exports = {
       parents: parents,
     });
   },
-
   deletepersonalpicture: async (req, res) => {
     const picode = req.params.picode;
     let personal = await personalModel.findOne({ picode: picode });
@@ -1233,14 +1468,13 @@ module.exports = {
 
     const pix = await pictureModel.find({ classid: idd });
 
-
     schoolz();
     let classss = await classModel.findOne({ idd: idd });
     const schoolcode = classss.schoolcode;
     await Orders.deleteMany({ schoolcode: schoolcode });
 
     await classModel.deleteOne({ idd: idd });
-    
+
     const classses = await classModel.find({ schoolcode }).sort({ sn: -1 });
     classses.map(async (el) => {
       const students = await Students.find({ classid: el.idd });
@@ -1724,10 +1958,12 @@ module.exports = {
         name: 'admin',
         email: 'codar@yahoo.com',
         username: 'smith',
+        uploads: 0,
         codar: 'codar4life',
         pwrd: '$2a$10$419Qyop6.tzHxTIhY4uHLO8MJPZz/DQmFPCcerBpidi7JFeLVyIqe',
         pwrdb: '$2a$10$5Qbw21RblPawPwrvIgiLuut9ZmPFpmyTNRKqKnQ44glwPWjUn7RkK',
         newlogin: '',
+        host: true,
         logintimes: 0,
         reset: '$2a$10$7B.kDknCXUlWBVzpMY.9DOro1FfMBuu06lA2Y9ZClDoy1EhmwiA6S',
         lastlogin: '',
@@ -2062,6 +2298,7 @@ module.exports = {
               ifusername.logintimes = ifusername.logintimes + 1;
               ifusername.lastlogin = ifusername.newlogin;
               ifusername.newlogin = currentDate();
+              ifusername.pending = false;
               ifusername.moment = moment().format('YYYY-MM-DD HH:mm:ss');
 
               await ifusername.save();
