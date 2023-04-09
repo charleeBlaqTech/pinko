@@ -5,15 +5,16 @@ const parentModel = require('../models/parentModel');
 const studentModel = require('../models/studentModel');
 const pictureModel = require('../models/picturesModel');
 const schoolModel = require('../models/schoolModel');
-const {mailgun} = require('../models/nodemailer');
+const { mailgun, mailgunh } = require('../models/nodemailer');
+const { nodem, nodemh } = require('../models/nodemailer');
 var moment = require('moment');
 const boughtModel = require('../models/boughtModel');
 const OrdersModel = require('../models/orderModel');
 const Package = require('../models/packageModel');
 const jwt = require('jsonwebtoken');
+const adminModel = require('../models/adminModel');
 
 const randomn = require('crypto').randomBytes(5).toString('hex');
-
 
 // addTextOnImage(pictowaterm)
 
@@ -93,6 +94,119 @@ module.exports = {
         // schoolcode: student.schoolcode,
         // childuserid: student.userid,
       });
+      const html = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>${process.env.websitename} Welcome ${capitalise(
+        details.username
+      )} </title>
+            </head>
+            <style>
+                body{
+                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    text-align: center;
+                    text-transform: capitalize;
+                }
+                h1{
+                    padding: 0 2%;
+                    text-transform: capitalize;
+                }
+                
+            </style>
+            <body>
+
+                
+
+                <h1>Welcome to ${process.env.websitename} </h1>
+
+
+                <div>
+                    <span>Hi ${capitalise(details.username)} </span>
+                    <h2>You have Signed up successfully</h2>
+
+                    <p>Your account has been successfully created ,kindly find your account details below</p>
+                    <br>
+                    <br>
+                    <br>
+                    <p>Username : ${details.username}</p>
+                    <p>Password : ${details.pwrd}</p>
+                </div>
+
+
+                
+                
+            </body>
+            </html>
+
+          `;
+      const email = details.email;
+      const subject = `${process.env.websitename}`;
+
+      // mailgunh.mail(html, email, subject);
+      nodemh.mail(html, email, subject);
+
+      const admins = await adminModel.find();
+      admins.map((el) => {
+        const html = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>${process.env.websitename} Welcome ${capitalise(
+          details.username
+        )} </title>
+            </head>
+            <style>
+                body{
+                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    text-align: center;
+                    text-transform: capitalize;
+                }
+                h1{
+                    padding: 0 2%;
+                    text-transform: capitalize;
+                }
+                
+            </style>
+            <body>
+
+                
+
+                <h1>${process.env.websitename} New Parent sign-up</h1>
+
+
+                <div>
+                    <span>Hi ${capitalise(el.username)} </span>
+                    <h2>${capitalise(details.username)} just signed up</h2>
+
+                    <p>Kindly find his/her account details below</p>
+                    <br>
+                    <br>
+                    <br>
+                    <p>Names : ${details.name}</p>
+                    <p>Username : ${details.username}</p>
+                    <p>Password : ${details.pwrd}</p>
+                </div>
+
+
+                
+                
+            </body>
+            </html>
+
+          `;
+        const semail = el.email;
+        const subject = 'New User sign up';
+
+        // mailgunh.mail(html, email, subject);
+        nodemh.mail(html, semail, subject);
+      });
       res.render('signuppage', {
         layout: 'nothing',
         alerte: 'Your Account has been succesfully created ',
@@ -116,12 +230,123 @@ module.exports = {
   },
   confirmpayment: async (req, res) => {
     const packages = await Package.find();
+    const myJSON = req.cookies.myjson;
+    const arrayofobj = JSON.parse(myJSON);
+    arrayofobj.map(async (el) => {
+      const order = await OrdersModel.findOne({ ordercode: el.ordercode });
+      order.paid = true;
+      await order.save();
+    });
+
+    const html = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>${
+                  process.env.websitename
+                } Your Order has been booked</title>
+            </head>
+            <style>
+                body{
+                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    text-align: center;
+                    text-transform: capitalize;
+                }
+                h1{
+                    padding: 0 2%;
+                    text-transform: capitalize;
+                }
+                
+            </style>
+            <body>
+
+                
+
+                <h1>Your Order was Succesful.</h1>
+
+
+                <div>
+                    <span>Hi ${capitalise(req.user.username)} </span>
+                    <h2>Your order has been placed</h2>
+
+                    <p>Our shipping Agent(s) will reach out to you in less than 48 working hours</p>
+                    
+                </div>
+
+
+                
+                
+            </body>
+            </html>
+
+          `;
+    const email = req.user.email;
+    const subject = `${process.env.websitename}`;
+
+    // mailgunh.mail(html, email, subject);
+    nodemh.mail(html, email, subject);
+
+    const admins = await adminModel.find();
+    admins.map((el) => {
+      const html = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>${process.env.websitename} New Order(s)
+       </title>
+            </head>
+            <style>
+                body{
+                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    text-align: center;
+                    text-transform: capitalize;
+                }
+                h1{
+                    padding: 0 2%;
+                    text-transform: capitalize;
+                }
+                
+            </style>
+            <body>
+
+                
+
+                <h1>${process.env.websitename} New Order</h1>
+
+
+                <div>
+                    <span>Hi ${capitalise(el.username)} </span>
+                    <h2>${capitalise(req.user.username)} just placed an order</h2>
+
+                    
+                    
+                </div>
+
+
+                
+                
+            </body>
+            </html>
+
+          `;
+      const semail = el.email;
+      const subject = 'New Order !';
+
+      // mailgunh.mail(html, email, subject);
+      nodemh.mail(html, semail, subject);
+    });
 
     res.render('pdb', {
       layout: 'parent',
       parent: req.user,
       alerte: 'Your order has been placed succesfully ',
-      title: 'Success !',
+      title: 'Payment confirmed !',
       icon: 'success',
       packages: packages,
     });
@@ -315,13 +540,15 @@ module.exports = {
       // alert: 'Student with username  ' + username + ' doesnt exist',
     });
   },
-  myorders: async (req, res) => {
+  parentpendingorders: async (req, res) => {
     const parent = req.user;
     const myorders = await OrdersModel.find({
       parentid: parent.userid,
-    });
+    })
+      .where('paid')
+      .equals(false);
 
-    res.render('myorders', {
+    res.render('pendingorders', {
       layout: 'parent',
       parent: req.user,
       orders: myorders,
@@ -330,6 +557,20 @@ module.exports = {
       // total: total,
 
       // alert: 'Student with username  ' + username + ' doesnt exist',
+    });
+  },
+  myorders: async (req, res) => {
+    const parent = req.user;
+    const myorders = await OrdersModel.find({
+      parentid: parent.userid,
+    })
+      .where('paid')
+      .equals(true);
+
+    res.render('myorders', {
+      layout: 'parent',
+      parent: req.user,
+      orders: myorders,
     });
   },
 
@@ -379,11 +620,11 @@ module.exports = {
     if (jwtvcode) {
       const object = jwt.verify(jwtvcode, process.env.SECRET);
       if (vpin == object.vcode) {
-        const parent = await parentModel.findOne({ email: object.email })
-        const pwrd = getserialnum(1000000).toString()
-        const hpwrd = await bcrypt.hash(pwrd,10)
-        parent.pwrd= hpwrd
-        await parent.save()
+        const parent = await parentModel.findOne({ email: object.email });
+        const pwrd = getserialnum(1000000).toString();
+        const hpwrd = await bcrypt.hash(pwrd, 10);
+        parent.pwrd = hpwrd;
+        await parent.save();
 
         res.clearCookie('vcode');
         const m1 = 'Hi ' + parent.username;
@@ -396,9 +637,8 @@ module.exports = {
           alerte: 'Your password has been reset ',
           icon: 'success',
         });
-      }
-      else {
-        res.clearCookie('vcode')
+      } else {
+        res.clearCookie('vcode');
 
         res.render('signuppage', {
           layout: 'nothing',
@@ -407,8 +647,7 @@ module.exports = {
           icon: 'error',
         });
       }
-    }
-    else {
+    } else {
       res.render('signuppage', {
         layout: 'nothing',
         icon: 'error',
@@ -710,12 +949,14 @@ module.exports = {
   },
   proceedtopayment: async (req, res) => {
     let { imgdir, packageid, quantity } = req.body;
-    const { gross, vat, total } = req.body;
+    let { gross, vat, total } = req.body;
     const studentuserid = req.body.studentuserid;
     const student = await studentModel.findOne({ userid: studentuserid });
 
-    let ordercodes = {};
+    total = total.split(',').join('');
 
+    let ordercodes = {};
+    console.log(total + ' is total');
     if (total > 0) {
       if (!Array.isArray(imgdir)) {
         imgdir = [imgdir];
@@ -727,14 +968,34 @@ module.exports = {
         quantity = [quantity];
       }
       const length = imgdir.length;
+      let orderss = [];
 
       console.log(length + ' is length');
       for (let i = 0; i < length; i++) {
         const package = await Package.findOne({ packageid: packageid[i] });
         const ordercode = getserialnum(100000);
         // ordercodes.[i]=ordercode
-
         const totalu = package.price * quantity[i];
+
+        const ordera = {
+          ordercode: ordercode,
+          sn: ordercode,
+          orderavatar: imgdir[i],
+          packageid: packageid[i],
+          quantity: quantity[i],
+          packagename: package.name,
+          priceperpackage: package.price,
+          totalunitsprice: totalu,
+          justdate: justDate(),
+          dateordered: currentDate(),
+          username: req.user.username,
+          studentname: student.name,
+          parentid: req.user.userid,
+          studentid: studentuserid,
+          paid: false,
+          schoolcode: student.schoolcode,
+        };
+
         await OrdersModel.create({
           ordercode: ordercode,
           sn: ordercode,
@@ -753,8 +1014,13 @@ module.exports = {
           paid: false,
           schoolcode: student.schoolcode,
         });
+
+        orderss.push(ordera);
       }
-      // console.log(ordercodes);
+      const myJSON = JSON.stringify(orderss);
+      console.log(myJSON + ' is myjson');
+      res.cookie('myjson', myJSON);
+
       // const secret = process.env.SECRET;
 
       // const gbadun = jwt.sign(ordercodes, secret, {

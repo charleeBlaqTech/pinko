@@ -1,4 +1,4 @@
-<div class="main-panels " >
+<div class="main-panels ">
     <div class="content-wrapper ">
         <div class="container">
             <div class="col-lg-12 ">
@@ -6,7 +6,7 @@
                     <div class="card-body">
                         <div class="col-12 col-xl-8 mb-xl-0">
                             {{!-- <h3 class="font-weight-bold text-capitalize ">{{school.schoolname}}</h3> --}}
-                            <h6 class="font-weight-bold text-capitalize text-muted">~Booked Orders~</h6>
+                            <h6 class="font-weight-bold text-capitalize text-muted">~Pending Orders~</h6>
                             {{!-- <h6 class="font-weight-normal text-capitalize text-muted">Registered
                                 {{school.regdate}}</h6> --}}
                             {{!-- <h6 class="font-weight-normal mb-0">All systems are running smoothly!</h6> --}}
@@ -16,7 +16,7 @@
                             Add Class
                         </a> --}}
 
-                        
+
                         <br>
                         <div class="row px-3">
 
@@ -34,7 +34,7 @@
                                             <th>Quantity</th>
                                             <th>Unit Price <small class="text-muted">AED</small></th>
                                             <th>Gross <small class="text-muted">AED</small></th>
-                                            
+
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -45,7 +45,8 @@
 
                                         <tr class="text-center">
                                             <td class="text-capitalize">
-                                                {{!-- <input type="checkbox"  value={{ordercode}} name="ordercode" id="lov{{@index}}"> --}}
+                                                {{!-- <input type="checkbox" value={{ordercode}} name="ordercode"
+                                                    id="lov{{@index}}"> --}}
                                                 <label for="lov{{@index}}">Item {{ @index }}</label>
                                             </td>
                                             <td>
@@ -62,7 +63,8 @@
                                             <td>{{quantity}}</td>
                                             <td><span class="tofix">{{priceperpackage}}</span></td>
                                             <td><span class="tofix">{{totalunitsprice}}</span></td>
-                                            <td><a href="/parent/deletefromparent/{{ordercode}}"><i class="text-danger fa fa-trash"></i></a></td>
+                                            <td><a href="/parent/deletefromparent/{{ordercode}}"><i
+                                                        class="text-danger fa fa-trash"></i></a></td>
                                             {{!-- <td>na</td> --}}
 
                                         </tr>
@@ -81,7 +83,7 @@
 
 
                             {{else}}
-                            <h4 class="m-auto text-center text-muted">No Booked Orders yet !</h4>
+                            <h4 class="m-auto text-center text-muted">No Pending Orders !</h4>
                             {{/if}}
                         </div>
 

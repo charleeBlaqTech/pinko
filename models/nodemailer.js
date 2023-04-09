@@ -117,8 +117,8 @@ function remove_score(x) {
 var transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: process.env.PUSER,
-    pass: process.env.PASS,
+    user: process.env.CODARUSER,
+    pass: process.env.CODARPASS,
   },
 });
 const randomn = require('crypto').randomBytes(5).toString('hex');

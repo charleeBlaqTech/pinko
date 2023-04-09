@@ -11,6 +11,10 @@
 
   function tryr() {
     var sum = 0;
+    const options = {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    };
 
     $('.prices').each(function () {
       var currentRow = $(this).closest('tr');
@@ -23,15 +27,15 @@
       //   usero.push($(this).attr('data-x'))
     });
     
-    $('.totals').html(sum.toFixed(2));
+    $('.totals').html(sum.toLocaleString('en',options));
     const vat = Math.ceil(0.1 * sum)
-    $('.gross').val(sum.toFixed(2));
+    $('.gross').val(sum.toLocaleString('en',options));
 
-    $('.vat').html(vat.toFixed(2));
-    $('.vati').val(vat.toFixed(2));
-    const anse = (vat + sum).toFixed(2)
+    $('.vat').html(vat.toLocaleString('en',options));
+    $('.vati').val(vat.toLocaleString('en',options));
+    const anse = (vat + sum).toLocaleString('en',options)
     $('.rtotal').html(anse);
-    $('.ftotal').val(anse).toFixed(2)
+    $('.ftotal').val(anse).toLocaleString('en',options)
     const throwd = document.querySelectorAll('.throws');
     if (anse == 0) {
       const throwl = document.getElementsByClassName("throws")

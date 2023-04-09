@@ -37,6 +37,7 @@ router.get(
   checkUser,
   adminControllers.uploadedpictures
 );
+
 router.get('/delete/:userid', checkUser, adminControllers.deletestudent);
 router.get('/schoolcode/:hashcode', checkUser, adminControllers.hashcode);
 router.get('/packages', checkUser, adminControllers.packages);

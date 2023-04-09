@@ -11,6 +11,7 @@ router.post('/editusername', checkUserp, parentControllers.editusername);
 
 router.get('/prg', parentprg.signup);
 router.post('/editpassword', checkUserp, parentControllers.editpassword);
+router.get('/parentpendingorders', checkUserp, parentControllers.parentpendingorders);
 
 router.post('/parentsignup', authparent);
 router.post('/verifymailforgotpwrd', parentControllers.verifymailforgotpwrd);
