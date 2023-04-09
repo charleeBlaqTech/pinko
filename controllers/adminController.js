@@ -2444,7 +2444,7 @@ module.exports = {
     }
   },
   getschools: async (req, res) => {
-    // schoolz();
+    schoolz();
     const schoole = await schoolModel.find().sort({ sn: -1 });
 
     schoole.map(async (el) => {
