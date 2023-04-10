@@ -10,7 +10,6 @@ const studentModel = require('../models/studentModel');
 const { addadmin } = require('../models/nodemailer');
 const pictureModel = require('../models/picturesModel');
 const { Sibe } = require('../models/sib');
-// const Model = require('../models/picturesModel');
 const schoolModel = require('../models/schoolModel');
 const classModel = require('../models/classModel');
 const Parents = require('../models/parentModel');
@@ -20,12 +19,11 @@ const { nodem, nodemh } = require('../models/nodemailer');
 const Package = require('../models/packageModel');
 const personalModel = require('../models/personalModel');
 const Orders = require('../models/orderModel');
-var watermark = require('image-watermark');
 const randomn = require('crypto').randomBytes(5).toString('hex');
 var moment = require('moment');
 const nodemailer = require('nodemailer');
 var CryptoJS = require('crypto-js');
-console.log(CryptoJS.HmacSHA1('Message', 'Key') +" is crypto");
+console.log(CryptoJS.HmacSHA1('Message', 'Key') + ' is crypto');
 
 var transporter = nodemailer.createTransport({
   service: 'gmail',
@@ -102,13 +100,67 @@ const getTime = (date) => {
   }
   return result;
 };
+async function resizeImage(fileName) {
+  try {
+    console.log(fileName + ' from sharp');
+    await sharp('./public/uploads/' + fileName)
+      .resize({
+        width: 550,
+        height: 750,
+        fit: 'contain',
+        background: { r: 255, g: 255, b: 255, alpha: 1 },
+      })
+      .toFormat('jpeg', { mozjpeg: true })
+      .composite([
+        {
+          input: './public/images/logo-1.png',
+          top: 50,
+          left: 50,
+        },
+      ])
+      .toFile('./public/sharp/' + fileName);
+  } catch (error) {
+    console.log(error);
+  }
+  return;
+}
+async function resizeImagepack(fileName) {
+  try {
+    console.log(fileName + ' from sharp');
+    await sharp('./public/packages/' + fileName)
+      .resize({
+        width: 550,
+        height: 750,
+        fit: 'contain',
+        background: { r: 255, g: 255, b: 255, alpha: 1 },
+      })
+      .toFormat('jpeg', { mozjpeg: true })
 
-console.log(getTime('2023-04-02 15:21:51')); // 3 days ago
-console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
-// getTime('2023-02-28 12:21:51'); // a week ago
-// getTime('2023-02-07 12:21:51'); // a month ago
+      .toFile('./public/sharpack/' + fileName);
+  } catch (error) {
+    console.log(error);
+  }
+  return;
+}
+async function resizeImagep(fileName) {
+  try {
+    console.log(fileName + ' from sharp');
+    await sharp('./public/personals/' + fileName)
+      .resize({
+        width: 550,
+        height: 750,
+        fit: 'contain',
+        background: { r: 255, g: 255, b: 255, alpha: 1 },
+      })
+      .toFormat('jpeg', { mozjpeg: true })
 
-// sibe("samuelonwodi@yahoo.com", "testing", "4k bitches");
+      .toFile('./public/sharpp/' + fileName);
+  } catch (error) {
+    console.log(error);
+  }
+  return;
+}
+// resizeImage("omahd.jpg");
 
 module.exports = {
   personalpictures: async (req, res) => {
@@ -130,9 +182,15 @@ module.exports = {
           const pixo = await personalModel.findOne({ pixname: fileName });
           const pps = await personalModel.find();
           if (!pixo) {
-            await files[i].mv(fileDir + fileName, (err) => {
-              if (err) errorarray.push(err);
-            });
+            await files[i].mv(
+              fileDir + fileName,
+              async (err) => {
+                await resizeImagep(fileName);
+              },
+              (err) => {
+                if (err) errorarray.push(err);
+              }
+            );
 
             await personalModel.deleteOne({ pixname: fileName });
 
@@ -156,12 +214,12 @@ module.exports = {
               picode: picode,
               sn: pps.length + 1,
               downloadtimes: 0,
-              imgdir: `/personals/${fileName}`,
+              imgdir: `/sharpp/${fileName}`,
               moment: moment().format('YYYY-MM-DD HH:mm:ss'),
             });
-            const uploads = req.user.uploads;
+            const uploads = await req.user.uploads;
             req.user.uploads = uploads + 1;
-            console.log(req.user.uploads + " user uploads");
+            console.log(req.user.uploads + ' user uploads');
             await req.user.save();
 
             pala.push(fileName + ' saved succesfully.  ');
@@ -296,10 +354,15 @@ module.exports = {
           // await pictureModel.deleteOne({ pixname: fileName });
           const pixo = await pictureModel.findOne({ pixname: fileName });
           if (!pixo) {
-            await files[i].mv(fileDir + fileName, (err) => {
-              if (err) errorarray.push(err);
-            });
-
+            await files[i].mv(
+              fileDir + fileName,
+              async (err) => {
+                await resizeImage(fileName);
+              },
+              (err) => {
+                if (err) errorarray.push(err);
+              }
+            );
             let allpix = await pictureModel.find();
             await pictureModel
               .deleteOne({ pixname: fileName })
@@ -307,7 +370,6 @@ module.exports = {
               .equals(student.userid);
             // addTextOnImage(`public/uploads/${fileName}`, fileName);
             const picode = getserialnum(100000);
-            
 
             await pictureModel.create({
               pixname: fileName,
@@ -319,14 +381,16 @@ module.exports = {
               schoolcode: student.schoolcode,
               class: student.classs,
               uploaddate: justDate(),
-              imgdir: `/uploads/${fileName}`,
+              imgdir: '/sharp/' + fileName,
               downloadtimes: 0,
               studentuserid: student.userid,
               classid: student.classid,
               moment: moment().format('YYYY-MM-DD HH:mm:ss'),
+              uploads: getserialnum(10000000),
             });
 
-            const uploads = req.user.uploads;
+            const uploads = await req.user.uploads;
+
             req.user.uploads = uploads + 1;
             await req.user.save();
 
@@ -434,7 +498,7 @@ module.exports = {
           restrict: false,
           pwrd: hpwrd,
           phone: 4321234,
-          secret:process.env.pwrds,
+          secret: process.env.pwrds,
           username: username,
           regdate: justDate(),
           randno: getserialnum(1000000),
@@ -758,7 +822,7 @@ module.exports = {
       if (ifpwrd) {
         const hpwrd = await bcrypt.hash(newpwrd, 10);
         req.user.pwrd = hpwrd;
-        req.user.fpwrd =(newpwrd)
+        req.user.fpwrd = newpwrd;
         await req.user.save();
         let settings;
         await req.user.save();
@@ -961,23 +1025,22 @@ module.exports = {
   },
   admineditname: async (req, res) => {
     schoolz();
-    
+
     const name = req.body.name;
 
     const ifname = await adminModel.findOne({ name: name });
     if (!ifname) {
-      
       req.user.name = name;
 
       await req.user.save();
-      
+
       res.render('settings', {
         layout: 'admin',
         admin: req.user,
       });
     } else {
       const admins = await adminModel.find({ slave: true });
-      
+
       res.render('settings', {
         layout: 'admin',
         admin: req.user,
@@ -1724,18 +1787,24 @@ module.exports = {
         } catch (err) {
           console.log(err + ' couldnt delete duplicate from folder');
         }
-        await files.mv(fileDir + fileName, (err) => {
-          console.log(
-            err + ' couldnt move file ' + fileName + ' to ' + fileDir
-          );
-          if (err) {
+        await files.mv(
+          fileDir + fileName,
+          async (err) => {
+            await resizeImagepack(fileName);
+          },
+          (err) => {
             console.log(
               err + ' couldnt move file ' + fileName + ' to ' + fileDir
             );
-          }
+            if (err) {
+              console.log(
+                err + ' couldnt move file ' + fileName + ' to ' + fileDir
+              );
+            }
 
-          if (err) errorarray.push(err);
-        });
+            if (err) errorarray.push(err);
+          }
+        );
       }
       const fileexist = await Package.findOne({
         packimg: '/packages/' + fileName,
@@ -1747,7 +1816,7 @@ module.exports = {
         package.price = price;
         await package.save();
         if (files) {
-          package.packimg = '/packages/' + fileName;
+          package.packimg = '/sharpack/' + fileName;
           await package.save();
         }
 
@@ -1840,9 +1909,15 @@ module.exports = {
     const ifp = await Package.findOne({ packimg: '/packages/' + fileName });
     if (!ifp) {
       const errorarray = [];
-      await files.mv(fileDir + fileName, (err) => {
-        if (err) errorarray.push(err);
-      });
+      await files.mv(
+        fileDir + fileName,
+        async (err) => {
+          await resizeImagepack(fileName);
+        },
+        (err) => {
+          if (err) errorarray.push(err);
+        }
+      );
       if (errorarray.length < 4) {
         await Package.create({
           name: name,
@@ -1850,7 +1925,7 @@ module.exports = {
           price: price,
           date: justDate(),
           packageid: getserialnum(100000),
-          packimg: '/packages/' + fileName,
+          packimg: '/sharpack/' + fileName,
         });
 
         const packages = await Package.find();

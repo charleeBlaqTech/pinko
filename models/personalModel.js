@@ -39,6 +39,7 @@ const PersonalSchema = new mongoose.Schema([
     order: Number,
     moment: String,
     momentago: String,
+    uploads:Number
   },
 ]);
 

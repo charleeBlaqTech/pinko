@@ -23,7 +23,10 @@ const adminSchema = new mongoose.Schema([
     lastseen: {
       type: String,
     },
-    uploads:Number,
+    uploads:{
+      type: Number,
+      default: 0
+    },
     email: {
       type: String,
       required: [true, 'email required'],
@@ -78,6 +81,7 @@ const adminSchema = new mongoose.Schema([
       default: true,
     },
     adminid: Number,
+    
   },
 ]);
 
