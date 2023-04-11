@@ -7,7 +7,8 @@
         </div>
 
         <div class="container mt-3 p-3 mx-3">
-            <a href="" class="btn btn-behance px-3 py-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <a title="click to add class" href="" class="ttooltip btn btn-behance px-3 py-2" data-bs-toggle="modal"
+                data-bs-target="#exampleModal">
                 Add Class
             </a>
 
@@ -45,50 +46,54 @@
 
                 <div class="changebg">
                     {{#each classses}}
-                        <label class="bgh px-4 py-3 w-100 rounded-lg text-white mt-3 d-flex justify-content-between align-items-center">
-                            <div >
-                                <h3 class=" text-capitalize text-white font-weight-500 cursor-pointer" data-bs-toggle="modal" data-bs-target="#exampleModal{{@index}}">
+                    <label title="registered on {{created}}" class="ttooltip bgh px-4 py-3 w-100 rounded-lg text-white mt-3 d-flex justify-content-between align-items-center">
+                        <div>
+                            <h3 class=" text-capitalize text-white font-weight-500 cursor-pointer"
+                                data-bs-toggle="modal" data-bs-target="#exampleModal{{@index}}">
                                 {{name}}
                                 <i class="fas fa-edit"></i>
-                                
-                                
-                                </h3>
-                                <a href="/admin/getstudents/{{idd}}" class="text-white text-decoration-none">
-                                    &#8594; {{students}} Student(s)</a>
-                            </div>
 
-                            <a href="/admin/deleteclass/{{idd}}" class="text-danger text-decoration-none">
-                                <i class="fa fa-trash "></i> </a>
-                        </label>
 
-                        <div class="modal fade" id="exampleModal{{@index}}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="exampleModalLabel">Edit Class name</h5>
-                                        
-                                    </div>
-                        
-                                    <div class="modal-body">
-                                        <form action="/admin/editclass" class="forms-sample" method="post">
-                                            <div class="form-group">
-                                                {{!-- <label for="exampleInputName1">Class</label> --}}
-                                                <input type="text" value="{{name}}" name="classs" class=" text-capitalization form-control" id="exampleInputName1"
-                                                    placeholder="Add class" required/>
-                                                    <input type="hidden" name="idd" value={{idd}}>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">
-                                                Save
-                                            </button>
-                                        </form>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                        
-                                </div>
-                            </div>
+                            </h3>
+                            <a href="/admin/getstudents/{{idd}}" class="text-white text-decoration-none">
+                                &#8594; {{students}} Student(s)</a>
                         </div>
 
-                        
+                        <a title="delete class" href="/admin/deleteclass/{{idd}}" class="ttooltip text-danger text-decoration-none">
+                            <i class="fa fa-trash "></i> </a>
+                    </label>
+
+                    <div class="modal fade" id="exampleModal{{@index}}" tabindex="-1"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit Class name</h5>
+
+                                </div>
+
+                                <div class="modal-body">
+                                    <form action="/admin/editclass" class="forms-sample" method="post">
+                                        <div class="form-group">
+                                            {{!-- <label for="exampleInputName1">Class</label> --}}
+                                            <input type="text" value="{{name}}" name="classs"
+                                                class=" text-capitalization form-control" id="exampleInputName1"
+                                                placeholder="Add class" required />
+                                            <input type="hidden" name="idd" value={{idd}}>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary">
+                                            Save
+                                        </button>
+                                    </form>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+
 
 
 

@@ -30,7 +30,7 @@
             <br>
             <br>
             
-            <a href="" class="btn btn-behance ml-3 py-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <a title="click to register school" href="" class="ttooltip btn btn-behance ml-3 py-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Add School
             </a>
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -116,18 +116,18 @@
                                 <div style="background-color: transparent;">
                                     
                                 
-                                    <a class="d-none d-lg-block adresso" href="/admin/getclasses/{{schoolcode}}">{{address}}</a>
+                                    {{!-- <a class="d-none d-lg-block adresso" href="/admin/getclasses/{{schoolcode}}"></a> --}}
                                     
-                                    <a href="/admin/getclasses/{{schoolcode}}" class="text-white text-decoration-none">&#8594;Go to Classes
+                                    <a href="/admin/getclasses/{{schoolcode}}" class="ttooltip text-white text-decoration-none" title="{{nclass}} class(es)">&#8594;Go to Classes
                                     </a>
                                 </div>
                                 {{#if students}}
-                                    <p class="">{{students}} student(s)</p>
+                                    <p class="ttooltip" title="{{students}} student(s)">{{students}} student(s)</p>
                                 {{else}}
                                     <p class="">No students yet !</p>
                                 {{/if}}
-                                <a href="mailto:{{email}}" class="text-light fa fa-envelope" target="_blank">
-                                <a href="/admin/deleteschool/{{schoolcode}}" class="d-none d-lg-block text-danger fa fa-trash">
+                                <a title="click to send mails"  href="mailto:{{email}}" class="ttooltip text-light fa fa-envelope" target="_blank">
+                                <a title="delete school" href="/admin/deleteschool/{{schoolcode}}" class="ttooltip d-none d-lg-block text-danger fa fa-trash">
                                 </a>
                             </div>
                         </div>

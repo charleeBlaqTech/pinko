@@ -654,46 +654,55 @@ module.exports = {
     }
   },
   finalresetpassword: async (req, res) => {
-    const { vpin } = req.body;
-    const jwtvcode = req.cookies.vcode;
+    
 
-    if (jwtvcode) {
-      const object = jwt.verify(jwtvcode, process.env.SECRET);
-      if (vpin == object.vcode) {
-        const parent = await parentModel.findOne({ email: object.email });
-        const pwrd = getserialnum(1000000).toString();
-        const hpwrd = await bcrypt.hash(pwrd, 10);
-        parent.pwrd = hpwrd;
-        await parent.save();
+    try{
+      const { vpin } = req.body;
+      const jwtvcode = req.cookies.vcode;
 
-        res.clearCookie('vcode');
-        const m1 = 'Hi ' + parent.username;
-        const m2 = 'Your Reset password is ' + pwrd;
-        const subject = 'Password Resset Successfull';
-        mailgun.mail(object.email, subject, m1, m2);
-        res.render('signuppage', {
-          layout: 'nothing',
-          title: 'Check your mail for reset password!',
-          alerte: 'Your password has been reset ',
-          icon: 'success',
-        });
+      if (jwtvcode) {
+        const object = jwt.verify(jwtvcode, process.env.SECRET);
+        if (vpin == object.vcode) {
+          const parent = await parentModel.findOne({ email: object.email });
+          const pwrd = getserialnum(1000000).toString();
+          const hpwrd = await bcrypt.hash(pwrd, 10);
+          parent.pwrd = hpwrd;
+          await parent.save();
+
+          res.clearCookie('vcode');
+          const m1 = 'Hi ' + parent.username;
+          const m2 = 'Your Reset password is ' + pwrd;
+          const subject = 'Password Resset Successfull';
+          mailgun.mail(object.email, subject, m1, m2);
+          res.render('signuppage', {
+            layout: 'nothing',
+            title: 'Check your mail for reset password!',
+            alerte: 'Your password has been reset ',
+            icon: 'success',
+          });
+        } else {
+          res.clearCookie('vcode');
+
+          res.render('signuppage', {
+            layout: 'nothing',
+            title: 'Incorrect !',
+            alerte: 'You have entered an incorrect code',
+            icon: 'error',
+          });
+        }
       } else {
-        res.clearCookie('vcode');
-
         res.render('signuppage', {
           layout: 'nothing',
-          title: 'Incorrect !',
-          alerte: 'You have entered an incorrect code',
           icon: 'error',
+          alerte: 'Password recovery expired',
+          title: 'Verification failed ! ',
         });
       }
-    } else {
-      res.render('signuppage', {
-        layout: 'nothing',
-        icon: 'error',
-        alerte: 'Password recovery expired',
-        title: 'Verification failed ! ',
-      });
+      
+    }
+    catch(err){
+      console.log(err.message)
+      res.redirect('/wrong')
     }
   },
   emailupdate: async (req, res) => {

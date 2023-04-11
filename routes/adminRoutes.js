@@ -24,6 +24,8 @@ router.get(
   adminControllers.viewparentid
 );
 router.post('/editparentfromadmin', checkUser, adminControllers.editparentfromadmin);
+router.post('/editship', checkUser, adminControllers.editship);
+router.post('/addstudent', checkUser, adminControllers.addstudent);
 router.post('/addstudent', checkUser, adminControllers.addstudent);
 router.post('/personalpictures', checkUser, adminControllers.personalpictures);
 router.post('/updatepending', checkUser, adminControllers.updatepending);

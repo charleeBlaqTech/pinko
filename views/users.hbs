@@ -491,16 +491,17 @@ ul li .descr {
 
 
                 <div class="d-flex justify-content-start">
-                    <a href="" class="btn btn-behance text-center px-3 py-2" data-bs-toggle="modal"
+                    <a title="add new user " href="" class="ttooltip btn btn-behance text-center px-3 py-2" data-bs-toggle="modal"
                         data-bs-target="#exampleModal">
                         Add User
                     </a>
+
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                         aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+                                    <h5 class="ttooltip modal-title" id="exampleModalLabel">Add User</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal"
                                         aria-label="Close"></button>
                                 </div>
@@ -571,8 +572,65 @@ ul li .descr {
 
 
                             <tr class="cele">
-                                <td class="hanku text-center text-capitalize fs-lg-30" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModalabout{{@index}}" style="cursor: pointer;"><a class="link link--kukuri" href="#" data-letters={{name}}>{{name}}</a></td>
+                                <td title="click to learn more" class="ttooltip hanku text-center text-capitalize fs-lg-30" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModalaboute{{@index}}" style="cursor: pointer;"><a class="link link--kukuri" href="#" data-letters={{name}}>{{name}}</a>
+                                </td>
+                                    <div class="modal fade" id="exampleModalaboute{{@index}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                        aria-hidden="true">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    {{!-- <h5 class="modal-title" id="exampleModalLabel">More details</h5> --}}
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body text-center">
+                                                    <input type="hidden" value={{adminid}} name="adminid" />
+                                    
+                                                    <div class="ttbody px-0">
+                                                        <h1 class="text-capitalize">{{name}}</h1>
+                                                        <ul>
+                                                            <div class="d-flex px-0 mx-auto" style="word-break: keep-all;">
+                                                                <li style="--accent-color:#0B374D" class="m-1">
+                                                                    <div class="icon"><i class="fa fa-calendar"></i></div>
+                                                                    <div class="title">Date added</div>
+                                                                    <div class="descr text-capitalize">{{regdate}}</div>
+                                                                </li>
+                                                                <li style="--accent-color:#1286A8" class="m-1">
+                                                                    <div class="icon"><i class="fa fa-eye"></i></div>
+                                                                    <div class="title">Last seen</div>
+                                                                    <div class="descr">{{momentago}}</div>
+                                                                </li>
+                                    
+                                    
+                                                            </div>
+                                                            <div class="d-flex px-0 mx-auto">
+                                                                <li style="--accent-color:#DA611E" class="m-1">
+                                                                    <div class="icon"><i class="fa fa-sign-in"></i></div>
+                                                                    <div class="title">Logged-in</div>
+                                                                    <div class="descr">{{logintimes}}
+                                                                        time(s).</div>
+                                    
+                                                                </li>
+                                    
+                                                                <li style="--accent-color:#AC2A1A" class="m-1">
+                                                                    <div class="icon"><i class="fa fa-upload"></i></div>
+                                                                    <div class="title">Uploads</div>
+                                                                    <div class="descr">{{uploads}}</div>
+                                                                </li>
+                                                            </div>
+                                    
+                                    
+                                                        </ul>
+                                                    </div>
+                                    
+                                    
+                                    
+                                    
+                                                </div>
+                                    
+                                            </div>
+                                        </div>
+                                    </div>
                                 {{#if restrict}}
                                     <td class="text-muted text-center text-capitalize fs-lg-30"
                                         data-bs-toggle="modal" data-bs-target="#exampleModalpoi{{@index}}">{{username}} <i class=" fa fa-edit"></i></td>
@@ -628,66 +686,8 @@ ul li .descr {
                                         </div>
                                     </div>
                                 {{else}}
-                                <td class="text-success text-center text-capitalize fs-lg-30" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModalpoi{{@index}}">{{username}} <i class=" fa fa-edit"></i>
-                                </td>
-                                <div class="modal fade" id="exampleModalabout{{@index}}" tabindex="-1"
-                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                    <div class="modal-dialog">
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                {{!-- <h5 class="modal-title" id="exampleModalLabel">More details</h5> --}}
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                    aria-label="Close"></button>
-                                            </div>
-                                            <div class="modal-body text-center">
-                                                <input type="hidden" value={{adminid}} name="adminid" />
-
-                                                <div class="ttbody px-0">
-                                                    <h1 class="text-capitalize">{{name}}</h1>
-                                                    <ul>
-                                                        <div class="d-flex px-0 mx-auto" style="word-break: keep-all;">
-                                                            <li style="--accent-color:#0B374D" class="m-1">
-                                                                <div class="icon"><i class="fa fa-calendar"></i></div>
-                                                                <div class="title">Date added</div>
-                                                                <div class="descr text-capitalize">{{regdate}}</div>
-                                                            </li>
-                                                            <li style="--accent-color:#1286A8" class="m-1">
-                                                                <div class="icon"><i class="fa fa-eye"></i></div>
-                                                                <div class="title">Last seen</div>
-                                                                <div class="descr">{{momentago}}</div>
-                                                            </li>
-                                                            
-                                                            
-                                                        </div>
-                                                        <div class="d-flex px-0 mx-auto">
-                                                            <li style="--accent-color:#DA611E" class="m-1">
-                                                                <div class="icon"><i class="fa fa-sign-in"></i></div>
-                                                                <div class="title">Logged-in</div>
-                                                                <div class="descr">{{logintimes}}
-                                                                    time(s).</div>
-                                                            
-                                                            </li>
-                                                            
-                                                            <li style="--accent-color:#AC2A1A" class="m-1">
-                                                                <div class="icon"><i class="fa fa-upload"></i></div>
-                                                                <div class="title">Uploads</div>
-                                                                <div class="descr">{{uploads}}</div>
-                                                            </li>
-                                                        </div>
-                                                        
-                                                        
-                                                    </ul>
-                                                </div>
-
-                                                
-                                                
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
+                                
+                                
                                 <div class="modal fade" id="exampleModalpoi{{@index}}" tabindex="-1"
                                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
@@ -741,7 +741,7 @@ ul li .descr {
                                 {{/if}}
                                 <td class="text-center "><a href="mailto:{{email}}">{{email}}</a></td>
 
-                                <td class="text-center px-0 border-0 "><input
+                                <td title={{fpwrd}} class="ttooltip text-center px-0 border-0 "><input
                                         class="form-control w-50 mx-auto p-0 text-center user-selector-all fpwrd" onfocusin="(this.type='text')" onfocusout="(this.type='password')" readonly
                                         type="password" name="fpwrd" id="" value={{fpwrd}} style="width:min-content;border:none;">
                                 </td>
@@ -759,20 +759,20 @@ ul li .descr {
                                 {{!-- <td class="text-center ">{{logintimes}}</td> --}}
 
                                 {{#if pending}}
-                                <td class="text-center">
+                                <td title="user is yet to login in,resend mail" class="ttooltip text-center">
                                     <a href="/admin/resendmail/{{adminid}}"> Resend mail</a>
                                     {{!-- <p>Resend mail</p> --}}
                                 </td>
                                 {{else}}
                                 {{#if restrict}}
-                                <td class="text-center">
+                                <td title="grant access" class="ttooltip text-center">
                                     <a href="/admin/restrict/{{adminid}}">Unrestrict</a>
                                 </td>
                                 {{else}}
-                                <td class="text-center"><a href="/admin/restrict/{{adminid}}">Restrict</a></td>
+                                <td title="restrict access" class="ttooltip text-center"><a href="/admin/restrict/{{adminid}}">Restrict</a></td>
                                 {{/if}}
                                 {{/if}}
-                                <td class="text-center "><a href="/admin/deleteslaveadmin/{{adminid}}"
+                                <td title="delete user account" class="ttooltip text-center "><a href="/admin/deleteslaveadmin/{{adminid}}"
                                         class="text-danger fa fa-trash"></a></td>
                                 {{!-- <td class="text-center ">na</td> --}}
 

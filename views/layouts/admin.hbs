@@ -100,7 +100,7 @@
             
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
-                    <li class="nav-item">
+                    <li class="ttooltip nav-item" title="dashboard">
                         <a class="nav-link" href="/admin/n">
                             <i class="icon-dashboard menu-icon"></i>
                             <span class="menu-title">Dashboard</span>
@@ -108,7 +108,7 @@
                     </li>
                     
                     {{!-- {{#if parents}} --}}
-                    <li class="nav-item">
+                    <li class="nav-item ttooltip" title="view clients ">
                         <a class="nav-link" href="/admin/getclients">
                             <i class="icon-user-circle-o menu-icon"></i>
                             <span class="menu-title">Clients</span>
@@ -116,13 +116,13 @@
                     </li>
                     {{!-- {{/if}} --}}
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="/admin/orders">
+                    <li class="nav-item ttooltip" title="client order(s)">
+                        <a class=" nav-link" href="/admin/orders">
                             <i class="icon-shopping-cart menu-icon"></i>
                             <span class="menu-title">Orders</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <li class="ttooltip nav-item" title="view packag(es)">
                         <a class="nav-link" href="/admin/packages">
                             <i class="icon-shopping-bag menu-icon"></i>
                             <span class="menu-title">Packages</span>
@@ -130,8 +130,8 @@
                     </li>
 
                     
-                    {{#if schoolcode}}
-                        <li class="ttooltip nav-item bg-light text-dark" title="view class(es)">
+                    {{#if classses}}
+                        <li class="ttooltip nav-item bg-light text-dark" title="view other class(es)">
                             <a class="nav-link bg-light text-dark" data-toggle="collapse" href="#ui-basic"
                                 aria-expanded="false" aria-controls="ui-basic">
                                 <i class="icon-school menu-icon"></i>
@@ -152,16 +152,17 @@
 
 
                         </li>
-                    {{else}}
+                    
 
+                    
+
+                    {{/if}}
                     <li class="ttooltip nav-item" style="display: {{classes?none:block}};" title="view schools">
                         <a class="nav-link" href="/admin/getschools">
                             <i class="icon-school menu-icon"></i>
                             <span class="menu-title">School(s)</span>
                         </a>
                     </li>
-
-                    {{/if}}
                     <li class="ttooltip nav-item"  title="view gallery">
                         <a class="nav-link" href="/admin/manager">
                             <i class="icon-camera menu-icon"></i>

@@ -6,11 +6,12 @@ const SchoolSchema = new mongoose.Schema([
       lowercase: true,
     },
     address: String,
-    schoolname:{
+    schoolname: {
       type: String,
       lowercase: true,
     },
-    username:Number,
+    username: Number,
+    nclass: Number,
     schoolcode: Number,
     uniquenum: Number,
     newlogin: {
@@ -59,7 +60,7 @@ const SchoolSchema = new mongoose.Schema([
       type: Boolean,
       default: true,
     },
-  }]
-);
+  },
+]);
 
 module.exports = new mongoose.model('school', SchoolSchema);

@@ -60,7 +60,7 @@ const checkUserp = async (req, res, next) => {
       res.render('signuppage', {
         layout: 'nothing',
         icon: 'error',
-        title: 'User account is temporarily disabled  !',
+        title: 'You can not access t  !',
         alerte: 'Pls sign-up/login again ',
       });
 

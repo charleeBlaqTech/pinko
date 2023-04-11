@@ -223,30 +223,56 @@
                             <h4 class="text-capitalize " style="cursor: pointer;width:fit-content"  data-bs-toggle="modal" data-bs-target="#editname ">{{admin.name}} <i class="fa fa-edit"></i></h4>
                             
                             <br>
-                            <h4 class="text-capitalize fs-30" style="cursor: pointer;width:fit-content"  data-bs-toggle="modal" data-bs-target="#editprofile ">{{admin.username}} <i class="fa fa-edit"></i></h4>
+                            <h4 title="change username" class="ttooltip text-capitalize fs-30" style="cursor: pointer;width:fit-content"  data-bs-toggle="modal" data-bs-target="#editprofile ">{{admin.username}} <i class="fa fa-edit"></i></h4>
+                            <br>
+                            
                             
 
                             
                             
-                            <div class="modal fade" id="editpassword" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="editship" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Change Password</h5>
+                                            <h5 class="modal-title" id="exampleModalLabel">Change Ship rate</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
 
-                                            <form action="/admin/editpassword" method='post' class="forms-sample">
+                                            <form action="/admin/editship" method='post' class="forms-sample">
                                                 <div class="form-group">
-                                                    <label for="exampleInputName1r">Current Password</label>
-                                                    <input name="oldpwrd" type="password" class="form-control" id="exampleInputName1r"
-                                                        placeholder="Enter Current Password" value={{admin.username}} required />
+                                                    <label for="exampleInputName1r">Ship rate in AED</label>
+                                                    <input title="edit shiping rate of items" name="shiprate" type="number" class="ttooltip form-control" id="exampleInputName1r"
+                                                        placeholder="Enter shipping  rate" value={{admin.adminshiprate}} required />
                                                 </div>
+                                                
+                            
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                </div>
+                                            </form>
+
+                                        </div>
+                            
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal fade" id="editname" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="exampleModalLabel">Edit name</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+
+                                            <form action="/admin/admineditname" method='post' class="forms-sample">
+                                                
                                                 <div class="form-group">
-                                                    <label for="exampleInputName1y">New Password</label>
-                                                    <input name="newpwrd" type="password" class="form-control" id="exampleInputName1y"
-                                                        placeholder="Enter New pwrd" value={{admin.username}} required />
+                                                    <label for="exampleInputName1">Names</label>
+                                                    <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="New admin email"
+                                                        value="{{admin.name}}" required />
                                                 </div>
                             
                                                 <div class="modal-footer">
@@ -318,6 +344,10 @@
                             </div>
                             <br>
                             <h4 class="cursor-pointer" style="cursor: pointer;width:fit-content" data-bs-toggle="modal" data-bs-target="#editpassword ">Change password <i class="fa fa-edit"></i></h4>
+
+                            <br>
+                            <h4 title="edit shipping rate" class="ttooltip text-capitalize" style="cursor: pointer;width:fit-content" data-bs-toggle="modal"
+                                data-bs-target="#editship "><i class="fa fa-ship"></i>{{admin.adminshiprate}} <i class="fa fa-edit"></i></h4>
     
                            
     

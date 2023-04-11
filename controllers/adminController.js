@@ -74,9 +74,12 @@ const schoolz = async (req, res) => {
   const schools = await schoolModel.find().sort({ sn: 'desc' });
 
   const der = schools.map(async (el) => {
+    const nclass = await classModel.find({ schoolcode: el.schoolcode })
+
     const schoolcode = el.schoolcode;
     const parents = await Parents.find({ schoolcode: schoolcode });
     el.parentlength = parents.length;
+    el.nclass = nclass.length;
     await el.save();
     const students = await Students.find({ schoolcode: schoolcode });
     el.studentlength = students.length;
@@ -450,6 +453,29 @@ module.exports = {
     }
   },
 
+  editship: async (req, res) => {
+    try {
+      schoolz();
+      const shiprate =req.body.shiprate
+      const admini = await adminModel.find();
+      for(let i = 0; i < admini.length; i++){
+        admini[i].adminshiprate = shiprate
+        await admini[i].save();
+      }
+      req.user.adminshiprate=shiprate;
+      await req.user.save()
+      const admins = await adminModel.find({ slave: true });
+      
+      res.render('settings', {
+        layout: 'admin',
+        admin: req.user,
+        admins: admins,
+        
+      });
+    } catch (err) {
+      res.redirect('/admin/wrong');
+    }
+  },
   addadmin: async (req, res) => {
     try {
       schoolz();
@@ -1380,18 +1406,17 @@ module.exports = {
     });
   },
   editparentfromadmin: async (req, res) => {
-    try{
-      const {name,email,username,phone,address,userid}= req.body
-      if(name,email,username,phone,address){
-
+    try {
+      const { name, email, username, phone, address, userid } = req.body;
+      if ((name, email, username, phone, address)) {
         const parent = await parentModel.findOne({
-          userid:userid,
+          userid: userid,
         });
-        parent.name=name
-        parent.email=email
-        parent.phone = phone;        
-        parent.username=username
-        parent.addressline1=address
+        parent.name = name;
+        parent.email = email;
+        parent.phone = phone;
+        parent.username = username;
+        parent.addressline1 = address;
         await parent.save();
         const parentt = await parentModel.findOne({
           userid: userid,
@@ -1412,18 +1437,8 @@ module.exports = {
 
           // alert: 'Student with username  ' + username + ' doesnt exist',
         });
-
       }
-      
-    }
-    catch(err){
-
-    }
-    
-
-
-    
-    
+    } catch (err) {}
   },
   updatefilemanager: async (req, res) => {
     let { picode, name } = req.body;
@@ -2395,50 +2410,64 @@ module.exports = {
     });
   },
   addclass: async (req, res) => {
-    const classs = req.body.class;
-    const schoolcode = req.cookies.schoolcode;
-    const school = await schoolModel.findOne({ schoolcode: schoolcode });
-
-    if (classs.length > 2) {
+    try {
+      const classs = req.body.class;
       const schoolcode = req.cookies.schoolcode;
-      const ifclass = await classModel
-        .findOne({ schoolcode })
-        .where('name')
-        .equals(classs);
+      const school = await schoolModel.findOne({ schoolcode: schoolcode });
 
-      if (!ifclass) {
-        const classses = await classModel.find({ schoolcode: schoolcode });
-        console.log(classses);
-        if (classses.length > 0) {
-          const lclass = classses[classses.length - 1];
+      if (classs.length > 2) {
+        const schoolcode = req.cookies.schoolcode;
+        const ifclass = await classModel
+          .findOne({ schoolcode })
+          .where('name')
+          .equals(classs);
 
-          buta = lclass.sn + 1;
+        if (!ifclass) {
+          const classses = await classModel.find({ schoolcode: schoolcode });
+          console.log(classses);
+          if (classses.length > 0) {
+            const lclass = classses[classses.length - 1];
+
+            buta = lclass.sn + 1;
+          } else {
+            buta = 0;
+          }
+
+          await classModel.create({
+            name: classs,
+            created: currentDate(),
+            students: null,
+            sn: buta,
+            school: school,
+            idd: getserialnum(100000),
+            schoolcode: schoolcode,
+          });
+
+          const classsis = await classModel.find({ schoolcode: schoolcode });
+
+          res.render('classes', {
+            layout: 'admin',
+            admin: req.user,
+            parents: req.parents,
+            school: schoolcode,
+            classses: classsis,
+            icon: 'success',
+            title: 'success',
+            alerte: classs + ' has been successfully added',
+          });
         } else {
-          buta = 0;
+          const classsis = await classModel.find({ schoolcode: schoolcode });
+
+          res.render('classes', {
+            layout: 'admin',
+            admin: req.user,
+            school: school,
+            classses: classsis,
+            alerte: classs + ' already exists',
+            icon: 'error',
+            title: 'No duplicate classes allowed',
+          });
         }
-
-        await classModel.create({
-          name: classs,
-          created: currentDate(),
-          students: null,
-          sn: buta,
-          school: school,
-          idd: getserialnum(100000),
-          schoolcode: schoolcode,
-        });
-
-        const classsis = await classModel.find({ schoolcode: schoolcode });
-
-        res.render('classes', {
-          layout: 'admin',
-          admin: req.user,
-          parents: req.parents,
-          school: schoolcode,
-          classses: classsis,
-          icon: 'success',
-          title: 'success',
-          alerte: classs + ' has been successfully added',
-        });
       } else {
         const classsis = await classModel.find({ schoolcode: schoolcode });
 
@@ -2447,23 +2476,13 @@ module.exports = {
           admin: req.user,
           school: school,
           classses: classsis,
-          alerte: classs + ' already exists',
+          alerte: 'Your class name is too short ',
           icon: 'error',
-          title: 'No duplicate classes allowed',
+          title: 'No short names pls',
         });
       }
-    } else {
-      const classsis = await classModel.find({ schoolcode: schoolcode });
-
-      res.render('classes', {
-        layout: 'admin',
-        admin: req.user,
-        school: school,
-        classses: classsis,
-        alerte: 'Your class name is too short ',
-        icon: 'error',
-        title: 'No short names pls',
-      });
+    } catch (err) {
+      res.redirect('/admin/wrong');
     }
   },
   logout: async (req, res) => {
@@ -2859,25 +2878,29 @@ module.exports = {
     });
   },
   enterchildusername: async (req, res) => {
-    const { username } = req.body;
-    const student = await studentModel.findOne({ username });
-    if (student) {
-      const stdntpictures = await pictureModel
-        .find({ for: username })
-        .sort({ sn: 'desc' });
+    try {
+      const { username } = req.body;
+      const student = await studentModel.findOne({ username });
+      if (student) {
+        const stdntpictures = await pictureModel
+          .find({ for: username })
+          .sort({ sn: 'desc' });
 
-      res.render('parentwithchild', {
-        parent: req.user,
-        child: student,
+        res.render('parentwithchild', {
+          parent: req.user,
+          child: student,
 
-        pictures: stdntpictures,
-        // alert: 'Student with username  ' + username + ' doesnt exist',
-      });
-    } else {
-      res.render('dashboard', {
-        parent: req.user,
-        alert: 'Student with username  ' + username + ' doesnt exist',
-      });
+          pictures: stdntpictures,
+          // alert: 'Student with username  ' + username + ' doesnt exist',
+        });
+      } else {
+        res.render('dashboard', {
+          parent: req.user,
+          alert: 'Student with username  ' + username + ' doesnt exist',
+        });
+      }
+    } catch (err) {
+      res.redirect('/admin/wrong');
     }
   },
   order: async (req, res) => {

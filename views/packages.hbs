@@ -83,7 +83,7 @@
 
 
         <div class="pb-5 ml-1 ">
-            <a href="" class="btn btn-behance px-3 py-2" data-bs-toggle="modal" data-bs-target="#exampleModaluyu">
+            <a title="click to add package" href="" class="ttooltip btn btn-behance px-3 py-2" data-bs-toggle="modal" data-bs-target="#exampleModaluyu">
                 Add Package
             </a>
             <div class="modal fade" id="exampleModaluyu" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -137,9 +137,9 @@
             <div class="row px-xl-5 align-items-center">
                 <div class="col-lg-5 pb-5">
                     <div id="product-carousel" class="carousel slide align-items-center" data-ride="carousel">
-                        <div class="carousel-inner border"
+                        <div title="{{name}}" class="ttooltip carousel-inner border"
                             style="box-shadow: 1px 1px rgb(94, 91, 91), -.5em 1em .4em rgb(155, 155, 132);border-radius:3px;">
-                            <img style="max-height: 42vh;object-fit:contain;" class="w-100 h-100" src="{{packimg}}" alt="Image">
+                            <img style="max-height: 42vh;object-fit:contain;" class="w-100 h-100" src={{packimg}} alt="Image">
             
                         </div>
                         <a class="carousel-control-prev" href={{packimg}} data-slide="prev">
@@ -161,7 +161,7 @@
                     </p>
             
             
-                    <div class="d-flex align-items-center mb-4 pt-2">
+                    <div class="ttooltip d-flex align-items-center mb-4 pt-2" title="edit package details">
             
                         <button class="btn btn-primary px-3" data-bs-toggle="modal" data-bs-target="#exampleModal{{@index}}"><i
                                 class="fa fa-edit mr-1"></i> Edit</button>
@@ -189,7 +189,7 @@
             
                                     <textarea style="line-height: 21px;font-size:20px;" name="desc" id="" cols="10" rows="4"
                                         class="form-control" id="exampleInputName2" placeholder="Tell us about this package"
-                                        >{{desc}}</textarea>
+                                        >{{{desc}}}</textarea>
                                 </div>
                                 <div class="form-group" style="">
                                     <label for="exampleInputName3">Price in</label>
