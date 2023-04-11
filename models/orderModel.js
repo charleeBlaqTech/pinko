@@ -12,14 +12,18 @@ const OrderSchema = new mongoose.Schema([
     parentid: Number,
     studentid: Number,
     sn: Number,
-    picode:Number,
+    gsn: Number,
+    picode: Number,
     studentname: String,
+    momentago: String,
+    moment: String,
     justdate: String,
     ordercode: {
       type: Number,
     },
     paid: Boolean,
-    schoolcode:String
+    cleared: Boolean,
+    schoolcode: String,
   },
 ]);
 

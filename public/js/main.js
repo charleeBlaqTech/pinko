@@ -1,8 +1,95 @@
 (function ($) {
+  window.onload = function () {
+    // selecting the elements for which we want to add a tooltip
+    const target = document.querySelectorAll('.tooltip-row');
+    // const tooltip = document.getElementById('tooltip-text');
+    const student = document.getElementById('tooltip-name');
+    const tooltipstudent = 'tooltip-student';
+    const school = 'tooltip-school';
+    const classs = document.getElementById('tooltip-class');
+    const shotby = document.getElementById('tooltip-shotby');
+
+    target.forEach((el) => {
+      // change display to 'block' on mouseover
+      el.addEventListener(
+        'mouseover',
+        () => {
+          // tooltip.style.display = 'block';
+          student.style.display = 'block';
+          const id = el.id.split('lla')[1];
+          const jnkn = 'tooltip.innerHTML=(id)';
+          const spec = `moment${id}`;
+          const sid = `student${id}`;
+
+          // tooltip.innerHTML=document.getElementById(spec).value
+          student.innerHTML = document.getElementById(sid).value;
+        },
+        false
+      );
+
+      // change display to 'none' on mouseleave
+      el.addEventListener(
+        'mouseleave',
+        () => {
+          // tooltip.style.display = 'none';
+          student.style.display = 'none';
+        },
+        false
+      );
+    });
+  };
+
+
   // alert('jb');
+  // const cbox =document.querySelectorAll('.toggle-checkbox')
+  // const allmyg = document.querySelectorAll('.allmygsj');
+
+  // let gees= []
+  
+
+  // for(let i = 0 ; i < allmyg.length ; i++){
+  //   gees.push(allmyg[i].value);
+    
+  // }
+  // // for(let i = 0 ; i < allmyg.length ; i++){
+  // //   allmyg[i].value=""
+    
+  // // }
+
+  // cbox.forEach(function(el,index){
+    
+  //   const myg = document.querySelectorAll('.allmygsj');
+  //   // alert(index)
+    
+
+  //   el.addEventListener('change',function() {
+      
+  //     if (el.checked == true) {
+  //       const yera = gees[index];
+  //       myg[index].value = myg[index].value+"s"
+        
+
+  //       // alert(myg[index].value);
+  //     } else {
+  //       // alert('nchecked');
+
+  //       const yera =  gees[index];
+  //       myg[index].value = yera;
+        
+  //     }
+  //   })
+
+    
+
+
+
+  // })
+
+
   $('.pictures').hide(100);
   $('.allpicturess').css({ color: 'white' });
   $('.personals').hide(100);
+  
 
   $('.live').click(function () {
     $('.live').css({ color: 'white' });
@@ -122,4 +209,7 @@
     });
   };
   carousel();
+
+  // window.onload is optional since it depends on the way in which you fire events
+  
 })(jQuery);

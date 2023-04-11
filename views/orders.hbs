@@ -1,8 +1,7 @@
-
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Anton&family=Dancing+Script:wght@400;500;600;700&family=La+Belle+Aurore&family=Lobster&family=Montserrat:ital,wght@0,200;1,900&family=Pacifico&family=Patrick+Hand&family=Poor+Story&family=Poppins:ital,wght@0,400;1,100;1,400&family=Rubik+Glitch&display=swap');
 
-    
+
     .playw {
         text-transform: capitalize;
         word-break: keep-all;
@@ -17,6 +16,52 @@
 
     .playw:nth-child(even) {
         color: blue;
+    }
+
+
+
+    /* this is a _demo_ container. remember the importance of relative and absolute positioning */
+    .tooltip-container {
+        position: relative;
+        display: flex;
+        place-content: center;
+    }
+
+    /* styling of the tooltip display */
+    p#tooltip-text,
+    p#tooltip-name {
+        display: none;
+        position: absolute;
+        top: -60px;
+        z-index: 1;
+        background: #00732c;
+        padding: 8px;
+        font-size: 1rem;
+        color: #fff;
+        border-radius: 2px;
+        animation: fadeIn 0.6s;
+    }
+
+    /* optional styling to add a "wedge" to the tooltip */
+    p#tooltip-text,
+    p#tooltip-name:before {
+        content: "";
+        position: absolute;
+        top: 100%;
+        left: 50%;
+        margin-left: -8px;
+        border: 8px solid transparent;
+        border-top: 8px solid #00732c;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
     }
 </style>
 
@@ -37,6 +82,11 @@
                             data-bs-target="#exampleModal">
                             Add Class
                         </a> --}}
+                        <div class="tooltip-container">
+                            <p id="tooltip-name">
+
+                            </p>
+                        </div>
 
                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
                             aria-hidden="true">
@@ -75,15 +125,20 @@
                                     <thead>
                                         <tr class="align-items-center">
                                             {{!-- <th>Orders</th> --}}
-                                            <th>Date</th>
                                             <th>Username</th>
+
+                                            <th>Date</th>
+                                            <th>Ordercodes</th>
+
                                             <th>Avatar</th>
                                             <th>Package</th>
                                             <th>Quantity </th>
-                                            <th class="text-center">Unit Price <br><small class="text-muted text-center">AED</small></th>
-                                            <th class="text-center">Gross <br><small class="text-muted text-center">AED</small></th>
-                                            <th class="text-center">Shipping <br><small class="text-muted text-center">AED</small></th>
-                                            <th class="text-center">Total <br><small class="text-muted text-center">AED</small></th>
+                                            <th class="text-center">Unit Price <br><small
+                                                    class="text-muted text-center">AED</small></th>
+                                            <th class="text-center">Gross <br><small
+                                                    class="text-muted text-center">AED</small></th>
+
+
                                         </tr>
                                     </thead>
                                     <tbody class="cele">
@@ -91,12 +146,17 @@
                                         {{#each orders}}
 
 
-                                        <tr class="cele text-center">
+                                        <tr class="cele text-center tooltip-row" id="bella{{@index}}">
+                                            <td class="text-capitalize">
+                                                <a href="/admin/viewparent/{{parentid}}">{{username}}</a>
+                                            </td>
+                                            
                                             <td class="text-capitalize">
                                                 {{justdate}}
                                             </td>
+                                            
                                             <td class="text-capitalize">
-                                                <a href="/admin/viewparent/{{parentid}}">{{username}}</a>
+                                                {{ordercode}}
                                             </td>
                                             <td>
                                                 <a href={{orderavatar}} class="p-0">
@@ -112,8 +172,8 @@
                                             <td>{{quantity}}</td>
                                             <td> {{priceperpackage}} </td>
                                             <td>{{totalunitsprice}} </td>
-                                            <td>na</td>
-                                            <td>na</td>
+                                            <input id="moment{{@index}}" type="hidden" value="{{momentago}}">
+                                            <input id="student{{@index}}" type="hidden" value="{{studentname}}">
 
                                         </tr>
 

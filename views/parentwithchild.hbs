@@ -174,13 +174,13 @@
                     {{#each watermark}}
         
                         <div class="col-lg-3 col-md-6 col-sm-12 pb-3">
-                            <div class="card product-item border-0 mb-4" style="max-height:40vh;border:2px solid black;">
+                            <div class="card product-item border-0 mb-4" style="border:2px solid black;">
                                 <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0 ">
                                     <label for="ty{{@index}}">
-                                        {{!-- <img src= {{imgdir}} class="img-fluid w-100"  alt="gfgf{{@index}}"
-                                            style="object-fit: contain;max-width:100%;border-radius:15px;"
-                                            > --}}
-                                        <div style="background-image:url({{imgdir}});background-size:contain;width:450px;background-repeat:no-repeat;height:35vh;border:1px solid black;" class="d-flex align-items-center">
+                                        <img src= {{imgdir}} class="p-0 img-fluid w-100"  alt="gfgf{{@index}}"
+                                            style="object-fit:contain;width:100%;min-height:40vh;border-radius:15px;"
+                                            >
+                                        {{!-- <div style="background-image:url({{imgdir}});background-size:contain;width:450px;background-repeat:no-repeat;height:35vh;border:1px solid black;" class="d-flex align-items-center">
                                             <h1 class="ml9">
                                                 <span class="text-wrapper">
                                                     <span class="px-1">
@@ -189,7 +189,7 @@
                                                 </span>
                                             </h1>
 
-                                        </div>
+                                        </div> --}}
                                     </label>
                                 </div>
             
@@ -228,12 +228,14 @@
                                         onchange="ifchecked(this.id)" class="checkboxx">
 
 
-                                    <label for="ty{{@index}}" class="btn btn-sm text-dark p-0">
-                                        <select name="package" style="border: 0;" class="obosi text-capitalize" id="abcty{{@index}}">
+                                    <label for="tyhg{{@index}}" class="btn btn-sm text-dark p-0">
+                                        <select name="package" style="border: 0;" class="obosi text-capitalize" id="abc{{@index}}">
                                             {{!-- <option value="" selected>~Select package~</option> --}}
+                                            
                                             {{#each ../packages}}
                                             <option value={{packageid}}/{{../pixname}} class="text-capitalize">{{name}}
-                                                <small class="text-muted">AED</small>{{price}}/item</option>
+                                                <small class="text-muted">AED</small>{{price}}/item
+                                            </option>
                                             {{/each}}
                                         </select>
                                         <br>

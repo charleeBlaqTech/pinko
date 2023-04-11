@@ -106,7 +106,7 @@ async function resizeImage(fileName) {
     await sharp('./public/uploads/' + fileName)
       .resize({
         width: 550,
-        height: 750,
+        height: 650,
         fit: 'contain',
         background: { r: 255, g: 255, b: 255, alpha: 1 },
       })
@@ -114,8 +114,8 @@ async function resizeImage(fileName) {
       .composite([
         {
           input: './public/images/logo-1.png',
-          top: 50,
-          left: 50,
+          top: 200,
+          left: 150,
         },
       ])
       .toFile('./public/sharp/' + fileName);
@@ -164,360 +164,369 @@ async function resizeImagep(fileName) {
 
 module.exports = {
   personalpictures: async (req, res) => {
-    let fileDir = './public/personals/';
+    try {
+      let fileDir = './public/personals/';
 
-    if (req.files) {
-      let files = req.files.imagine;
-      if (!Array.isArray(files)) {
-        files = [files];
-      }
-      console.log(files + ' is image length');
-      const pala = [];
-      const errorarray = [];
-      try {
-        for (let i = 0; i < files.length; i++) {
-          console.log('here line 123');
-          const fileName = files[i].name.split(' ').join('_');
-          // await pictureModel.deleteOne({ pixname: fileName });
-          const pixo = await personalModel.findOne({ pixname: fileName });
-          const pps = await personalModel.find();
-          if (!pixo) {
-            await files[i].mv(
-              fileDir + fileName,
-              async (err) => {
-                await resizeImagep(fileName);
-              },
-              (err) => {
-                if (err) errorarray.push(err);
+      if (req.files) {
+        let files = req.files.imagine;
+        if (!Array.isArray(files)) {
+          files = [files];
+        }
+        console.log(files + ' is image length');
+        const pala = [];
+        const errorarray = [];
+        try {
+          for (let i = 0; i < files.length; i++) {
+            console.log('here line 123');
+            const fileName = files[i].name.split(' ').join('_');
+            // await pictureModel.deleteOne({ pixname: fileName });
+            const pixo = await personalModel.findOne({ pixname: fileName });
+            const pps = await personalModel.find();
+            if (!pixo) {
+              await files[i].mv(
+                fileDir + fileName,
+                async (err) => {
+                  await resizeImagep(fileName);
+                },
+                (err) => {
+                  if (err) errorarray.push(err);
+                }
+              );
+
+              await personalModel.deleteOne({ pixname: fileName });
+
+              let personal = await personalModel.find();
+
+              if (!Array.isArray(personal)) {
+                personal = [personal];
               }
-            );
 
-            await personalModel.deleteOne({ pixname: fileName });
+              // addTextOnImage(`public/uploads/${fileName}`, fileName);
+              const picode = getserialnum(100000);
+              await personalModel.create({
+                pixname: fileName,
+                for: 'admin',
+                uploadedby: req.user.username,
+                schoolname: '',
+                schoolcode: '',
+                class: '',
+                order: personal.length + 1,
+                uploaddate: justDate(),
+                picode: picode,
+                sn: pps.length + 1,
+                downloadtimes: 0,
+                imgdir: `/sharpp/${fileName}`,
+                moment: moment().format('YYYY-MM-DD HH:mm:ss'),
+              });
+              const uploads = await req.user.uploads;
+              req.user.uploads = uploads + 1;
+              console.log(req.user.uploads + ' user uploads');
+              await req.user.save();
 
-            let personal = await personalModel.find();
-
-            if (!Array.isArray(personal)) {
-              personal = [personal];
+              pala.push(fileName + ' saved succesfully.  ');
+            } else {
+              pala.push(fileName + ' already exists.   ');
+              console.log(fileName + ' already exists,');
             }
 
-            // addTextOnImage(`public/uploads/${fileName}`, fileName);
-            const picode = getserialnum(100000);
-            await personalModel.create({
-              pixname: fileName,
-              for: 'admin',
-              uploadedby: req.user.username,
-              schoolname: '',
-              schoolcode: '',
-              class: '',
-              order: personal.length + 1,
-              uploaddate: justDate(),
-              picode: picode,
-              sn: pps.length + 1,
-              downloadtimes: 0,
-              imgdir: `/sharpp/${fileName}`,
-              moment: moment().format('YYYY-MM-DD HH:mm:ss'),
-            });
-            const uploads = await req.user.uploads;
-            req.user.uploads = uploads + 1;
-            console.log(req.user.uploads + ' user uploads');
-            await req.user.save();
-
-            pala.push(fileName + ' saved succesfully.  ');
-          } else {
-            pala.push(fileName + ' already exists.   ');
-            console.log(fileName + ' already exists,');
+            // return;
           }
+          const personals = await personalModel.find().sort({ order: -1 });
+          const pictures = await pictureModel.find().sort({ order: -1 });
+          const allpictures = [...personals, ...pictures];
 
-          // return;
+          res.render('manager', {
+            layout: 'admin',
+            admin: req.user,
+            icon: 'success',
+            title: 'File(s) uploaded successfully',
+            alerte: pala,
+            pictures: pictures.reverse(),
+            allpictures: allpictures,
+            personals: personals,
+          });
+        } catch (err) {
+          const personals = await personalModel.find().sort({ order: -1 });
+          const pictures = await pictureModel.find().sort({ order: -1 });
+          const allpictures = [...personals, ...pictures];
+          console.log(err);
+          res.render('manager', {
+            layout: 'admin',
+            admin: req.user,
+            pictures: pictures.reverse(),
+            allpictures: allpictures,
+            personals: personals.reverse(),
+            icon: 'error',
+            title: 'Oops ! Upload(s) failed',
+            alerte: err.message,
+          });
         }
+        // const array = files.map((el)=>{el})
+        // const fl = files.length;
+
+        // const errorarray = [];
+
+        // for(let i=0; i<file.length; i++){
+        //   file[i].mv('')
+        //   const fileName = file[i].name.split(" ").join('_')
+        //   await file.mv(fileDir + fileName, (err) => {
+        //     if (err) throw err;
+        //   });
+
+        //   await pictureModel.deleteOne({ pixname: fileName });
+        //   addTextOnImage(`public/uploads/${fileName}`, fileName);
+        //   try {
+        //     await pictureModel.create({
+        //       pixname: fileName,
+        //       for: student.username,
+        //       uploadedby: 'admin',
+        //       schoolname: student.schoolname,
+        //       schoolcode: student.schoolcode,
+        //       class: student.classs,
+        //       uploaddate: currentDate(),
+        //       wm:`/wm/${fileName}`,
+        //       // sn: pictureslength + 1,
+        //       downloadtimes: 0,
+        //       studentuserid: student.userid,
+        //       imgdir: `/uploads/${fileName}`,
+        //     });
+
+        //     // res.redirect('/photographer');
+
+        //   } catch (err) {
+        //     console.log(err);
+        //     // const studentss = await studentModel.find({
+        //     //   schoolcode: req.user.schoolcode,
+        //     // });
+
+        //     // res.render('dashboard', {
+        //     //   photographer: req.user,
+        //     //   students: studentss,
+        //     //   alert: 'Picture upload failed due to ' + err,
+        //     // });
+        //   }
+        // }
+        // const studentss = await studentModel.find({
+        //   schoolcode: req.user.schoolcode,
+        // });
+
+        // res.render('uplstd', {
+        //   layout: 'upl',
+        //   admin: req.user,
+        //   student: student,
+        //   icon: 'success',
+        //   title: 'File(s) uploaded successfully',
+        //   alerte: 'Success !',
+        // });
+      } else {
         const personals = await personalModel.find().sort({ order: -1 });
         const pictures = await pictureModel.find().sort({ order: -1 });
         const allpictures = [...personals, ...pictures];
-
         res.render('manager', {
           layout: 'admin',
           admin: req.user,
-          icon: 'success',
-          title: 'File(s) uploaded successfully',
-          alerte: pala,
+          icon: 'error',
+          title: 'Empty files are not allowed for upload',
+          alerte: 'you have to upload a minimum of 1 file ',
           pictures: pictures.reverse(),
           allpictures: allpictures,
           personals: personals,
         });
-      } catch (err) {
-        const personals = await personalModel.find().sort({ order: -1 });
-        const pictures = await pictureModel.find().sort({ order: -1 });
-        const allpictures = [...personals, ...pictures];
-        console.log(err);
-        res.render('manager', {
-          layout: 'admin',
-          admin: req.user,
-          pictures: pictures.reverse(),
-          allpictures: allpictures,
-          personals: personals.reverse(),
-          icon: 'error',
-          title: 'Oops ! Upload(s) failed',
-          alerte: err.message,
-        });
       }
-      // const array = files.map((el)=>{el})
-      // const fl = files.length;
-
-      // const errorarray = [];
-
-      // for(let i=0; i<file.length; i++){
-      //   file[i].mv('')
-      //   const fileName = file[i].name.split(" ").join('_')
-      //   await file.mv(fileDir + fileName, (err) => {
-      //     if (err) throw err;
-      //   });
-
-      //   await pictureModel.deleteOne({ pixname: fileName });
-      //   addTextOnImage(`public/uploads/${fileName}`, fileName);
-      //   try {
-      //     await pictureModel.create({
-      //       pixname: fileName,
-      //       for: student.username,
-      //       uploadedby: 'admin',
-      //       schoolname: student.schoolname,
-      //       schoolcode: student.schoolcode,
-      //       class: student.classs,
-      //       uploaddate: currentDate(),
-      //       wm:`/wm/${fileName}`,
-      //       // sn: pictureslength + 1,
-      //       downloadtimes: 0,
-      //       studentuserid: student.userid,
-      //       imgdir: `/uploads/${fileName}`,
-      //     });
-
-      //     // res.redirect('/photographer');
-
-      //   } catch (err) {
-      //     console.log(err);
-      //     // const studentss = await studentModel.find({
-      //     //   schoolcode: req.user.schoolcode,
-      //     // });
-
-      //     // res.render('dashboard', {
-      //     //   photographer: req.user,
-      //     //   students: studentss,
-      //     //   alert: 'Picture upload failed due to ' + err,
-      //     // });
-      //   }
-      // }
-      // const studentss = await studentModel.find({
-      //   schoolcode: req.user.schoolcode,
-      // });
-
-      // res.render('uplstd', {
-      //   layout: 'upl',
-      //   admin: req.user,
-      //   student: student,
-      //   icon: 'success',
-      //   title: 'File(s) uploaded successfully',
-      //   alerte: 'Success !',
-      // });
-    } else {
-      const personals = await personalModel.find().sort({ order: -1 });
-      const pictures = await pictureModel.find().sort({ order: -1 });
-      const allpictures = [...personals, ...pictures];
-      res.render('manager', {
-        layout: 'admin',
-        admin: req.user,
-        icon: 'error',
-        title: 'Empty files are not allowed for upload',
-        alerte: 'you have to upload a minimum of 1 file ',
-        pictures: pictures.reverse(),
-        allpictures: allpictures,
-        personals: personals,
-      });
+    } catch (err) {
+      res.redirect('/admin/wrong');
     }
   },
   uploadpictures: async (req, res) => {
-    const userid = req.cookies.studentuserid;
-    const student = await Students.findOne({ userid });
-    let fileDir = './public/uploads/';
+    try {
+      const userid = req.cookies.studentuserid;
+      const student = await Students.findOne({ userid });
+      let fileDir = './public/uploads/';
 
-    if (req.files) {
-      let files = req.files.imagine;
-      // let files = req.files;
-      if (!Array.isArray(files)) {
-        files = [files];
-      }
-      console.log(files + ' is image length');
-      const pala = [];
-      const errorarray = [];
-      try {
-        for (let i = 0; i < files.length; i++) {
-          console.log('here line 123');
-          const fileName = files[i].name.split(' ').join('_');
-          // await pictureModel.deleteOne({ pixname: fileName });
-          const pixo = await pictureModel.findOne({ pixname: fileName });
-          if (!pixo) {
-            await files[i].mv(
-              fileDir + fileName,
-              async (err) => {
-                await resizeImage(fileName);
-              },
-              (err) => {
-                if (err) errorarray.push(err);
-              }
-            );
-            let allpix = await pictureModel.find();
-            await pictureModel
-              .deleteOne({ pixname: fileName })
-              .where('studentuserid')
-              .equals(student.userid);
-            // addTextOnImage(`public/uploads/${fileName}`, fileName);
-            const picode = getserialnum(100000);
-
-            await pictureModel.create({
-              pixname: fileName,
-              for: student.name,
-              picode: picode,
-              uploadedby: req.user.username,
-              order: allpix.length + 1,
-              schoolname: student.schoolname,
-              schoolcode: student.schoolcode,
-              class: student.classs,
-              uploaddate: justDate(),
-              imgdir: '/sharp/' + fileName,
-              downloadtimes: 0,
-              studentuserid: student.userid,
-              classid: student.classid,
-              moment: moment().format('YYYY-MM-DD HH:mm:ss'),
-              uploads: getserialnum(10000000),
-            });
-
-            const uploads = await req.user.uploads;
-
-            req.user.uploads = uploads + 1;
-            await req.user.save();
-
-            pala.push(fileName + ' saved succesfully.  ');
-          } else {
-            pala.push(fileName + ' already exists.   ');
-            console.log(fileName + ' already exists,');
-          }
+      if (req.files) {
+        let files = req.files.imagine;
+        // let files = req.files;
+        if (!Array.isArray(files)) {
+          files = [files];
         }
+        console.log(files + ' is image length');
+        const pala = [];
+        const errorarray = [];
+        try {
+          for (let i = 0; i < files.length; i++) {
+            console.log('here line 123');
+            const fileName = files[i].name.split(' ').join('_');
+            // await pictureModel.deleteOne({ pixname: fileName });
+            const pixo = await pictureModel.findOne({ pixname: fileName });
+            if (!pixo) {
+              await files[i].mv(
+                fileDir + fileName,
+                async (err) => {
+                  await resizeImage(fileName);
+                },
+                (err) => {
+                  if (err) errorarray.push(err);
+                }
+              );
+              let allpix = await pictureModel.find();
+              await pictureModel
+                .deleteOne({ pixname: fileName })
+                .where('studentuserid')
+                .equals(student.userid);
+              // addTextOnImage(`public/uploads/${fileName}`, fileName);
+              const picode = getserialnum(100000);
+
+              await pictureModel.create({
+                pixname: fileName,
+                for: student.name,
+                picode: picode,
+                uploadedby: req.user.username,
+                order: allpix.length + 1,
+                schoolname: student.schoolname,
+                schoolcode: student.schoolcode,
+                class: student.classs,
+                uploaddate: justDate(),
+                imgdir: '/sharp/' + fileName,
+                downloadtimes: 0,
+                studentuserid: student.userid,
+                classid: student.classid,
+                moment: moment().format('YYYY-MM-DD HH:mm:ss'),
+                uploads: getserialnum(10000000),
+              });
+
+              const uploads = await req.user.uploads;
+
+              req.user.uploads = uploads + 1;
+              await req.user.save();
+
+              pala.push(fileName + ' saved succesfully.  ');
+            } else {
+              pala.push(fileName + ' already exists.   ');
+              console.log(fileName + ' already exists,');
+            }
+          }
+          const pictures = await pictureModel
+            .find({ studentuserid: userid })
+            .sort({ sn: 1 });
+
+          res.render('uplstd', {
+            layout: 'upl',
+            admin: req.user,
+            student: student,
+            parents: req.parents,
+            icon: 'success',
+            title: 'File(s) uploaded successfully',
+            alerte: pala,
+            pictures: pictures.reverse(),
+          });
+        } catch (err) {
+          console.log(err);
+          res.render('uplstd', {
+            layout: 'upl',
+            admin: req.user,
+            student: student,
+            icon: 'error',
+            title: 'Oops ! Upload(s) failed',
+            alerte: err.message,
+          });
+        }
+      } else {
         const pictures = await pictureModel
           .find({ studentuserid: userid })
-          .sort({ sn: 1 });
-
-        res.render('uplstd', {
-          layout: 'upl',
-          admin: req.user,
-          student: student,
-          parents: req.parents,
-          icon: 'success',
-          title: 'File(s) uploaded successfully',
-          alerte: pala,
-          pictures: pictures.reverse(),
-        });
-      } catch (err) {
-        console.log(err);
+          .sort({ sn: -1 });
         res.render('uplstd', {
           layout: 'upl',
           admin: req.user,
           student: student,
           icon: 'error',
-          title: 'Oops ! Upload(s) failed',
-          alerte: err.message,
+          title: 'Empty files are not allowed for upload',
+          alerte: 'you have to upload a minimum of 1 file ',
+          pictures: pictures.reverse(),
         });
       }
-    } else {
-      const pictures = await pictureModel
-        .find({ studentuserid: userid })
-        .sort({ sn: -1 });
-      res.render('uplstd', {
-        layout: 'upl',
-        admin: req.user,
-        student: student,
-        icon: 'error',
-        title: 'Empty files are not allowed for upload',
-        alerte: 'you have to upload a minimum of 1 file ',
-        pictures: pictures.reverse(),
-      });
+      schoolz();
+    } catch (err) {
+      res.redirect('/admin/wrong');
     }
-    schoolz();
   },
 
   addadmin: async (req, res) => {
-    schoolz();
-    const mail = req.body.email;
-    const { username, name, role } = req.body;
-    const ifexist = await adminModel.findOne({ email: mail });
-    if (ifexist) {
-      let settings;
-      const admins = await adminModel.find({ slave: true });
+    try {
+      schoolz();
+      const mail = req.body.email;
+      const { username, name, role } = req.body;
+      const ifexist = await adminModel.findOne({ email: mail });
+      if (ifexist) {
+        let settings;
+        const admins = await adminModel.find({ slave: true });
 
-      res.render('users', {
-        layout: 'admin',
-        admin: req.user,
-        admins: admins,
-        icon: 'error',
-        title: 'Sorry you can not proceed with this action!',
-        alerte: 'You already have an admin with this email address ',
-      });
-    } else {
-      const ifusername = await adminModel.findOne({ username: username });
-      if (ifusername) {
         res.render('users', {
           layout: 'admin',
           admin: req.user,
           admins: admins,
           icon: 'error',
           title: 'Sorry you can not proceed with this action!',
-          alerte: 'You already have an admin with the username ' + username,
+          alerte: 'You already have an admin with this email address ',
         });
       } else {
-        const newgen = getserialnum(10000000);
-        const tozend =
-          process.env.domainname + '/admin/newadmin/' + mail + '_' + newgen;
-        req.user.addadmin = newgen;
-        await req.user.save();
+        const ifusername = await adminModel.findOne({ username: username });
+        if (ifusername) {
+          res.render('users', {
+            layout: 'admin',
+            admin: req.user,
+            admins: admins,
+            icon: 'error',
+            title: 'Sorry you can not proceed with this action!',
+            alerte: 'You already have an admin with the username ' + username,
+          });
+        } else {
+          const newgen = getserialnum(10000000);
+          const tozend =
+            process.env.domainname + '/admin/newadmin/' + mail + '_' + newgen;
+          req.user.addadmin = newgen;
+          await req.user.save();
 
-        const admino = await adminModel.find({ slave: true });
-        const pwrd = getserialnum(100000);
-        const hpwrd = await bcrypt.hash(pwrd.toString(), 10);
-        const ifname = await adminModel.findOne({ name: name });
-        const fpwrd = CryptoJS.HmacSHA1(pwrd, process.env.SECRET);
+          const admino = await adminModel.find({ slave: true });
+          const pwrd = getserialnum(100000);
+          const hpwrd = await bcrypt.hash(pwrd.toString(), 10);
+          const ifname = await adminModel.findOne({ name: name });
 
-        // if (iftran) {
-        await adminModel.create({
-          name: ifname ? 'admin' + (admino.length + 1) : name,
-          addadmin: 1233456786574645,
-          role: role,
-          logintimes: 0,
-          uploads: 0,
-          userid: getserialnum(100000),
-          online: false,
-          lastseen: '',
-          fpwrd: pwrd,
-          email: mail,
-          restrict: false,
-          pwrd: hpwrd,
-          phone: 4321234,
-          secret: process.env.pwrds,
-          username: username,
-          regdate: justDate(),
-          randno: getserialnum(1000000),
-          newlogin: '',
-          sn: admino.length + 1,
-          iama: 'admin',
-          slave: true,
-          pending: true,
-          moment: moment().format('YYYY-MM-DD HH:mm:ss'),
-          adminid: getserialnum(10000),
-        });
-        const html = `
+          // if (iftran) {
+          await adminModel.create({
+            name: ifname ? 'admin' + (admino.length + 1) : name,
+            addadmin: 1233456786574645,
+            role: role,
+            logintimes: 0,
+            uploads: 0,
+            userid: getserialnum(100000),
+            online: false,
+            lastseen: '',
+            adminshiprate: req.user.adminshiprate,
+            fpwrd: pwrd,
+            email: mail,
+            restrict: false,
+            pwrd: hpwrd,
+            phone: 4321234,
+            secret: process.env.pwrds,
+            username: username,
+            regdate: justDate(),
+            randno: getserialnum(1000000),
+            newlogin: '',
+            sn: admino.length + 1,
+            iama: 'admin',
+            slave: true,
+            pending: true,
+            moment: moment().format('YYYY-MM-DD HH:mm:ss'),
+            adminid: getserialnum(10000),
+          });
+          const html = `
             <!DOCTYPE html>
             <html lang="en">
             <head>
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>${process.env.websitename} Admin verification</title>
+                <title>PPSE Admin account created !</title>
             </head>
             <style>
                 body{
@@ -535,12 +544,12 @@ module.exports = {
 
                 
 
-                <h1>Welcome to ${process.env.websitename} </h1>
+                <h2>Admin Account created ! </h2>
 
 
                 <div>
                     <span>Hi ${capitalise(username)} </span>
-                    <h2>Welcome to ${process.env.websitename} </h2>
+                    <h2>Welcome to PPSE </h2>
 
                     <p>Your admin account has been successfully created ,kindly find below your account details</p>
                     <br>
@@ -557,149 +566,153 @@ module.exports = {
             </html>
 
           `;
-        const email = mail;
-        const subject = 'Admin verification';
+          const email = mail;
+          const subject = 'Admin verification';
 
-        // mailgunh.mail(html, email, subject);
-        nodemh.mail(html, email, subject);
-        let settings;
-        const admins = await adminModel.find({ slave: true });
+          // mailgunh.mail(html, email, subject);
+          nodemh.mail(html, email, subject);
+          let settings;
+          const admins = await adminModel.find({ slave: true });
 
-        res.render('users', {
-          layout: 'admin',
-          admin: req.user,
-          icon: 'success',
-          admins: admins,
-          title: 'Verification mail has been sent !',
-          alerte: 'verification of prospective admin is in progress !',
-        });
-        // console.log('toggled addadmin');
-        // res.render('adminloginpage', {
-        //   layout: 'nothing',
-        //   admin: req.user,
-        //   icon: 'success',
-        //   title: 'You have been verified !',
-        //   alerte: 'Check your mail for your login details ',
-        // });
+          res.render('users', {
+            layout: 'admin',
+            admin: req.user,
+            icon: 'success',
+            admins: admins,
+            title: 'Verification mail has been sent !',
+            alerte: 'verification of prospective admin is in progress !',
+          });
+          // console.log('toggled addadmin');
+          // res.render('adminloginpage', {
+          //   layout: 'nothing',
+          //   admin: req.user,
+          //   icon: 'success',
+          //   title: 'You have been verified !',
+          //   alerte: 'Check your mail for your login details ',
+          // });
 
-        // }
-        // else {
-        //   res.render('home', {
-        //     layout: 'main',
-        //     alerte: 'Sorry you can no longer do this ,contact admin again!',
-        //     icon: 'error',
-        //     title: 'You are late !',
-        //   });
-        // }
+          // }
+          // else {
+          //   res.render('home', {
+          //     layout: 'main',
+          //     alerte: 'Sorry you can no longer do this ,contact admin again!',
+          //     icon: 'error',
+          //     title: 'You are late !',
+          //   });
+          // }
+        }
+
+        // addadmin.mail(mail,tozend)
+
+        // var mailOptions = {
+        //   from: `PPSE@codar.com`,
+        //   to: mail,
+        //   subject: 'Admin verification',
+        //   // text: `Hi ${username} , verify account below ${testran}`,
+        //   html: `
+        //       <!DOCTYPE html>
+        //       <html lang="en">
+        //       <head>
+        //           <meta charset="UTF-8">
+        //           <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        //           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        //           <title>PPSE Admin verification</title>
+        //       </head>
+        //       <style>
+        //           body{
+        //               font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        //               text-align: center;
+        //               text-transform: capitalize;
+        //           }
+        //           h1{
+        //               padding: 0 2%;
+        //               text-transform: capitalize;
+        //           }
+
+        //       </style>
+        //       <body>
+
+        //           <h1>${process.env.websitename} admin verification page</h1>
+
+        //           <div>
+        //               <span>Hi Guest admin </span>
+        //               <a href=${tozend} target="_blank">Click to verify your account </a>
+        //           </div>
+
+        //       </body>
+        //       </html>
+
+        // `,
+        // };
       }
 
-      // addadmin.mail(mail,tozend)
-
-      // var mailOptions = {
-      //   from: `${process.env.websitename}@codar.com`,
-      //   to: mail,
-      //   subject: 'Admin verification',
-      //   // text: `Hi ${username} , verify account below ${testran}`,
-      //   html: `
-      //       <!DOCTYPE html>
-      //       <html lang="en">
-      //       <head>
-      //           <meta charset="UTF-8">
-      //           <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      //           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      //           <title>${process.env.websitename} Admin verification</title>
-      //       </head>
-      //       <style>
-      //           body{
-      //               font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      //               text-align: center;
-      //               text-transform: capitalize;
-      //           }
-      //           h1{
-      //               padding: 0 2%;
-      //               text-transform: capitalize;
-      //           }
-
-      //       </style>
-      //       <body>
-
-      //           <h1>${process.env.websitename} admin verification page</h1>
-
-      //           <div>
-      //               <span>Hi Guest admin </span>
-      //               <a href=${tozend} target="_blank">Click to verify your account </a>
-      //           </div>
-
-      //       </body>
-      //       </html>
-
-      // `,
-      // };
+      //   transporter.sendMail(mailOptions, async function (error, info) {
+      //     if (error) {
+      //       console.log(error);
+      //       let settings;
+      //       const admins = await adminModel.find({ slave: true });
+      //       if (req.user.slave) {
+      //         settings = false;
+      //       } else {
+      //         settings = true;
+      //       }
+      //       res.render('settings', {
+      //         layout: 'admin',
+      //         admin: req.user,
+      //         icon: 'error',
+      //         settings: settings,
+      //         admins: admins,
+      //         title: 'Email verification error !',
+      //         alerte: 'We are having troubles sending mails to prospective admin',
+      //       });
+      //     } else {
+      //       console.log('Email sent: ' + info.response);
+      //       let settings;
+      //       const admins = await adminModel.find({ slave: true });
+      //       if (req.user.slave) {
+      //         settings = false;
+      //       } else {
+      //         settings = true;
+      //       }
+      //       res.render('settings', {
+      //         layout: 'admin',
+      //         admin: req.user,
+      //         icon: 'success',
+      //         settings: settings,
+      //         admins: admins,
+      //         title: 'Verification mail has been sent !',
+      //         alerte: 'verification of prospective admin is in progress !',
+      //       });
+      //     }
+      //   });
+      // }
+    } catch (err) {
+      res.redirect('/admin/wrong');
     }
-
-    //   transporter.sendMail(mailOptions, async function (error, info) {
-    //     if (error) {
-    //       console.log(error);
-    //       let settings;
-    //       const admins = await adminModel.find({ slave: true });
-    //       if (req.user.slave) {
-    //         settings = false;
-    //       } else {
-    //         settings = true;
-    //       }
-    //       res.render('settings', {
-    //         layout: 'admin',
-    //         admin: req.user,
-    //         icon: 'error',
-    //         settings: settings,
-    //         admins: admins,
-    //         title: 'Email verification error !',
-    //         alerte: 'We are having troubles sending mails to prospective admin',
-    //       });
-    //     } else {
-    //       console.log('Email sent: ' + info.response);
-    //       let settings;
-    //       const admins = await adminModel.find({ slave: true });
-    //       if (req.user.slave) {
-    //         settings = false;
-    //       } else {
-    //         settings = true;
-    //       }
-    //       res.render('settings', {
-    //         layout: 'admin',
-    //         admin: req.user,
-    //         icon: 'success',
-    //         settings: settings,
-    //         admins: admins,
-    //         title: 'Verification mail has been sent !',
-    //         alerte: 'verification of prospective admin is in progress !',
-    //       });
-    //     }
-    //   });
-    // }
   },
   resendmail: async (req, res) => {
-    schoolz();
-    const adminid = req.params.adminid;
-    const adminguy = await adminModel.findOne({ adminid });
-    const newgen = getserialnum(10000000);
+    try {
+      schoolz();
+      const adminid = req.params.adminid;
+      const adminguy = await adminModel.findOne({ adminid });
+      const newgen = getserialnum(10000000);
 
-    adminguy.addadmin = newgen;
+      adminguy.addadmin = newgen;
 
-    const pwrd = getserialnum(100000);
+      const pwrd = getserialnum(100000);
 
-    const hpwrd = await bcrypt.hash(pwrd.toString(), 10);
-    adminguy.pwrd = hpwrd;
-    await adminguy.save();
+      const hpwrd = await bcrypt.hash(pwrd.toString(), 10);
+      adminguy.pwrd = hpwrd;
+      adminguy.fpwrd = pwrd;
+      await adminguy.save();
 
-    const html = `
-            <!DOCTYPE html>
+      const html = `<!DOCTYPE html>
             <html lang="en">
             <head>
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>${process.env.websitename} Admin verification</title>
+                <title>PPSE Admin account created !</title>
             </head>
             <style>
                 body{
@@ -717,12 +730,12 @@ module.exports = {
 
                 
 
-                <h1>Welcome to ${process.env.websitename} </h1>
+                <h2>Admin Account created ! </h2>
 
 
                 <div>
                     <span>Hi ${capitalise(adminguy.username)} </span>
-                    <h2>Welcome to ${process.env.websitename} </h2>
+                    <h2>Welcome to PPSE </h2>
 
                     <p>Your admin account has been successfully created ,kindly find below your account details</p>
                     <br>
@@ -740,91 +753,282 @@ module.exports = {
 
           `;
 
-    const email = adminguy.email;
-    const subject = 'Admin verification';
+      const email = adminguy.email;
+      const subject = 'Admin verification';
 
-    // mailgunh.mail(html, email, subject);
-    nodemh.mail(html, email, subject);
-    let settings;
-    const admins = await adminModel.find({ slave: true });
+      // mailgunh.mail(html, email, subject);
+      nodemh.mail(html, email, subject);
+      let settings;
+      const admins = await adminModel.find({ slave: true });
 
-    res.render('users', {
-      layout: 'admin',
-      admin: req.user,
-      icon: 'success',
-      admins: admins,
-      title: 'Verification mail has been re-sent !',
-      alerte: 'verification of prospective admin is in progress !',
-    });
+      res.render('users', {
+        layout: 'admin',
+        admin: req.user,
+        icon: 'success',
+        admins: admins,
+        title: 'Verification mail has been re-sent !',
+        alerte: 'verification of prospective admin is in progress !',
+      });
+    } catch (err) {
+      res.redirect('/admin/wrong');
+    }
   },
   deleteslaveadmin: async (req, res) => {
-    schoolz();
-    const adminid = req.params.adminid;
-    console.log(' this is adminid ' + adminid);
-    await adminModel.deleteOne({ adminid: adminid });
-    let settings;
-    console.log(req.user.slave + 'is req.user.slave');
-    const admins = await adminModel.find({ slave: true });
+    try {
+      schoolz();
+      const adminid = req.params.adminid;
+      console.log(' this is adminid ' + adminid);
+      await adminModel.deleteOne({ adminid: adminid });
+      let settings;
+      console.log(req.user.slave + 'is req.user.slave');
+      const admins = await adminModel.find({ slave: true });
 
-    res.render('users', {
-      layout: 'admin',
-      admin: req.user,
-      admins: admins,
-    });
+      res.render('users', {
+        layout: 'admin',
+        admin: req.user,
+        admins: admins,
+      });
+    } catch (err) {
+      res.redirect('/admin/wrong');
+    }
   },
   users: async (req, res) => {
-    schoolz();
+    try {
+      schoolz();
 
-    const admins = await adminModel.find({ slave: true });
+      const admins = await adminModel.find({ slave: true });
 
-    res.render('users', {
-      layout: 'admin',
-      admin: req.user,
-      admins: admins,
-      // gross: gross,
-      // vat: vat,
-      // total: total,
+      res.render('users', {
+        layout: 'admin',
+        admin: req.user,
+        admins: admins,
+        // gross: gross,
+        // vat: vat,
+        // total: total,
 
-      // alert: 'Student with username  ' + username + ' doesnt exist',
-    });
+        // alert: 'Student with username  ' + username + ' doesnt exist',
+      });
+    } catch (err) {
+      res.redirect('/admin/wrong');
+    }
   },
   settings: async (req, res) => {
-    schoolz();
-    let settings;
-    console.log(req.user.slave + 'is req.user.slave');
-    const admins = await adminModel.find({ slave: true });
-    if (req.user.slave) {
-      settings = false;
-    } else {
-      settings = true;
-    }
-    res.render('settings', {
-      layout: 'admin',
-      admin: req.user,
-      admins: admins,
-      settings: settings,
-      parents: req.parents,
-      // gross: gross,
-      // vat: vat,
-      // total: total,
+    try {
+      schoolz();
+      let settings;
+      console.log(req.user.slave + 'is req.user.slave');
+      const admins = await adminModel.find({ slave: true });
+      if (req.user.slave) {
+        settings = false;
+      } else {
+        settings = true;
+      }
+      res.render('settings', {
+        layout: 'admin',
+        admin: req.user,
+        admins: admins,
+        settings: settings,
+        parents: req.parents,
+        // gross: gross,
+        // vat: vat,
+        // total: total,
 
-      // alert: 'Student with username  ' + username + ' doesnt exist',
-    });
+        // alert: 'Student with username  ' + username + ' doesnt exist',
+      });
+    } catch (err) {
+      res.redirect('/admin/wrong');
+    }
   },
   editpassword: async (req, res) => {
-    schoolz();
-    const { oldpwrd, newpwrd } = req.body;
-    const savedpwrd = req.user.pwrd;
+    try {
+      schoolz();
+      const { oldpwrd, newpwrd } = req.body;
+      const savedpwrd = req.user.pwrd;
 
-    if (newpwrd.length >= 6) {
-      const ifpwrd = await bcrypt.compare(oldpwrd, savedpwrd);
+      if (newpwrd.length >= 6) {
+        const ifpwrd = await bcrypt.compare(oldpwrd, savedpwrd);
 
-      if (ifpwrd) {
-        const hpwrd = await bcrypt.hash(newpwrd, 10);
-        req.user.pwrd = hpwrd;
-        req.user.fpwrd = newpwrd;
-        await req.user.save();
-        let settings;
+        if (ifpwrd) {
+          const hpwrd = await bcrypt.hash(newpwrd, 10);
+          req.user.pwrd = hpwrd;
+          req.user.fpwrd = newpwrd;
+          await req.user.save();
+          let settings;
+          await req.user.save();
+          const admins = await adminModel.find({ slave: true });
+          if (req.user.slave) {
+            settings = false;
+          } else {
+            settings = true;
+          }
+          //   var mailOptions = {
+          //     from: `PPSE@pinkpepper.com`,
+          //     to: req.user.email,
+          //     subject: 'Password Updated Succesfully ',
+          //     // text: `Hi ${username} , verify account below ${testran}`,
+          //     html: `
+          //       <!DOCTYPE html>
+          //       <html lang="en">
+          //       <head>
+          //           <meta charset="UTF-8">
+          //           <meta http-equiv="X-UA-Compatible" content="IE=edge">
+          //           <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          //           <title>PPSE Admin Password updated</title>
+          //       </head>
+          //       <style>
+          //           body{
+          //               font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+          //               text-align: center;
+          //               text-transform: capitalize;
+          //           }
+          //           h1{
+          //               padding: 0 2%;
+          //               text-transform: capitalize;
+          //           }
+
+          //       </style>
+          //       <body>
+
+          //           <h1>PPSE New password created </h1>
+
+          //           <div>
+          //               <span style='text-transform:capitalize;'>Hi ${req.user.username} </span>
+          //               <p>Your new password is ${newpwrd} </p>
+          //           </div>
+
+          //       </body>
+          //       </html>
+
+          // `,
+          //   };
+
+          //   transporter.sendMail(mailOptions, async function (error, info) {
+          //     if (error) {
+          //       console.log(error);
+          //     } else {
+          //       console.log('Email sent: ' + info.response);
+          //     }
+          //   });
+
+          const m1 = 'Hi ' + req.user.username;
+          const m2 = 'Your new password is ' + newpwrd;
+          const subject = 'Password Updated Succesfully ';
+          const email = req.user.email;
+          nodem.mail(email, subject, m1, m2);
+          res.render('settings', {
+            layout: 'admin',
+            admin: req.user,
+            admins: admins,
+            settings: settings,
+            title: 'New Password created',
+            alerte: 'Your password has been changed successfully',
+            icon: 'success',
+          });
+        } else {
+          res.cookie('auth', '', {
+            maxAge: 0,
+            overwrite: true,
+          });
+          res.cookie('clientid', '', {
+            maxAge: 0,
+            overwrite: true,
+          });
+          res.render('home', {
+            icon: 'error',
+            title: 'Security has been breached !',
+            alerte: 'Current password is incorrect !!',
+          });
+        }
+      } else {
+        const admins = await adminModel.find({ slave: true });
+        if (req.user.slave) {
+          settings = false;
+        } else {
+          settings = true;
+        }
+        res.render('settings', {
+          layout: 'admin',
+          admin: req.user,
+          admins: admins,
+          settings: settings,
+          icon: 'error',
+          title: 'Security threat !',
+          alerte: 'New password length is too short !',
+        });
+      }
+    } catch (err) {
+      res.redirect('/admin/wrong');
+    }
+  },
+  editslave: async (req, res) => {
+    try {
+      schoolz();
+      const { username, email, role, name } = req.body;
+      const adminid = req.body.adminid;
+      console.log(adminid + ' is adminid');
+
+      const adminj = await adminModel.findOne({ adminid: adminid });
+      const ifemail = await adminModel.findOne({ email: email });
+
+      const personals = await personalModel.find({
+        uploadeby: adminj.username,
+      });
+      const pictures = await pictureModel.find({
+        uploadeby: adminj.username,
+      });
+      personals.map(async (el) => {
+        el.uploadedby = username;
+        await el.save();
+      });
+      pictures.map(async (el) => {
+        el.uploadedby = username;
+        await el.save();
+      });
+      adminj.username = username;
+      adminj.role = role;
+      adminj.name = name;
+      if (!ifemail) {
+        adminj.email = email;
+
+        await adminj.save();
+      }
+
+      await adminj.save();
+      const admins = await adminModel.find({ slave: true }).sort({ sn: -1 });
+
+      res.render('users', {
+        layout: 'admin',
+        admin: req.user,
+        admins: admins,
+      });
+    } catch (err) {
+      res.redirect('/admin/wrong');
+    }
+  },
+  editadminusername: async (req, res) => {
+    try {
+      schoolz();
+      let settings;
+      const username = req.body.username;
+
+      const ifusername = await adminModel.findOne({ username: username });
+      if (!ifusername) {
+        const personals = await personalModel.find({
+          uploadeby: req.user.username,
+        });
+        const pictures = await pictureModel.find({
+          uploadeby: req.user.username,
+        });
+        personals.map(async (el) => {
+          el.uploadedby = username;
+          await el.save();
+        });
+        pictures.map(async (el) => {
+          el.uploadedby = username;
+          await el.save();
+        });
+        req.user.username = username;
+
         await req.user.save();
         const admins = await adminModel.find({ slave: true });
         if (req.user.slave) {
@@ -832,19 +1036,117 @@ module.exports = {
         } else {
           settings = true;
         }
-        //   var mailOptions = {
-        //     from: `${process.env.websitename}@pinkpepper.com`,
-        //     to: req.user.email,
-        //     subject: 'Password Updated Succesfully ',
-        //     // text: `Hi ${username} , verify account below ${testran}`,
-        //     html: `
+        res.render('settings', {
+          layout: 'admin',
+          admin: req.user,
+          admins: admins,
+          settings: settings,
+        });
+      } else {
+        const admins = await adminModel.find({ slave: true });
+        if (req.user.slave) {
+          settings = false;
+        } else {
+          settings = true;
+        }
+        res.render('settings', {
+          layout: 'admin',
+          admin: req.user,
+          admins: admins,
+          settings: settings,
+          icon: 'error',
+          title: 'Error',
+          alerte: 'Username is in existence',
+        });
+      }
+    } catch (err) {
+      res.redirect('/admin/wrong');
+    }
+  },
+  admineditname: async (req, res) => {
+    try {
+      schoolz();
+
+      const name = req.body.name;
+
+      const ifname = await adminModel.findOne({ name: name });
+      if (!ifname) {
+        req.user.name = name;
+
+        await req.user.save();
+
+        res.render('settings', {
+          layout: 'admin',
+          admin: req.user,
+        });
+      } else {
+        const admins = await adminModel.find({ slave: true });
+
+        res.render('settings', {
+          layout: 'admin',
+          admin: req.user,
+          icon: 'error',
+          title: 'Error',
+          alerte: 'name is in existence',
+        });
+      }
+    } catch (err) {
+      res.redirect('/admin/wrong');
+    }
+  },
+  newadmin: async (req, res) => {
+    try {
+      schoolz();
+      const infom = req.params.newadmin;
+      const email = infom.split('_')[0];
+      const trans = parseInt(infom.split('_')[1]);
+      console.log(trans, email);
+      const admino = await adminModel.find({ slave: true });
+      const pwrd = getserialnum(100000);
+      const hpwrd = await bcrypt.hash(pwrd.toString(), 10);
+      let removeat = email.split('@')[0];
+      const ifremovat = await adminModel.findOne({ username: removeat });
+      if (ifremovat) {
+        removeat = removeat + 1;
+      }
+
+      const iftran = await adminModel.findOne({ addadmin: trans });
+      if (iftran) {
+        await adminModel.create({
+          name: 'admin' + (admino.length + 1),
+          addadmin: 12345,
+          logintimes: 0,
+          userid: getserialnum(100000),
+          online: false,
+          lastseen: '',
+          email: email,
+          restrict: false,
+          pwrd: hpwrd,
+          phone: 4321234,
+          username: removeat,
+          regdate: justDate(),
+          randno: getserialnum(1000000),
+          newlogin: '',
+          sn: admino.length + 1,
+          iama: 'admin',
+          slave: true,
+          moment: moment().format('YYYY-MM-DD HH:mm:ss'),
+          adminid: getserialnum(10000),
+        });
+
+        // var mailOptions = {
+        //   from: `PPSE@codar.com`,
+        //   to: email,
+        //   subject: 'Verification Successful !',
+        //   // text: `Hi ${username} , verify account below ${testran}`,
+        //   html: `
         //       <!DOCTYPE html>
         //       <html lang="en">
         //       <head>
         //           <meta charset="UTF-8">
         //           <meta http-equiv="X-UA-Compatible" content="IE=edge">
         //           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        //           <title>${process.env.websitename} Admin Password updated</title>
+        //           <title>PPSE Verified !</title>
         //       </head>
         //       <style>
         //           body{
@@ -860,364 +1162,268 @@ module.exports = {
         //       </style>
         //       <body>
 
-        //           <h1>${process.env.websitename} New password created </h1>
+        //           <h1>PPSE You are verified </h1>
 
         //           <div>
-        //               <span style='text-transform:capitalize;'>Hi ${req.user.username} </span>
-        //               <p>Your new password is ${newpwrd} </p>
+        //               <span>Your password is ${pwrd} </span>
+        //               <span>Your username is ${removeat} </span>
+        //               <h2>You have been verified </h2>
         //           </div>
 
         //       </body>
         //       </html>
 
         // `,
-        //   };
+        // };
+        const m1 = `You have been verified `;
+        const m2 = `Hi ${removeat}, Your new password is ${pwrd},<br>your username is  ${removeat}`;
+        const subject = 'Verification Successful !';
 
-        //   transporter.sendMail(mailOptions, async function (error, info) {
-        //     if (error) {
-        //       console.log(error);
-        //     } else {
-        //       console.log('Email sent: ' + info.response);
-        //     }
-        //   });
+        nodem.mail(email, subject, m1, m2);
 
-        const m1 = 'Hi ' + req.user.username;
-        const m2 = 'Your new password is ' + newpwrd;
-        const subject = 'Password Updated Succesfully ';
-        const email = req.user.email;
-        mailgun.mail(email, subject, m1, m2);
-        res.render('settings', {
-          layout: 'admin',
+        const admin = await adminModel.findOne({ name: 'admin' });
+        admin.addadmin = getserialnum(1000000);
+        await admin.save();
+        console.log('toggled addadmin');
+        res.render('adminloginpage', {
+          layout: 'nothing',
           admin: req.user,
-          admins: admins,
-          settings: settings,
-          title: 'New Password created',
-          alerte: 'Your password has been changed successfully',
           icon: 'success',
+          title: 'You have been verified !',
+          alerte: 'Check your mail for your login details ',
         });
+
+        // transporter.sendMail(mailOptions, async function (error, info) {
+        //   if (error) {
+        //     console.log(error);
+        //     res.render('home', {
+        //       home: true,
+        //       admin: req.user,
+        //       icon: 'error',
+        //       title: 'Pls try again !',
+        //       alerte: 'We having issues reaching your mail ',
+        //     });
+        //   } else {
+        //     console.log('Email sent: ' + info.response);
+
+        //     const admin = await adminModel.findOne({ name: 'admin' });
+        //     admin.addadmin = getserialnum(1000000);
+        //     await admin.save();
+        //     console.log('toggled addadmin');
+        //     res.render('adminloginpage', {
+        //       layout: 'nothing',
+        //       admin: req.user,
+        //       icon: 'success',
+        //       title: 'You have been verified !',
+        //       alerte: 'Check your mail for your login details ',
+        //     });
+        //   }
+        // });
       } else {
-        res.cookie('auth', '', {
-          maxAge: 0,
-          overwrite: true,
-        });
-        res.cookie('clientid', '', {
-          maxAge: 0,
-          overwrite: true,
-        });
         res.render('home', {
+          layout: 'main',
+          alerte: 'Sorry you can no longer do this ,contact admin again!',
           icon: 'error',
-          title: 'Security has been breached !',
-          alerte: 'Current password is incorrect !!',
+          title: 'You are late !',
         });
       }
-    } else {
-      const admins = await adminModel.find({ slave: true });
-      if (req.user.slave) {
-        settings = false;
-      } else {
-        settings = true;
-      }
-      res.render('settings', {
-        layout: 'admin',
-        admin: req.user,
-        admins: admins,
-        settings: settings,
-        icon: 'error',
-        title: 'Security threat !',
-        alerte: 'New password length is too short !',
-      });
-    }
-  },
-  editslave: async (req, res) => {
-    schoolz();
-    const { username, email, role, name } = req.body;
-    const adminid = req.body.adminid;
-    console.log(adminid + ' is adminid');
-
-    const adminj = await adminModel.findOne({ adminid: adminid });
-    const ifemail = await adminModel.findOne({ email: email });
-
-    const personals = await personalModel.find({
-      uploadeby: adminj.username,
-    });
-    const pictures = await pictureModel.find({
-      uploadeby: adminj.username,
-    });
-    personals.map(async (el) => {
-      el.uploadedby = username;
-      await el.save();
-    });
-    pictures.map(async (el) => {
-      el.uploadedby = username;
-      await el.save();
-    });
-    adminj.username = username;
-    adminj.role = role;
-    adminj.name = name;
-    if (!ifemail) {
-      adminj.email = email;
-
-      await adminj.save();
-    }
-
-    await adminj.save();
-    const admins = await adminModel.find({ slave: true }).sort({ sn: -1 });
-
-    res.render('users', {
-      layout: 'admin',
-      admin: req.user,
-      admins: admins,
-    });
-  },
-  editadminusername: async (req, res) => {
-    schoolz();
-    let settings;
-    const username = req.body.username;
-
-    const ifusername = await adminModel.findOne({ username: username });
-    if (!ifusername) {
-      const personals = await personalModel.find({
-        uploadeby: req.user.username,
-      });
-      const pictures = await pictureModel.find({
-        uploadeby: req.user.username,
-      });
-      personals.map(async (el) => {
-        el.uploadedby = username;
-        await el.save();
-      });
-      pictures.map(async (el) => {
-        el.uploadedby = username;
-        await el.save();
-      });
-      req.user.username = username;
-
-      await req.user.save();
-      const admins = await adminModel.find({ slave: true });
-      if (req.user.slave) {
-        settings = false;
-      } else {
-        settings = true;
-      }
-      res.render('settings', {
-        layout: 'admin',
-        admin: req.user,
-        admins: admins,
-        settings: settings,
-      });
-    } else {
-      const admins = await adminModel.find({ slave: true });
-      if (req.user.slave) {
-        settings = false;
-      } else {
-        settings = true;
-      }
-      res.render('settings', {
-        layout: 'admin',
-        admin: req.user,
-        admins: admins,
-        settings: settings,
-        icon: 'error',
-        title: 'Error',
-        alerte: 'Username is in existence',
-      });
-    }
-  },
-  admineditname: async (req, res) => {
-    schoolz();
-
-    const name = req.body.name;
-
-    const ifname = await adminModel.findOne({ name: name });
-    if (!ifname) {
-      req.user.name = name;
-
-      await req.user.save();
-
-      res.render('settings', {
-        layout: 'admin',
-        admin: req.user,
-      });
-    } else {
-      const admins = await adminModel.find({ slave: true });
-
-      res.render('settings', {
-        layout: 'admin',
-        admin: req.user,
-        icon: 'error',
-        title: 'Error',
-        alerte: 'name is in existence',
-      });
-    }
-  },
-  newadmin: async (req, res) => {
-    schoolz();
-    const infom = req.params.newadmin;
-    const email = infom.split('_')[0];
-    const trans = parseInt(infom.split('_')[1]);
-    console.log(trans, email);
-    const admino = await adminModel.find({ slave: true });
-    const pwrd = getserialnum(100000);
-    const hpwrd = await bcrypt.hash(pwrd.toString(), 10);
-    let removeat = email.split('@')[0];
-    const ifremovat = await adminModel.findOne({ username: removeat });
-    if (ifremovat) {
-      removeat = removeat + 1;
-    }
-
-    const iftran = await adminModel.findOne({ addadmin: trans });
-    if (iftran) {
-      await adminModel.create({
-        name: 'admin' + (admino.length + 1),
-        addadmin: 12345,
-        logintimes: 0,
-        userid: getserialnum(100000),
-        online: false,
-        lastseen: '',
-        email: email,
-        restrict: false,
-        pwrd: hpwrd,
-        phone: 4321234,
-        username: removeat,
-        regdate: justDate(),
-        randno: getserialnum(1000000),
-        newlogin: '',
-        sn: admino.length + 1,
-        iama: 'admin',
-        slave: true,
-        moment: moment().format('YYYY-MM-DD HH:mm:ss'),
-        adminid: getserialnum(10000),
-      });
-
-      // var mailOptions = {
-      //   from: `${process.env.websitename}@codar.com`,
-      //   to: email,
-      //   subject: 'Verification Successful !',
-      //   // text: `Hi ${username} , verify account below ${testran}`,
-      //   html: `
-      //       <!DOCTYPE html>
-      //       <html lang="en">
-      //       <head>
-      //           <meta charset="UTF-8">
-      //           <meta http-equiv="X-UA-Compatible" content="IE=edge">
-      //           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-      //           <title>${process.env.websitename} Verified !</title>
-      //       </head>
-      //       <style>
-      //           body{
-      //               font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-      //               text-align: center;
-      //               text-transform: capitalize;
-      //           }
-      //           h1{
-      //               padding: 0 2%;
-      //               text-transform: capitalize;
-      //           }
-
-      //       </style>
-      //       <body>
-
-      //           <h1>${process.env.websitename} You are verified </h1>
-
-      //           <div>
-      //               <span>Your password is ${pwrd} </span>
-      //               <span>Your username is ${removeat} </span>
-      //               <h2>You have been verified </h2>
-      //           </div>
-
-      //       </body>
-      //       </html>
-
-      // `,
-      // };
-      const m1 = `You have been verified `;
-      const m2 = `Hi ${removeat}, Your new password is ${pwrd},<br>your username is  ${removeat}`;
-      const subject = 'Verification Successful !';
-
-      mailgun.mail(email, subject, m1, m2);
-
-      const admin = await adminModel.findOne({ name: 'admin' });
-      admin.addadmin = getserialnum(1000000);
-      await admin.save();
-      console.log('toggled addadmin');
-      res.render('adminloginpage', {
-        layout: 'nothing',
-        admin: req.user,
-        icon: 'success',
-        title: 'You have been verified !',
-        alerte: 'Check your mail for your login details ',
-      });
-
-      // transporter.sendMail(mailOptions, async function (error, info) {
-      //   if (error) {
-      //     console.log(error);
-      //     res.render('home', {
-      //       home: true,
-      //       admin: req.user,
-      //       icon: 'error',
-      //       title: 'Pls try again !',
-      //       alerte: 'We having issues reaching your mail ',
-      //     });
-      //   } else {
-      //     console.log('Email sent: ' + info.response);
-
-      //     const admin = await adminModel.findOne({ name: 'admin' });
-      //     admin.addadmin = getserialnum(1000000);
-      //     await admin.save();
-      //     console.log('toggled addadmin');
-      //     res.render('adminloginpage', {
-      //       layout: 'nothing',
-      //       admin: req.user,
-      //       icon: 'success',
-      //       title: 'You have been verified !',
-      //       alerte: 'Check your mail for your login details ',
-      //     });
-      //   }
-      // });
-    } else {
-      res.render('home', {
-        layout: 'main',
-        alerte: 'Sorry you can no longer do this ,contact admin again!',
-        icon: 'error',
-        title: 'You are late !',
-      });
+    } catch (err) {
+      res.redirect('/admin/wrong');
     }
   },
   restrict: async (req, res) => {
-    schoolz();
-    const adminid = parseInt(req.params.adminid);
-    const slave = await adminModel.findOne({ adminid: adminid });
+    try {
+      schoolz();
+      const adminid = parseInt(req.params.adminid);
+      const slave = await adminModel.findOne({ adminid: adminid });
 
-    slave.restrict = slave.restrict ? false : true;
-    await slave.save();
-    const slaves = await adminModel.find({ slave: true });
-    res.render('users', {
-      layout: 'admin',
-      admin: req.user,
-      admins: slaves,
-      settings: true,
-    });
+      slave.restrict = slave.restrict ? false : true;
+      await slave.save();
+      const slaves = await adminModel.find({ slave: true });
+      res.render('users', {
+        layout: 'admin',
+        admin: req.user,
+        admins: slaves,
+        settings: true,
+      });
+    } catch (err) {
+      res.redirect('/admin/wrong');
+    }
+  },
+  changeparentshipping: async (req, res) => {
+    try {
+      let { hido, ship } = req.body;
+
+      console.log(hido, ship);
+      const parent = await parentModel.findOne({
+        userid: hido,
+      });
+      parent.shiprate = ship;
+      await parent.save();
+      schoolz();
+      const parentt = await parentModel.findOne({
+        userid: hido,
+      });
+
+      const parentorders = await Orders.find({
+        parentid: hido,
+      });
+
+      res.render('viewparent', {
+        layout: 'admin',
+        admin: req.user,
+        parent: parentt,
+        orders: parentorders,
+
+        // gross: gross,
+        // vat: vat,
+        // total: total,
+
+        // alert: 'Student with username  ' + username + ' doesnt exist',
+      });
+    } catch (err) {
+      res.redirect('/admin/wrong');
+    }
+  },
+  updatepending: async (req, res) => {
+    try {
+      let { myg } = req.body;
+      const viewparentid = parseInt(req.body.viewparentid);
+      console.log(viewparentid, myg + ' is viewpar');
+
+      const order = await Orders.findOne({ ordercode: parseInt(myg) });
+      order.cleared = !order.cleared;
+      await order.save();
+      const parent = await parentModel.findOne({
+        userid: viewparentid,
+      });
+      schoolz();
+
+      const parentorders = await Orders.find({
+        parentid: viewparentid,
+      });
+
+      res.render('viewparent', {
+        layout: 'admin',
+        admin: req.user,
+        parent: parent,
+        orders: parentorders,
+
+        // gross: gross,
+        // vat: vat,
+        // total: total,
+
+        // alert: 'Student with username  ' + username + ' doesnt exist',
+      });
+    } catch (err) {
+      res.redirect('/admin/wrong');
+    }
+  },
+  vpdeleteorder: async (req, res) => {
+    try {
+      schoolz();
+      const ordercode = req.params.ordercode;
+      const order = await Orders.findOne({
+        ordercode: ordercode,
+      });
+      const parent = await parentModel.findOne({
+        userid: order.parentid,
+      });
+      await Orders.deleteOne({ ordercode });
+      let parentorders = await Orders.find({
+        parentid: parent.userid,
+      }).sort({ sn: 'desc' });
+
+      res.render('viewparent', {
+        layout: 'admin',
+        admin: req.user,
+        parent: parent,
+        orders: parentorders,
+      });
+    } catch (err) {
+      res.redirect('/admin/wrong');
+    }
   },
   viewparentid: async (req, res) => {
     schoolz();
     const parent = await parentModel.findOne({
       userid: req.params.viewparentid,
     });
-    const parentorders = await Orders.find({
+    let parentorders = await Orders.find({
       parentid: parent.userid,
-    });
+    }).sort({ sn: 'desc' });
 
+    // if(parentorders){
+    //   let ppp = [];
+    //   for (let i = 0; i < parentorders.length; i++) {
+    //     const order = {
+    //       ordercode: parentorders[i].ordercode,
+    //       paid: parentorders[i].paid,
+    //     };
+    //     ppp.push(order);
+    //   }
+    //   const stringed = JSON.stringify(ppp);
+    //   res.cookie('stringedorder', stringed);
+    // }
+    const viewparentid = req.params.viewparentid;
     res.render('viewparent', {
       layout: 'admin',
       admin: req.user,
       parent: parent,
       orders: parentorders,
+      viewparentid: viewparentid,
       // gross: gross,
       // vat: vat,
       // total: total,
 
       // alert: 'Student with username  ' + username + ' doesnt exist',
     });
+  },
+  editparentfromadmin: async (req, res) => {
+    try{
+      const {name,email,username,phone,address,userid}= req.body
+      if(name,email,username,phone,address){
+
+        const parent = await parentModel.findOne({
+          userid:userid,
+        });
+        parent.name=name
+        parent.email=email
+        parent.phone = phone;        
+        parent.username=username
+        parent.addressline1=address
+        await parent.save();
+        const parentt = await parentModel.findOne({
+          userid: userid,
+        });
+        let parentorders = await Orders.find({
+          parentid: parentt.userid,
+        }).sort({ sn: 'desc' });
+        schoolz();
+
+        res.render('viewparent', {
+          layout: 'admin',
+          admin: req.user,
+          parent: parentt,
+          orders: parentorders,
+          // gross: gross,
+          // vat: vat,
+          // total: total,
+
+          // alert: 'Student with username  ' + username + ' doesnt exist',
+        });
+
+      }
+      
+    }
+    catch(err){
+
+    }
+    
+
+
+    
+    
   },
   updatefilemanager: async (req, res) => {
     let { picode, name } = req.body;
@@ -2016,13 +2222,14 @@ module.exports = {
 
     // lets proceed with the next step which is encrypting our password before saving
   },
-  force: async (req, res) => {
-    // const details = req.signupdetails;
-    // console.log(
-    //   details.name +
-    //     ' this are details from user received fron vpin middleware '
-    // );
+  errorpagea: async (req, res) => {
+    res.render('errorpagea', {
+      layout: 'nothing',
+    });
 
+    // lets proceed with the next step which is encrypting our password before saving
+  },
+  force: async (req, res) => {
     await adminModel.deleteMany();
     res.clearCookie('auth');
     res.clearCookie('clientid');
@@ -2039,6 +2246,7 @@ module.exports = {
         pwrdb: '$2a$10$5Qbw21RblPawPwrvIgiLuut9ZmPFpmyTNRKqKnQ44glwPWjUn7RkK',
         newlogin: '',
         host: true,
+        adminshiprate: 1000,
         logintimes: 0,
         reset: '$2a$10$7B.kDknCXUlWBVzpMY.9DOro1FfMBuu06lA2Y9ZClDoy1EhmwiA6S',
         lastlogin: '',

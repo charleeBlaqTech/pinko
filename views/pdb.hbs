@@ -393,9 +393,12 @@
             {{!-- <h3 class="font-weight-bold text-capitalize text-muted">Dashboard</h3> --}}
             {{!-- <h3 class="font-weight-bold text-capitalize text-muted">Hi {{parent.username}}</h3> --}}
             <h3 class="font-weight-bold text-capitalize text-muted"> {{parent.name}}</h3>
+            <br>
             {{#if parent.addressline1}}
-                <h3 class="font-weight-bold text-capitalize text-muted"> {{parent.addressline1}}</h3>
+                <small
+                 class=" text-capitalize text-muted"> {{parent.addressline1}}</small>
             {{/if}}
+            <br>
             {{!-- <h3 class=" text-muted"> {{parent.phone}}</h3> --}}
             {{!-- <h4 class=" text-muted"> {{parent.email}}</h4> --}}
             {{#if parent.lastlogin }}

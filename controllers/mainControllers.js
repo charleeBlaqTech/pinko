@@ -36,7 +36,7 @@ module.exports = {
     // console.log(req.user + "req.user");
   },
   getHome: async (req, res) => {
-    res.clearCookie('auth');
+    // res.clearCookie('auth');
     res.clearCookie('clientid');
     res.clearCookie('classcode');
     res.clearCookie('adminid');

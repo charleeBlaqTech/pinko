@@ -28,13 +28,15 @@
                                     <thead>
                                         <tr class="text-center">
                                             {{!-- <th>Orders</th> --}}
-                                            <th>Items</th>
+                                            <th>Dates</th>
+                                            <th>Ordercodes</th>
                                             <th>Avatar</th>
                                             <th>Package</th>
                                             <th>Quantity</th>
                                             <th>Unit Price <small class="text-muted">AED</small></th>
                                             <th>Gross <small class="text-muted">AED</small></th>
                                             
+                                            <th>Status</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -45,8 +47,12 @@
 
                                         <tr class="text-center">
                                             <td class="text-capitalize">
-                                                {{!-- <input type="checkbox"  value={{ordercode}} name="ordercode" id="lov{{@index}}"> --}}
-                                                <label for="lov{{@index}}">Item {{ @index }}</label>
+                                                
+                                                {{ justdate }}
+                                            </td>
+                                            <td class="text-capitalize">
+                                                
+                                                <label for="lov{{@index}}">{{ ordercode }}</label>
                                             </td>
                                             <td>
                                                 <a href={{orderavatar}} class="p-0">
@@ -62,6 +68,7 @@
                                             <td>{{quantity}}</td>
                                             <td><span class="tofix">{{priceperpackage}}</span></td>
                                             <td><span class="tofix">{{totalunitsprice}}</span></td>
+                                            <td class="text-warning">Processing</td>
                                             <td><a href="/parent/deletefromparent/{{ordercode}}"><i class="text-danger fa fa-trash"></i></a></td>
                                             {{!-- <td>na</td> --}}
 

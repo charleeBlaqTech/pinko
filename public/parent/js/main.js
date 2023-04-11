@@ -9,6 +9,51 @@
   });
   let cartlegth = $('#cartlength').val();
 
+  document.getElementsByClassName('dert').disable;
+
+  const obosi = document.querySelectorAll('.obosi');
+  obosi.forEach((ell) => {
+    ell.style.display = 'none';
+  });
+  
+  $(document).ready(function () {
+    const supu = document.querySelectorAll('.checkboxx');
+    const procceed = $('.vero');
+    procceed.hide(500);
+
+    supu.forEach((el) => {
+      el.addEventListener('change', function () {
+        const id = this.id.split('y')[1];
+        // alert(id + ' idd');
+
+        const uyu = document.getElementById('abc' + id);
+        uyu.style.display = 'block';
+        const vero = document.querySelectorAll('.obosi');
+
+        if (el.checked == true) {
+          uyu.name = 'opt';
+
+          // alert(uyu.name);
+        } else {
+          // uyu.style.display = 'none';
+          uyu.name = 'opthjvn';
+          // alert('nchecked');
+
+          // el.style.display = 'none';
+        }
+
+        var total = document.querySelectorAll(
+          "input[name='pics']:checked"
+        ).length;
+        if (total > 0) {
+          procceed.show(500);
+          // alert(total);
+        } else {
+          procceed.hide(50);
+        }
+      });
+    });
+  });
   function tryr() {
     var sum = 0;
     const options = {
@@ -19,62 +64,43 @@
     $('.prices').each(function () {
       var currentRow = $(this).closest('tr');
       var button = parseFloat(currentRow.find('td:eq(3)').find('.inps').val());
-      
-      const price = parseFloat($(this).text())
+
+      const price = parseFloat($(this).text());
       // alert(price)
-      sum += ( price * button)
+      sum += price * button;
 
       //   usero.push($(this).attr('data-x'))
     });
-    
-    $('.totals').html(sum.toLocaleString('en',options));
-    const vat = Math.ceil(0.1 * sum)
-    $('.gross').val(sum.toLocaleString('en',options));
 
-    $('.vat').html(vat.toLocaleString('en',options));
-    $('.vati').val(vat.toLocaleString('en',options));
-    const anse = (vat + sum).toLocaleString('en',options)
+    $('.totals').html(sum.toLocaleString('en', options));
+    const vat = parseInt($('.vato').val().toLocaleString('en', options));
+
+    $('.vat').html(vat.toLocaleString('en', options));
+
+    // const vat = Math.ceil(0.1 * sum);
+    $('.gross').val(sum.toLocaleString('en', options));
+
+    // $('.vat').html(vat.toLocaleString('en', options));
+    // $('.vati').val(vat.toLocaleString('en', options));
+    const anse = (vat + sum).toLocaleString('en', options);
     $('.rtotal').html(anse);
-    $('.ftotal').val(anse).toLocaleString('en',options)
+    $('.ftotal').val(anse).toLocaleString('en', options);
     const throwd = document.querySelectorAll('.throws');
     if (anse == 0) {
-      const throwl = document.getElementsByClassName("throws")
+      const throwl = document.getElementsByClassName('throws');
       throwl.style.disable = true;
-      $("table").hide();
-      // $(function() {
-      //   window.location.href('/parent/db');
-      // })
-      // $('.leaver').slideToggle(360);
-      // $('.bringit').slideToggle(470);
+      $('table').hide();
+      
     }
   }
-  $('.xtrows').click(function(){
+  $('.xtrows').click(function () {
     tryr();
-    cartlegth = cartlegth --
+    cartlegth = cartlegth --;
     // alert(cartlegth);
   });
 
   
 
-  
-  $(document).ready(function () {
-    const procceed = $('.vero');
-    procceed.hide(500);
-    $('.checkboxx').change(function (){
-      var total = $("input[name='pics']:checked").length
-      if(total > 0) {
-        procceed.show(500);
-        // alert(total);
-
-      }
-      else{
-        procceed.hide(50);
-
-      }
-    })
-
-  })
-  
   $(document).ready(function () {
     $('.quantity button').on('click', function () {
       var button = $(this);
@@ -82,6 +108,7 @@
       if (button.hasClass('btn-plus')) {
         var newVal = parseFloat(oldValue) + 1;
         // alert('h');
+        
       } else {
         if (oldValue > 1) {
           var newVal = parseFloat(oldValue) - 1;
@@ -90,12 +117,9 @@
         }
       }
 
-      button.parent().parent().find('input').val(newVal)
+      button.parent().parent().find('input').val(newVal);
 
       tryr();
-      
-
-      
     });
   });
   tryr();
@@ -116,16 +140,14 @@
     toggleNavbarMethod();
     $(window).resize(toggleNavbarMethod);
   });
-  
+
   $(document).ready(function () {
     $('.bringit').hide();
 
     $('.xtrows').click(function () {
       tryr();
     });
-    $('.quantity button').each('click',function () {
-      
-    });
+    $('.quantity button').each('click', function () {});
     $('.inps').each(function () {
       $(this).change(function () {
         tryr();
@@ -133,22 +155,7 @@
     });
   });
 
-  
 
-  // Back to top button
-  // $(window).scroll(function () {
-  //     if ($(this).scrollTop() > 100) {
-  //         $('.back-to-top').fadeIn('slow');
-  //     } else {
-  //         $('.back-to-top').fadeOut('slow');
-  //     }
-  // });
-  // $('.back-to-top').click(function () {
-  //     $('html, body').animate({scrollTop: 0}, 1500, 'easeInOutExpo');
-  //     return false;
-  // });
-
-  // Vendor carousel
   $('.vendor-carousel').owlCarousel({
     loop: true,
     margin: 29,

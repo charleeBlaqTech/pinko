@@ -81,6 +81,7 @@ const adminSchema = new mongoose.Schema([
       default: true,
     },
     adminid: Number,
+    adminshiprate: Number,
     
   },
 ]);

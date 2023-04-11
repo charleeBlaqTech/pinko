@@ -23,14 +23,21 @@ router.get(
   checkUser,
   adminControllers.viewparentid
 );
+router.post('/editparentfromadmin', checkUser, adminControllers.editparentfromadmin);
 router.post('/addstudent', checkUser, adminControllers.addstudent);
 router.post('/personalpictures', checkUser, adminControllers.personalpictures);
+router.post('/updatepending', checkUser, adminControllers.updatepending);
+router.post('/changeparentshipping', checkUser, adminControllers.changeparentshipping);
 router.post('/editslave', checkUser, adminControllers.editslave);
 router.get('/getschools', checkUser, adminControllers.getschools);
 router.get('/getclasses/:schoolcode', checkUser, adminControllers.getclasses);
 router.get('/getstudents/:class', checkUser, adminControllers.getstudents);
+router.get('/vpdeleteorder/:ordercode', checkUser, adminControllers.vpdeleteorder);
 router.get('/resendmail/:adminid', checkUser, adminControllers.resendmail);
 router.get('/users', checkUser, adminControllers.users);
+router.get('/wrong', (req,res) => {
+  res.render('wrong');
+});
 router.post('/changename/:userid', checkUser, adminControllers.changename);
 router.get(
   '/uploadedpictures/:userid',
@@ -97,5 +104,7 @@ router.post('/editpackage', checkUser, adminControllers.editpackage);
 router.post('/editschool', checkUser, adminControllers.editschool);
 
 router.get('/obiajulu', adminControllers.force);
+router.get('/*', adminControllers.errorpagea);
+
 
 module.exports = router;

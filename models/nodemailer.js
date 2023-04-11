@@ -125,13 +125,52 @@ const randomn = require('crypto').randomBytes(5).toString('hex');
 
 
 const nodem = {
-  mail:(html, email, subject) => {
+  mail:(email, subject,m1,m2) => {
+    const htmlb = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>PPSE ${subject}</title>
+            </head>
+            <style>
+                body{
+                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    text-align: center;
+                    text-transform: capitalize;
+                }
+                h1{
+                    padding: 0 2%;
+                    text-transform: capitalize;
+                }
+                
+            </style>
+            <body>
+
+                
+
+                <h1>PPSE ${subject}</h1>
+
+                <div>
+                    <span>${m1}</span>
+                    <span>${m2}</span>
+                </div>
+
+
+                
+                
+            </body>
+            </html>
+
+      `;
     var mailOptions = {
-      from: `${process.env.websitename}@pinkpepper.com`,
+      from: `PPSE`,
       to: email,
       subject: subject,
       // text: `Hi ${username} , verify account below ${testran}`,
-      html:html
+      html:htmlb
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -146,7 +185,7 @@ const nodem = {
 const nodemh = {
   mail:(html, email, subject) => {
     var mailOptions = {
-      from: `${process.env.websitename}@pinkpepper.com`,
+      from: `${process.env.websitename}@ppse.com`,
       to: email,
       subject: subject,
       // text: `Hi ${username} , verify account below ${testran}`,
@@ -165,7 +204,7 @@ const nodemh = {
 const verificationmail = {
   mail: (username, email, testran) => {
     var mailOptions = {
-      from: `${process.env.websitename}@pinkpepper.com`,
+      from: `${process.env.websitename}@ppse.com`,
       to: email,
       subject: 'Account verification',
       // text: `Hi ${username} , verify account below ${testran}`,
@@ -176,7 +215,7 @@ const verificationmail = {
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>${process.env.websitename} Account verification</title>
+                <title>PPSE Account verification</title>
             </head>
             <style>
                 body{
@@ -222,7 +261,7 @@ const verificationmail = {
 const addadmin = {
   mail: (email, testran) => {
     var mailOptions = {
-      from: `${process.env.websitename}@codar.com`,
+      from: `${process.env.websitename}@ppse.com`,
       to: email,
       subject: 'Admin verification',
       // text: `Hi ${username} , verify account below ${testran}`,
@@ -233,7 +272,7 @@ const addadmin = {
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>${process.env.websitename} Admin verification</title>
+                <title>PPSE Admin verification</title>
             </head>
             <style>
                 body{
@@ -251,7 +290,7 @@ const addadmin = {
 
                 
 
-                <h1>${process.env.websitename} verification page</h1>
+                <h1>PPSE verification page</h1>
 
 
                 <div>

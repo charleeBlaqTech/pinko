@@ -71,7 +71,9 @@
         .remova,.relad{
             display: none;
         }
-
+        .letters{
+            font-size: 20px;
+        }
         .concubine {
 
             justify-content: space-evenly;
@@ -190,14 +192,19 @@
 <div class="main-panedl felaa">
 
     <div class="fesi">
-        <div class="ifesi ">
-            <h1 class="letters text-center" style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); ;color:aliceblue;">~My
+        <div class="ifesi boxa">
+            <h1 title="change layouts" class="lboxa ttooltip letters text-center" style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); ;color:aliceblue;cursor:pointer;">~My
                 Gallery~</h1>
             <div class="conc">
                 <div class="d-none px-lg-5 d-flex justify-content-end">
-                    <a href="" class="btn btn-behance bg-success text-center px-3 py-2" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                        <i class="fa fa-cloud-upload"></i>
-                    </a>
+                    <div>
+                        <a title="click to upload pictures" href="" class="ttooltip btn btn-behance bg-success text-center px-3 py-2"
+                            data-bs-toggle="modal" data-bs-target="#exampleModal">
+                            <i class="fa fa-cloud-upload"></i>
+                        </a>
+                        <br>
+                        
+                    </div>
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
                             <div class="modal-content ">
@@ -238,9 +245,9 @@
                 </div>
 
                 <div class="concubine " style="">
-                    <input class="btn btn-transparent allpicturess" type="button" value="All/{{allpictures.length}}">
-                    <input class="btn btn-transparent personalss" type="button" value="Gallery/{{personals.length}}">
-                    <button class="btn btn-transparent live" type="submit">Live/{{pictures.length}} </button>
+                    <input class="btn btn-transparent allpicturess ttooltip" type="button" value="All" title="{{allpictures.length}} pictures">
+                    <input class="btn btn-transparent personalss ttooltip" type="button" value="Gallery" title="{{personals.length}} pictures">
+                    <button class="btn btn-transparent live ttooltip" type="submit" title="{{pictures.length}} pictures">Live </button>
                     {{!-- <input class="btn btn-transparent " type="submit" value="Recent ">
                     <input class="btn btn-transparent fa-solid fa-arrow-down" type="reset" value="Not recent"> --}}
                 </div>
@@ -254,9 +261,11 @@
         
                         {{#each personals}}
                             <div class=" column" style="position:relative;" data-bs-toggle="modal" data-bs-target="#exampleModaliop{{@index}}">
-                                <img src={{imgdir}} class="person melo" style="padding: 0;" alt="...">
-                                <p class="  mt-n5 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;"><i class="fa fa-camera"></i> {{uploadedby}}</p>
-                                <p class="mt-n4 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;">{{momentago}}</p>
+                                <img src={{imgdir}} class="ttooltip person melo" style="padding: 0;" alt="..." title="uploaded by {{uploadedby}} {{momentago}}">
+                                <p class="  mt-n5 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;"><i
+                                        class="fa fa-camera"></i> {{uploaddate}}</p>
+                                <p class="mt-n4 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;">
+                                    {{picode}}</p>
                                 
                 
                             </div>
@@ -298,26 +307,29 @@
                             </div>
             
                         {{/each}}
+                        
         
                     {{else}}
                     <div class="d-flex p-2 " style="width:100%;">
-                        <h4 class="text-dark text-center m-auto" style="width:100%;">No Pictures
+                        <h4 class="text-dark text-center m-auto ttooltip" style="width:100%;" title="sorry there no pictures at this moment">No Pictures
                             yet !</h4>
         
                     </div>
                     {{/if}}
+                    
                 </div>
+
                 <div class="rowl pictures">
                     {{#if pictures}}
         
         
                         {{#each pictures}}
                             <div class=" column" style="position:relative;" data-bs-toggle="modal" data-bs-target="#exampleModalio{{@index}}">
-                                <img src={{imgdir}} class="pict melo" style="padding: 0;" alt="...">
+                                <img title="uploaded by {{uploadedby}} {{momentago}}" src={{imgdir}} class="ttooltip pict melo" style="padding: 0;" alt="...">
                                 <p class="  mt-n5 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;"><i
-                                        class="fa fa-camera"></i> {{uploadedby}}</p>
+                                        class="fa fa-user"></i> {{for}}</p>
                                 <p class="mt-n4 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;">
-                                    {{momentago}}</p>
+                                    {{picode}}</p>
                 
                             </div>
                             <div class="modal fade" id="exampleModalio{{@index}}" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -376,11 +388,13 @@
         
                         {{#each allpictures}}
                             <div class=" column"  style="position:relative;" data-bs-toggle="modal" data-bs-target="#exampleModalioq{{@index}}">
-                                <img src={{imgdir}} class="allp melo" style="padding: 0;" alt="...">
-                                <p class="  mt-n5 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;"><i
-                                        class="fa fa-camera"></i> {{uploadedby}}</p>
+                                <img title="uploaded by {{uploadedby}} {{momentago}}" src={{imgdir}} class="ttooltip allp melo" style="padding: 0;" alt="...">
+                                {{#if schoolname}}
+                                    <p class="  mt-n5 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;"><i
+                                            class="fa fa-user"></i> {{for}}</p>
+                                {{/if}}
                                 <p class="mt-n4 mx-auto text-center remova bg-dark w-50 text-light" style="position: absolute;margin:0 auto;">
-                                    {{momentago}}</p>
+                                    {{picode}}</p>
                 
                             </div>
                             <div class="modal fade" id="exampleModalioq{{@index}}" tabindex="-1" aria-labelledby="exampleModalLabel"
@@ -446,6 +460,22 @@
                 </ul>
             </nav>
         </div>
+        <div class="ifesi boxb mt-2">
+            <h1 title="change layouts" class="lboxb ttooltip letters text-center"
+                style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); ;color:aliceblue;cursor:pointer;">~Light Box~</h1>
+            
+            
+        
+        
+            <div class="" style="overflow: auto;height:60vh;">
+                {{#each allpictures}}
+                    <a href={{imgdir}} title="My title 1" data-jbox-image="gallery1"><img class="text-center" style="height:350px;width: 250px;object-fit:contain;" src={{imgdir}} alt=""></a>
+                {{/each}}
+        
+        
+            </div>
+            
+        </div>
         
     </div>
 
@@ -456,3 +486,22 @@
 
 </div>
 
+<script>
+    const fboxbuttona= document.querySelector(".lboxa")
+    const fboxbuttonb= document.querySelector(".lboxb")
+    const fboxa= document.querySelector(".boxa")
+    const fboxb= document.querySelector(".boxb")
+    fboxb.style.display="none"
+
+    fboxbuttona.addEventListener("click",function(e){
+        fboxa.style.display = "none"
+        fboxb.style.display = "block"
+
+    })
+    fboxbuttonb.addEventListener("click",function(e){
+        fboxb.style.display = "none"
+        fboxa.style.display = "block"
+
+    })
+
+</script>

@@ -1,12 +1,12 @@
 <div class="main-panels ">
     <div class="content-wrapper ">
-        <div class="container">
+        <div class="container-fluid">
             <div class="col-lg-12 ">
                 <div class="card">
                     <div class="card-body">
                         <div class="col-12 col-xl-8 mb-xl-0">
                             {{!-- <h3 class="font-weight-bold text-capitalize ">{{school.schoolname}}</h3> --}}
-                            <h6 class="font-weight-bold text-capitalize text-muted">~Pending Orders~</h6>
+                            <h6 class="font-weight-bold text-capitalize text-muted">~Cleared Orders~</h6>
                             {{!-- <h6 class="font-weight-normal text-capitalize text-muted">Registered
                                 {{school.regdate}}</h6> --}}
                             {{!-- <h6 class="font-weight-normal mb-0">All systems are running smoothly!</h6> --}}
@@ -27,13 +27,16 @@
                                 <table class="table table-striped">
                                     <thead>
                                         <tr class="text-center">
-                                            {{!-- <th>Orders</th> --}}
-                                            <th>Items</th>
+                                            
+                                            <th>Date</th>
+                                            <th>Ordercodes</th>
+
                                             <th>Avatar</th>
                                             <th>Package</th>
                                             <th>Quantity</th>
                                             <th>Unit Price <small class="text-muted">AED</small></th>
                                             <th>Gross <small class="text-muted">AED</small></th>
+                                            <th>Status</th>
 
                                             <th>Action</th>
                                         </tr>
@@ -45,9 +48,13 @@
 
                                         <tr class="text-center">
                                             <td class="text-capitalize">
+                                            
+                                                {{ justdate }}
+                                            </td>
+                                            <td class="text-capitalize">
                                                 {{!-- <input type="checkbox" value={{ordercode}} name="ordercode"
                                                     id="lov{{@index}}"> --}}
-                                                <label for="lov{{@index}}">Item {{ @index }}</label>
+                                                <label for="lov{{@index}}">{{ ordercode }}</label>
                                             </td>
                                             <td>
                                                 <a href={{orderavatar}} class="p-0">
@@ -63,9 +70,10 @@
                                             <td>{{quantity}}</td>
                                             <td><span class="tofix">{{priceperpackage}}</span></td>
                                             <td><span class="tofix">{{totalunitsprice}}</span></td>
+                                            <td class="text-success">Processed</td>
+
                                             <td><a href="/parent/deletefromparent/{{ordercode}}"><i
                                                         class="text-danger fa fa-trash"></i></a></td>
-                                            {{!-- <td>na</td> --}}
 
                                         </tr>
 
@@ -83,7 +91,7 @@
 
 
                             {{else}}
-                            <h4 class="m-auto text-center text-muted">No Pending Orders !</h4>
+                            <h4 class="m-auto text-center text-muted">No cleared Orders !</h4>
                             {{/if}}
                         </div>
 

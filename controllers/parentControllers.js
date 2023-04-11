@@ -76,6 +76,7 @@ module.exports = {
     const hpwrd = await bcrypt.hash(details.pwrd, 10);
 
     const parid = getserialnum(1000000);
+    const shiprate = await adminModel.findOne({ host: true })
 
     try {
       await parentModel.create({
@@ -86,6 +87,7 @@ module.exports = {
         pwrd: hpwrd,
         newlogin: '',
         logintimes: 0,
+        shiprate: shiprate.adminshiprate,
         laststudentname: 'None',
         lastlogin: justDate(),
         // schoolname: student.schoolname,
@@ -101,9 +103,7 @@ module.exports = {
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>${process.env.websitename} Welcome ${capitalise(
-        details.username
-      )} </title>
+                <title>PPSE Welcome ${capitalise(details.username)} </title>
             </head>
             <style>
                 body{
@@ -121,7 +121,7 @@ module.exports = {
 
                 
 
-                <h1>Welcome to ${process.env.websitename} </h1>
+                <h1>Welcome to PPSE </h1>
 
 
                 <div>
@@ -144,7 +144,7 @@ module.exports = {
 
           `;
       const email = details.email;
-      const subject = `${process.env.websitename}`;
+      const subject = `PPSE`;
 
       // mailgunh.mail(html, email, subject);
       nodemh.mail(html, email, subject);
@@ -158,9 +158,7 @@ module.exports = {
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>${process.env.websitename} Welcome ${capitalise(
-          details.username
-        )} </title>
+                <title>PPSE Welcome ${capitalise(details.username)} </title>
             </head>
             <style>
                 body{
@@ -178,7 +176,7 @@ module.exports = {
 
                 
 
-                <h1>${process.env.websitename} New Parent sign-up</h1>
+                <h1>PPSE New Parent sign-up</h1>
 
 
                 <div>
@@ -226,19 +224,39 @@ module.exports = {
       });
     }
 
-    // lets proceed with the next step which is encrypting our password before saving
   },
   confirmpayment: async (req, res) => {
     const packages = await Package.find();
-    const myJSON = req.cookies.myjson;
-    const arrayofobj = JSON.parse(myJSON);
-    arrayofobj.map(async (el) => {
-      const order = await OrdersModel.findOne({ ordercode: el.ordercode });
-      order.paid = true;
-      await order.save();
-    });
 
-    const html = `
+    try {
+      const myJSON = req.cookies.myjson;
+      const arrayofobj = JSON.parse(myJSON);
+      arrayofobj.map(async (el) => {
+        const sn = await OrdersModel.find({parentid:req.user.userid}).length;
+        const gsn= await OrdersModel.find().length
+        await OrdersModel.create({
+          ordercode: el.ordercode,
+          sn: sn + 1,
+          gsn:gsn + 1,
+          orderavatar: el.orderavatar,
+          packageid: el.packageid,
+          quantity: el.quantity,
+          packagename: el.packagename,
+          priceperpackage: el.priceperpackage,
+          totalunitsprice: el.totalunitsprice,
+          justdate: el.justdate,
+          dateordered: el.dateordered,
+          username: el.username,
+          studentname: el.studentname,
+          parentid: el.parentid,
+          studentid: el.studentid,
+          paid: true,
+          cleared: false,
+          schoolcode: el.schoolcode,
+        });
+      });
+
+      const html = `
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -283,22 +301,24 @@ module.exports = {
             </html>
 
           `;
-    const email = req.user.email;
-    const subject = `${process.env.websitename}`;
+      const email = req.user.email;
+      const subject = `PPSE`;
+      res.clearCookie('myjson');
+      res.clearCookie('stringedorder');
 
-    // mailgunh.mail(html, email, subject);
-    nodemh.mail(html, email, subject);
+      // mailgunh.mail(html, email, subject);
+      nodemh.mail(html, email, subject);
 
-    const admins = await adminModel.find();
-    admins.map((el) => {
-      const html = `
+      const admins = await adminModel.find();
+      admins.map((el) => {
+        const html = `
             <!DOCTYPE html>
             <html lang="en">
             <head>
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>${process.env.websitename} New Order(s)
+                <title>PPSE New Order(s)
        </title>
             </head>
             <style>
@@ -317,12 +337,14 @@ module.exports = {
 
                 
 
-                <h1>${process.env.websitename} New Order</h1>
+                <h1>PPSE New Order</h1>
 
 
                 <div>
                     <span>Hi ${capitalise(el.username)} </span>
-                    <h2>${capitalise(req.user.username)} just placed an order</h2>
+                    <h2>${capitalise(
+                      req.user.username
+                    )} just placed an order</h2>
 
                     
                     
@@ -335,21 +357,36 @@ module.exports = {
             </html>
 
           `;
-      const semail = el.email;
-      const subject = 'New Order !';
+        const semail = el.email;
+        const subject = 'New Order !';
 
-      // mailgunh.mail(html, email, subject);
-      nodemh.mail(html, semail, subject);
-    });
-
-    res.render('pdb', {
-      layout: 'parent',
-      parent: req.user,
-      alerte: 'Your order has been placed succesfully ',
-      title: 'Payment confirmed !',
-      icon: 'success',
-      packages: packages,
-    });
+        // mailgunh.mail(html, email, subject);
+        nodemh.mail(html, semail, subject);
+      });
+      const myorders = await OrdersModel.find({
+        parentid: req.user.userid,
+      })
+        .where('cleared')
+        .equals(false)
+        .sort({sn:"desc"})
+      res.render('myorders', {
+        layout: 'parent',
+        parent: req.user,
+        alerte: 'Your order has been placed succesfully ',
+        title: 'Payment confirmed !',
+        icon: 'success',
+        orders: myorders,
+      });
+    } catch (err) {
+      res.render('pdb', {
+        layout: 'parent',
+        parent: req.user,
+        alerte: 'You can not complete this request at this moment. Please try again later',
+        title: 'Error !',
+        icon: 'error',
+        packages: packages,
+      });
+    }
   },
   packages: async (req, res) => {
     const packages = await Package.find();
@@ -496,6 +533,7 @@ module.exports = {
         cart: objarray,
         wm: stdntpictures,
         packages: packages,
+        vat: parseInt(req.user.shiprate),
       });
     } catch (e) {
       console.log(e).message;
@@ -540,15 +578,15 @@ module.exports = {
       // alert: 'Student with username  ' + username + ' doesnt exist',
     });
   },
-  parentpendingorders: async (req, res) => {
+  parentclearedorders: async (req, res) => {
     const parent = req.user;
     const myorders = await OrdersModel.find({
       parentid: parent.userid,
     })
-      .where('paid')
-      .equals(false);
+      .where('cleared')
+      .equals(true);
 
-    res.render('pendingorders', {
+    res.render('parentclearedorders', {
       layout: 'parent',
       parent: req.user,
       orders: myorders,
@@ -564,8 +602,10 @@ module.exports = {
     const myorders = await OrdersModel.find({
       parentid: parent.userid,
     })
-      .where('paid')
-      .equals(true);
+      .where('cleared')
+      .equals(false)
+      .sort({ sn: 'desc' });
+
 
     res.render('myorders', {
       layout: 'parent',
@@ -716,7 +756,8 @@ module.exports = {
       const m1 = 'Hi ' + ifEmail.username;
       const m2 = 'Your verification code is ' + vcode;
       const subject = 'Password Recovery';
-      mailgun.mail(email, subject, m1, m2);
+      // mailgun.mail(email, subject, m1, m2);
+      nodem.mail(email, subject, m1, m2);
       res.render('getfgvcode', {
         layout: 'nothing',
         title: 'Check your mail !',
@@ -754,7 +795,7 @@ module.exports = {
       const m1 = 'Hi ' + req.user.username;
       const m2 = 'Your verification code is ' + vcode;
       const subject = 'Email verification';
-      mailgun.mail(email, subject, m1, m2);
+      nodem.mail(email, subject, m1, m2);
       res.render('emailupdate', {
         layout: 'nothing',
         parent: req.user,
@@ -941,7 +982,7 @@ module.exports = {
         parent: req.user,
         packages: packages,
         icon: 'error',
-        title: 'Incorrect findcode',
+        title: 'Incorrect student-code',
         alerte: 'Student with findcode ' + find + ' doesnt exist',
         // order: orders,
       });
@@ -952,12 +993,13 @@ module.exports = {
     let { gross, vat, total } = req.body;
     const studentuserid = req.body.studentuserid;
     const student = await studentModel.findOne({ userid: studentuserid });
-
+    const ship = req.user.shiprate;
     total = total.split(',').join('');
 
     let ordercodes = {};
     console.log(total + ' is total');
     if (total > 0) {
+      total = total ;
       if (!Array.isArray(imgdir)) {
         imgdir = [imgdir];
       }
@@ -993,27 +1035,30 @@ module.exports = {
           parentid: req.user.userid,
           studentid: studentuserid,
           paid: false,
+          cleared: false,
+          moment: moment().format('YYYY-MM-DD HH:mm:ss'),
           schoolcode: student.schoolcode,
         };
 
-        await OrdersModel.create({
-          ordercode: ordercode,
-          sn: ordercode,
-          orderavatar: imgdir[i],
-          packageid: packageid[i],
-          quantity: quantity[i],
-          packagename: package.name,
-          priceperpackage: package.price,
-          totalunitsprice: totalu,
-          justdate: justDate(),
-          dateordered: currentDate(),
-          username: req.user.username,
-          studentname: student.name,
-          parentid: req.user.userid,
-          studentid: studentuserid,
-          paid: false,
-          schoolcode: student.schoolcode,
-        });
+        // await OrdersModel.create({
+        //   ordercode: ordercode,
+        //   sn: ordercode,
+        //   orderavatar: imgdir[i],
+        //   packageid: packageid[i],
+        //   quantity: quantity[i],
+        //   packagename: package.name,
+        //   priceperpackage: package.price,
+        //   totalunitsprice: totalu,
+        //   justdate: justDate(),
+        //   dateordered: currentDate(),
+        //   username: req.user.username,
+        //   studentname: student.name,
+        //   parentid: req.user.userid,
+        //   studentid: studentuserid,
+        //   paid: false,
+        //   cleared: false,
+        //   schoolcode: student.schoolcode,
+        // });
 
         orderss.push(ordera);
       }
@@ -1032,7 +1077,7 @@ module.exports = {
 
       const others = {
         gross: gross,
-        vat: vat,
+        vat: parseInt(ship),
         total: total,
       };
       // order.push(others);
@@ -1047,7 +1092,7 @@ module.exports = {
         parent: req.user,
         child: student,
         gross: gross,
-        vat: vat,
+        vat: parseInt(ship),
         total: total,
 
         // alert: 'Student with username  ' + username + ' doesnt exist',

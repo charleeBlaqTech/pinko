@@ -17,122 +17,470 @@
     .playw:nth-child(even) {
         color: blue;
     }
+
+
+
+    *:before,
+    *:after {
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: -apple-system, ".SFNSText-Regular", "Helvetica Neue", "Roboto", "Segoe UI", sans-serif;
+    }
+
+    .toggle {
+        cursor: pointer;
+        display: inline-block;
+    }
+
+    .toggle-switch {
+        display: inline-block;
+        background: #ccc;
+        border-radius: 16px;
+        width: 58px;
+        height: 32px;
+        position: relative;
+        vertical-align: middle;
+        transition: background 0.25s;
+    }
+
+    .toggle-switch:before,
+    .toggle-switch:after {
+        content: "";
+    }
+
+    .toggle-switch:before {
+        display: block;
+        background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+        border-radius: 50%;
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+        width: 24px;
+        height: 24px;
+        position: absolute;
+        top: 4px;
+        left: 4px;
+        transition: left 0.25s;
+    }
+
+    .toggle:hover .toggle-switch:before {
+        background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+        box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+    }
+
+    .toggle-checkbox:checked+.toggle-switch {
+        background: #56c080;
+    }
+
+    .toggle-checkbox:checked+.toggle-switch:before {
+        left: 30px;
+    }
+
+    .toggle-checkbox {
+        position: absolute;
+        visibility: hidden;
+    }
+
+    .toggle-label {
+        margin-left: 5px;
+        position: relative;
+        top: 2px;
+    }
+
+
+    .btn-40,
+    .btn-40 *,
+    .btn-40 :after,
+    .btn-40 :before,
+    .btn-40:after,
+    .btn-40:before {
+        border: 0 solid;
+        box-sizing: border-box;
+    }
+
+    .btn-40 {
+        -webkit-tap-highlight-color: transparent;
+        -webkit-appearance: button;
+        background-color: #3b2828a4;
+        background-image: none;
+        color: #fff;
+        border-radius: 25px;
+        cursor: pointer;
+        font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+            Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+            Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+        font-size: 100%;
+        line-height: 1.5;
+        margin: 0;
+        -webkit-mask-image: -webkit-radial-gradient(#000, #fff);
+        padding: 0;
+    }
+
+    .btn-40:disabled {
+        cursor: default;
+    }
+
+    .btn-40:-moz-focusring {
+        outline: auto;
+    }
+
+    .btn-40 svg {
+        display: block;
+        vertical-align: middle;
+    }
+
+    .btn-40 [hidden] {
+        display: none;
+    }
+
+    .btn-40 {
+        border: 1px solid;
+        box-sizing: border-box;
+        display: block;
+        font-weight: 900;
+        overflow: hidden;
+        padding: 2rem 5rem;
+        position: relative;
+        text-transform: uppercase;
+    }
+
+    .btn-40 .new,
+    .btn-40 .old {
+        transition: transform 0.2s;
+    }
+
+    .btn-40 .old {
+        display: grid;
+        inset: 0;
+        place-content: center;
+        position: absolute;
+    }
+
+    .btn-40:hover .old {
+        transform: translateY(100%);
+    }
+
+    .btn-40 .new {
+        background: #56c080;
+        color: cornsilk;
+        display: grid;
+        inset: 0;
+        place-content: center;
+        pointer-events: none;
+        position: absolute;
+        transform: translateX(-100%);
+    }
+
+    .btn-40:hover .new {
+        transform: translateX(0);
+    }
+
+
+
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+.kbody {
+  display: flex;
+  align-items: center;
+  width: fit-content;
+  background-color: #35384250;
+}
+.input-field {
+  position: relative;
+}
+.input-field input {
+  width: 150px;
+  height: 40px;
+  border-radius: 6px;
+  font-size: 16px;
+  padding: 0 15px;
+  text-align: center;
+  border: 2px solid #fff;
+  background: transparent;
+  color: black;
+  outline: none;
+}
+.input-field label {
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  left: 15px;
+  transform: translateY(-50%);
+  color: black;
+  font-size: 19px;
+  pointer-events: none;
+  transition: 0.3s;
+}
+input:focus {
+  text-align: center;
+
+}
+input:focus ~ label,
+input:valid ~ label {
+  top: 0;
+  left: 15px;
+  font-size: 13px;
+  text-align: center;
+  padding: 0 2px;
+  color: #000;
+}
+
 </style>
 
 <div class="main-panel">
-    <div class="content-wrapper">
-        <div class="container">
-            <div class="col-lg-12 grid-margin stretch-card">
-                <div class="card">
-                    <div class="card-body">
-                        <h2 class="text-center text-capitalize mb-5">~{{parent.username}}'s  Page~</h2>
-                        <div class="col-12 col-xl-10 col-12 mb-4 mb-xl-0">
-                            <h3 class="font-weight-bold text-capitalize ">{{parent.name}}</h3>
-                            <small class="text-capitalize text-muted">Last seen : {{parent.lastlogin}}</small><br>
-                            <small class="text-capitalize text-muted">Registered on : {{parent.regdate}}</small><br>
-                            <small class="text-capitalize text-muted">Logged in : {{parent.logintimes}} times</small>
-                            <br>
-                         
-                            {{#if parent.laststudentid}}
-                                <small class="text-capitalize text-muted">Last viewed : <a
-                                        href="/admin/indstudents/{{parent.laststudentid}}">{{parent.laststudentname}}</a></small>
-                                <br>
+    <div class="content-wrapperh">
 
-                            {{/if}}
-                            <small class="text-capitalize text-muted"><a href="mailto:{{parent.email}}"> <i class="fa fa-envelope"></i> {{parent.email}}</a></small> <br>
-                            <small class="text-capitalize text-muted"><i class="fa fa-phone"></i> {{parent.phone}}</small>
-                            <br>
-                            <br>
-                            <br>
-                            <br>
-                            
-                            
+        <div class="col-lg-12 grid-margin stretch-card">
+            <div class="card">
+                <div class="card-body">
+                    <h2 class="text-center text-capitalize mb-5">~{{parent.username}}'s Page~</h2>
+                    <div class="col-12 col-xl-12 col-12 mb-4 mb-xl-0">
+                        <h3 class="font-weight-bold text-capitalize " data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;">{{parent.name}} <i class="fa fa-edit"></i></h3>
                         
+                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Edit Parent Details  </h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="/admin/editparentfromadmin" method='post' class="forms-sample">
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Full Names</label>
+                                                <input name="name" type="text" class="form-control" id="exampleInputName1" placeholder="Name" value="{{parent.name}}" required/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputName1">Username</label>
+                                                <input name="username" type="text" class="form-control" id="exampleInputName1" placeholder="Name" value="{{parent.username}}" required />
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputName2">Address</label>
+                                                <input name="address" type="text" class="form-control" id="exampleInputName2"
+                                                    placeholder="Address" value="{{parent.addressline1}}" required/>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputEmail">Email</label>
+                                                <input name="email" type="text" class="form-control" id="exampleInputEmail"
+                                                    placeholder="Official email" value={{parent.email}} required>
+                                            </div>
+                                            <div class="form-group">
+                                                <label for="exampleInputphone">Phone</label>
+                                                <input name="phone" type="phone" class="form-control" id="exampleInputphone"
+                                                    placeholder="Official phone" value={{parent.phone}} required>
+                                            </div>
+                        
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save changes</button>
+                                            </div>
+                                            <input type="hidden" name="userid" value={{parent.userid}}>
+                                        </form>
+                                    </div>
+                        
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <small class="text-capitalize text-muted">Registered on : {{parent.regdate}}</small><br>
+                        {{#if parent.addressline1}}
+                        <small class="text-capitalize text-muted">Address : {{parent.addressline1}}</small><br>
+                        {{/if}}
+                        <small class="text-capitalize text-muted">Logged in : {{parent.logintimes}} times</small>
                         <br>
-                        <div class="row px-3">
+
+                        {{#if parent.laststudentid}}
+                        <small class="text-capitalize text-muted">Last viewed : <a
+                                href="/admin/indstudents/{{parent.laststudentid}}">{{parent.laststudentname}}</a></small>
+                        <br>
+
+                        {{/if}}
+                        <small class="text-muted"><a href="mailto:{{parent.email}}"> <i
+                                    class="fa fa-envelope"></i> {{parent.email}}</a></small> <br>
+                        <small class="text-capitalize text-muted"><i class="fa fa-phone"></i>
+                            {{parent.phone}}</small>
+                        <br>
+                        {{#if parent.momentago}}
+                        <small class="text-capitalize text-muted">Last seen : {{parent.momentago}}</small><br>
+                        {{/if}}
+                        <br>
+                        
+                        <form action="/admin/changeparentshipping" method="post">
+                            <div class="kbody">
+                                <div class="input-field">
+                                    <input onfocusout="this.form.submit()" name="ship" type="text" required spellcheck="false" value={{parent.shiprate}} >
+                                    <input type="hidden" name="hido" value={{parent.userid}}>
+                                    <label>Shipping <small>in AED</small></label>
+                                </div>
+                            </div>
+                        </form>
+                        <br>
+                        <br>
+
+
+
+                        <br>
+                        <div class="row">
 
 
 
                             {{#if orders }}
+
+                            <div class="table-responsive w-100">
+                                <h6 class="font-weight-bold text-capitalize text-muted">All Orders made by
+                                    {{parent.username}}</h6>
+                                <table class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            {{!-- <th>Orders</th> --}}
+                                            <th>Ordercodes</th>
+                                            <th>Date</th>
+                                            {{!-- <th>Username</th> --}}
+                                            <th>Avatar</th>
+                                            <th>Package</th>
+                                            <th>Quantity </th>
+                                            <th class="text-center">Unit Price <br><small
+                                                    class="text-muted text-center">AED</small></th>
+                                            <th class="text-center">Gross <br><small
+                                                    class="text-muted text-center">AED</small></th>
+                                            <th class="text-center">Completed</th>
+                                            <th class="text-center">Delete</th>
+
+                                        </tr>
+                                    </thead>
+                                    <tbody class="cele">
+
+
+                                        {{#each orders}}
+
+
+                                        <tr class="cele">
+                                            <td class="text-capitalize">
+                                                {{ordercode}}
+                                            </td>
+                                            <td class="text-capitalize">
+                                                {{justdate}}
+                                            </td>
+                                            {{!-- <td class="text-capitalize">
+                                                <a href="/parent/viewparent/{{parentid}}">{{username}}</a>
+                                            </td> --}}
+                                            <td>
+                                                <a href={{orderavatar}} class="p-0">
+                                                    <img src={{orderavatar}} alt="" style="object-fit:contain;">
+                                                </a>
+
+                                            </td>
+                                            <td class="playw">
+                                                {{packagename}}
+
+
+                                            </td>
+                                            <td class="text-center">{{quantity}}</td>
+                                            <td class="text-center tofix">{{priceperpackage}}</td>
+                                            <td class="text-center tofix">{{totalunitsprice}}</td>
+                                            <td class="text-center ">
+                                                <div id="app-cover">
+                                                    <div class="row text-center">
+                                                        {{#if cleared}}
+                                                        <form action="/admin/updatepending" method="post">
+                                                        <label class="toggle">
+                                                            <input class="toggle-checkbox" type="checkbox"
+                                                                value={{ordercode}} name="pendings" checked onchange="this.form.submit()">
+
+
+                                                            <div class="toggle-switch"></div>
+                                                            
+
+                                                        </label>
+                                                        <input  type="hidden" name="myg" value={{ordercode}} >
+                                                        <input type="hidden" name="viewparentid" value={{parentid}}>
+                                                        </form>
+
+                                                        
+
+
+
+                                                        {{else}}
+                                                        <form action="/admin/updatepending" method="post">
+                                                            <label class="toggle">
+                                                                <input class="toggle-checkbox" type="checkbox"
+                                                                    value={{ordercode}} name="pendings"
+                                                                    onchange="this.form.submit()">
+
+
+                                                                <div class="toggle-switch"></div>
+
+                                                            </label>
+                                                            <input type="hidden" name="myg" value={{ordercode}}>
+                                                            <input type="hidden" name="viewparentid"
+                                                                 value={{parentid}}>
+
+                                                            
+
+                                                        </form>
+
+
+                                                        {{/if}}
+
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="text-center"><a href="/admin/vpdeleteorder/{{ordercode}}" class="text-danger fa fa-trash"></a></td>
+
+
+
+                                        </tr>
+
+
+
+                                        {{/each}}
+
+
+
+                                    </tbody>
+                                </table>
+
+
+                            </div>
+
+
+
+
+                            {{!-- <div class="d-flex justify-content-end mt-3">
+                                <button class="btn-40" type="submit">
+                                    <span class="new">Update</span>
+                                    <span class="old">Change</span>
+                                </button>
+                            </div>
+ --}}
+
                             
-                                <div class="table-responsive">
-                                    <h6 class="font-weight-bold text-capitalize text-muted">All Orders made by
-                                        {{parent.username}}</h6>
-                                    
-                                    <table class="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                {{!-- <th>Orders</th> --}}
-                                                <th>Date</th>
-                                                {{!-- <th>Username</th> --}}
-                                                <th>Avatar</th>
-                                                <th>Package</th>
-                                                <th>Quantity </th>
-                                                <th class="text-center">Unit Price <br><small class="text-muted text-center">AED</small></th>
-                                                <th class="text-center">Gross <br><small class="text-muted text-center">AED</small></th>
-                                                <th class="text-center">Shipping <br><small class="text-muted text-center">AED</small></th>
-                                                <th class="text-center">Total <br><small class="text-muted text-center">AED</small></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody class="cele">
 
-                                            {{#each orders}}
-
-
-                                            <tr class="cele">
-                                                <td class="text-capitalize">
-                                                    {{justdate}}
-                                                </td>
-                                                {{!-- <td class="text-capitalize">
-                                                    <a href="/parent/viewparent/{{parentid}}">{{username}}</a>
-                                                </td> --}}
-                                                <td>
-                                                    <a href={{orderavatar}} class="p-0">
-                                                        <img src={{orderavatar}} alt="" style="object-fit:contain;">
-                                                    </a>
-
-                                                </td>
-                                                <td class="playw">
-                                                    {{packagename}}
-
-
-                                                </td>
-                                                <td class="text-center">{{quantity}}</td>
-                                                <td class="text-center tofix">{{priceperpackage}}</td>
-                                                <td class="text-center tofix">{{totalunitsprice}}</td>
-                                                <td>na</td>
-                                                <td>na</td>
-
-                                            </tr>
-
-
-
-                                            {{/each}}
-
-
-
-                                        </tbody>
-                                    </table>
-
-
-                                </div>
 
 
                             {{else}}
-                                <h4 class="mx-auto text-center text-muted">No Orders yet</h4>
+                            <h4 class="mx-auto text-center text-muted">No Orders yet</h4>
                             {{/if}}
                         </div>
 
                         <div class="sedwe mt-5" style="display: flex;justify-content:end;width:100%;">
-                            <a style="font-family: cursive;color:red;" href="/admin/deleteparent/{{parent.userid}}"><i class="fa fa-trash"></i><span class="text-capitalize">{{ parent.name}}'s</span> account</a>
-                            
-                        </div>
-                        </div>
+                            <a style="font-family: cursive;color:red;" href="/admin/deleteparent/{{parent.userid}}"><i
+                                    class="fa fa-trash"></i><span class="text-capitalize">{{ parent.name}}'s</span>
+                                account</a>
 
-
+                        </div>
                     </div>
+
+
                 </div>
             </div>
         </div>
+
     </div>
 </div>

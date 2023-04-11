@@ -41,16 +41,30 @@ const checkUserp = async (req, res, next) => {
     const userid = authp.split('/')[1];
 
     lastuser = 'parent';
-    req.user = await Parent.findOne({ userid });
+    req.user = await Parent.findOne({ userid:userid });
+    const papa = await Parent.findOne({ userid:userid });
 
-    console.log(
-      'current user is a Parent whose namename is ' + req.user.username
-    );
+    if(papa ){
+      // console.log(
+      //   'current user is a Parent whose namename is ' + papa
+      // );
+      req.user=papa
 
-    await res.cookie('authp', authp, {
-      secure: true,
-      maxAge: 3600000, //1hr idle time will triggere authentication
-    });
+      await res.cookie('authp', authp, {
+        secure: true,
+        maxAge: 3600000, //1hr idle time will triggere authentication
+      });
+    }
+    else{
+      res.clearCookie('authp')
+      res.render('signuppage', {
+        layout: 'nothing',
+        icon: 'error',
+        title: 'User account is temporarily disabled  !',
+        alerte: 'Pls sign-up/login again ',
+      });
+
+    }
 
     next();
 
@@ -90,43 +104,53 @@ const checkUser = async (req, res, next) => {
     if (usertype == 'admin') {
       req.user = await Admin.findOne({ adminid: userid });
 
-      console.log(
-        'current user is an Admin whose name is ' + req.user.username
-      );
+      
 
-      await res.cookie('auth', auth, {
-        secure: true,
-        maxAge: 3600000, //1hr idle time will triggere authentication
-      });
+      if (req.user) {
+        console.log(
+          'current user is an Admin whose name is ' + req.user.username
+        );
 
-      const admins = await Admin.find()
-      admins.map(async (el)=>{
-        el.momentago= getTime(el.moment)
-        await el.save()
-        console.log(el.momentago + " from checkuser")
-      })
-      const parents = await Parent.find()
-      parents.map(async (el)=>{
-        el.momentago= getTime(el.moment)
-        await el.save()
-        console.log(el.momentago + " parents from checkuser")
-      })
-      const pictures = await pictureModel.find();
-      const personals = await personalModel.find();
-      pictures.map(async (el)=>{
-        el.momentago= getTime(el.moment)
-        await el.save()
-        console.log(el.momentago + " parents from checkuser")
-      })
-      personals.map(async (el)=>{
-        el.momentago= getTime(el.moment)
-        await el.save()
-        console.log(el.momentago + " parents from checkuser")
-      })
+        await res.cookie('auth', auth, {
+          secure: true,
+          maxAge: 3600000, //1hr idle time will triggere authentication
+        });
 
+        const admins = await Admin.find();
+        admins.map(async (el) => {
+          el.momentago = getTime(el.moment);
+          await el.save();
+          // console.log(el.momentago + " from checkuser")
+        });
+        const parents = await Parent.find();
+        parents.map(async (el) => {
+          el.momentago = getTime(el.moment);
+          await el.save();
+          // console.log(el.momentago + " parents from checkuser")
+        });
+        const pictures = await pictureModel.find();
+        const personals = await personalModel.find();
+        pictures.map(async (el) => {
+          el.momentago = getTime(el.moment);
+          await el.save();
+          // console.log(el.momentago + " parents from checkuser")
+        });
+        personals.map(async (el) => {
+          el.momentago = getTime(el.moment);
+          await el.save();
+          // console.log(el.momentago + " parents from checkuser")
+        });
 
-
-      next();
+        next();
+      } else {
+        res.clearCookie('auth');
+        res.render('adminloginpage', {
+          layout: 'nothing',
+          icon: 'error',
+          title: 'User account is temporarily disabled  !',
+          alerte: 'Pls login again ',
+        });
+      }
 
       
     }

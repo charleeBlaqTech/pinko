@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express()
 const router = express.Router();
+const adminControllers = require('../controllers/adminController');
+
 
 const mainControllers = require('../controllers/mainControllers');
 
@@ -12,6 +14,8 @@ router.get('/admin', mainControllers.adminloginpage);
 router.get('/signuppage', mainControllers.signuppage);
 router.get('/adminsignuppage', mainControllers.adminsignuppage);
 router.post("/signup",mainControllers.signupwho);
+// router.get('/*',  adminControllers.errorpagea);
+
 
 //homepages
 router.get('/service', mainControllers.service);

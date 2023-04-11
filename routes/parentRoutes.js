@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const router = express.Router();
+const adminControllers = require('../controllers/adminController');
 
 const parentControllers = require('../controllers/parentControllers');
 const parentprg = require('../prgs/parentprg');
@@ -11,7 +12,11 @@ router.post('/editusername', checkUserp, parentControllers.editusername);
 
 router.get('/prg', parentprg.signup);
 router.post('/editpassword', checkUserp, parentControllers.editpassword);
-router.get('/parentpendingorders', checkUserp, parentControllers.parentpendingorders);
+router.get(
+  '/parentpendingorders',
+  checkUserp,
+  parentControllers.parentclearedorders
+);
 
 router.post('/parentsignup', authparent);
 router.post('/verifymailforgotpwrd', parentControllers.verifymailforgotpwrd);
@@ -45,5 +50,6 @@ router.post(
   checkUserp,
   parentControllers.proceedtopayment
 );
+router.get('/*', adminControllers.errorpagea);
 
 module.exports = router;
