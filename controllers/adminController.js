@@ -150,7 +150,7 @@ async function resizeImagep(fileName) {
     console.log(fileName + ' from sharp');
     await sharp('./public/personals/' + fileName)
       .resize({
-        width: 550,
+        width: 650,
         height: 750,
         fit: 'contain',
         background: { r: 255, g: 255, b: 255, alpha: 1 },
