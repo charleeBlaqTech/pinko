@@ -335,10 +335,11 @@ input:valid ~ label {
                             <div class="table-responsive w-100">
                                 <h6 class="font-weight-bold text-capitalize text-muted">All Orders made by
                                     {{parent.username}}</h6>
-                                <table class="table table-striped">
+                                <table class="table table-striped text-center">
                                     <thead>
                                         <tr>
                                             {{!-- <th>Orders</th> --}}
+                                            <th>s/n</th>
                                             <th>Ordercodes</th>
                                             <th>Date</th>
                                             {{!-- <th>Username</th> --}}
@@ -359,8 +360,13 @@ input:valid ~ label {
 
                                         {{#each orders}}
 
-
                                         <tr class="cele">
+                                            <td>
+                                                {{sne}}
+                                            </td>
+                                            <td class="text-capitalize">
+                                                {{ordercode}}
+                                            </td>
                                             <td class="text-capitalize">
                                                 {{ordercode}}
                                             </td>
@@ -431,7 +437,7 @@ input:valid ~ label {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td class="text-center"><a href="/admin/vpdeleteorder/{{ordercode}}" class="text-danger fa fa-trash"></a></td>
+                                            <td title="delete ?" class="ttooltip text-center"><a href="/admin/vpdeleteorder/{{ordercode}}" class="text-danger fa fa-trash"></a></td>
 
 
 

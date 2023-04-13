@@ -69,6 +69,9 @@ app.use('/', homeRoutes);
 // app.use('/student', studentRoutes);
 app.use('/admin', adminRoutes);
 app.use('/parent', parentRoutes);
+app.use('/*', (req,res)=>{
+  res.redirect('/admin/wrong')
+});
 // app.use('/teacher', teacherRoutes);
 // app.use('/photographer', photographerRoutes);
 // 5. Configure View Engine

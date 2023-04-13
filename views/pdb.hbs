@@ -418,7 +418,11 @@
                         <div class="rrr mb-3 mt-3">
                             <div id="wrap" class="d-flex">
                                 <img src="/images/arrow.gif" alt="">
-                                <input id="search" name="find" type="text" placeholder="Enter student code ?" required class="w-75 text-center">
+                                {{#if parent.lastcode}}
+                                    <input id="search" name="find" type="text" placeholder="Enter student code ?" required class="w-75 text-center" value={{parent.lastcode}}>
+                                {{else}}
+                                    <input id="search" name="find" type="text" placeholder="Enter student code ?" required class="w-75 text-center">
+                                {{/if}}
                                 <input id="search_submit" type="submit">
 
                             
@@ -428,20 +432,7 @@
                     </form>
 
 
-                {{!-- <div class="btn ">
-                    <a href="#">
-                        <button class="text-center">
-                            Find Photos <i class="icon-arrow"></i>
-                        </button>
-                    </a>
-                </div> --}}
-                {{!-- <div class="dropdown timoo flex-md-grow-1 flex-xl-grow-0">
-                    <button class="btn btn-sm btn-light bg-white " style="cursor: default;" type="button" id="dropdownMenuDate2"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <i class="mdi mdi-calendar"></i> Today <span id="usetim"></span>
-                    </button>
-                    
-                </div> --}}
+                
             </div>
             <br>
             <br>

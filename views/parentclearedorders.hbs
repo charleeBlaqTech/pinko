@@ -1,10 +1,10 @@
 <div class="main-panels ">
-    <div class="content-wrapper ">
+    <div class="content-wrappemr ">
         <div class="container-fluid">
             <div class="col-lg-12 ">
                 <div class="card">
                     <div class="card-body">
-                        <div class="col-12 col-xl-8 mb-xl-0">
+                        <div class="col-12 col-xl-12 mb-xl-0">
                             {{!-- <h3 class="font-weight-bold text-capitalize ">{{school.schoolname}}</h3> --}}
                             <h6 class="font-weight-bold text-capitalize text-muted">~Cleared Orders~</h6>
                             {{!-- <h6 class="font-weight-normal text-capitalize text-muted">Registered
@@ -18,7 +18,7 @@
 
 
                         <br>
-                        <div class="row px-3">
+                        <div class="row px-1">
 
 
 
@@ -28,6 +28,7 @@
                                     <thead>
                                         <tr class="text-center">
                                             
+                                            <th>s/n</th>
                                             <th>Date</th>
                                             <th>Ordercodes</th>
 
@@ -42,48 +43,54 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-
+                                    
                                         {{#each orders}}
-
-
+                                    
+                                    
                                         <tr class="text-center">
-                                            <td class="text-capitalize">
-                                            
+                                            <td class="ttooltip text-capitalize" title="order no {{sne}}">
+                                    
+                                                {{ sne}}
+                                            </td>
+                                            <td class="ttooltip text-capitalize" title="date of order">
+                                    
                                                 {{ justdate }}
                                             </td>
-                                            <td class="text-capitalize">
-                                                {{!-- <input type="checkbox" value={{ordercode}} name="ordercode"
-                                                    id="lov{{@index}}"> --}}
+                                            <td class="text-capitalize ttooltip" title="unique ordercode">
+                                    
                                                 <label for="lov{{@index}}">{{ ordercode }}</label>
                                             </td>
-                                            <td>
+                                            <td class="ttooltip" title="click to view">
                                                 <a href={{orderavatar}} class="p-0">
                                                     <img src={{orderavatar}} alt="" style="object-fit:contain;">
                                                 </a>
-
+                                    
                                             </td>
-                                            <td>
+                                            <td title="package plan" class="ttooltip">
                                                 {{packagename}}
-
-
+                                    
+                                    
                                             </td>
-                                            <td>{{quantity}}</td>
-                                            <td><span class="tofix">{{priceperpackage}}</span></td>
-                                            <td><span class="tofix">{{totalunitsprice}}</span></td>
-                                            <td class="text-success">Processed</td>
-
-                                            <td><a href="/parent/deletefromparent/{{ordercode}}"><i
+                                            <td class="ttooltip" title="no of units ordered">{{quantity}}</td>
+                                            <td><span class="tofix ttooltip" title="package price per item">{{priceperpackage}}</span></td>
+                                            <td><span class="tofix ttooltip"
+                                                    title="{{priceperpackage}} X {{quantity}} = {{totalunitsprice}}">{{totalunitsprice}}</span></td>
+                                            <td class="text-warning ttooltip" title="Order completed ! ">Completed</td>
+                                            <td title="delete order ?" class="ttooltip"><a href="/parent/deleteclfromparent/{{ordercode}}"><i
                                                         class="text-danger fa fa-trash"></i></a></td>
-
+                                            
+                                            
+                                    
                                         </tr>
-
-
-
+                                    
+                                    
+                                    
                                         {{/each}}
-
-
-
+                                    
+                                    
+                                    
                                     </tbody>
+                                    
                                 </table>
 
 

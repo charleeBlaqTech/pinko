@@ -34,6 +34,11 @@ router.get('/packages', checkUserp, parentControllers.packages);
 router.get('/myorders', checkUserp, parentControllers.myorders);
 router.get('/shippingdetails', checkUserp, parentControllers.shippingdetails);
 router.get(
+  '/deleteclfromparent/:ordercode',
+  checkUserp,
+  parentControllers.deleteclfromparent
+);
+router.get(
   '/deletefromparent/:ordercode',
   checkUserp,
   parentControllers.deletefromparent

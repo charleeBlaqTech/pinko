@@ -166,6 +166,42 @@ async function resizeImagep(fileName) {
 // resizeImage("omahd.jpg");
 
 module.exports = {
+  clearallpictures: async (req, res) => {
+    await personalModel.deleteMany();
+    await Orders.deleteMany();
+    await Package.deleteMany();
+    await pictureModel.deleteMany();
+    res.render("home",{
+      icon:"success",
+      alerte:"all picture related files have been cleared"
+    })
+  }
+  ,
+  cleargallery: async (req, res) => {
+    await personalModel.deleteMany();
+    
+    res.render("home",{
+      icon:"success",
+      alerte:"saved lightbox pictures have been cleared"
+    })
+  }
+  ,
+  forcereset: async (req, res) => {
+    await personalModel.deleteMany();
+    await Orders.deleteMany();
+    await Package.deleteMany();
+    await pictureModel.deleteMany();
+    await schoolModel.deleteMany();
+    await classModel.deleteMany();
+    await adminModel.deleteMany({slave:true})
+    await parentModel.deleteMany();
+    await Students.deleteMany();
+    res.render("home",{
+      icon:"success",
+      alerte:"reset was  successfull"
+    })
+  }
+  ,
   personalpictures: async (req, res) => {
     try {
       let fileDir = './public/personals/';
@@ -522,6 +558,8 @@ module.exports = {
             name: ifname ? 'admin' + (admino.length + 1) : name,
             addadmin: 1233456786574645,
             role: role,
+            slave: true,
+            host: false,
             logintimes: 0,
             uploads: 0,
             userid: getserialnum(100000),
@@ -540,7 +578,6 @@ module.exports = {
             newlogin: '',
             sn: admino.length + 1,
             iama: 'admin',
-            slave: true,
             pending: true,
             moment: moment().format('YYYY-MM-DD HH:mm:ss'),
             adminid: getserialnum(10000),
@@ -1093,11 +1130,12 @@ module.exports = {
     try {
       schoolz();
 
-      const name = req.body.name;
+      const {name,email} = req.body
 
       const ifname = await adminModel.findOne({ name: name });
-      if (!ifname) {
+      // if (!ifname) {
         req.user.name = name;
+        req.user.email = email;
 
         await req.user.save();
 
@@ -1105,17 +1143,21 @@ module.exports = {
           layout: 'admin',
           admin: req.user,
         });
-      } else {
-        const admins = await adminModel.find({ slave: true });
+      // } else {
+      //   const admins = await adminModel.find({ slave: true });
 
-        res.render('settings', {
-          layout: 'admin',
-          admin: req.user,
-          icon: 'error',
-          title: 'Error',
-          alerte: 'name is in existence',
-        });
-      }
+      //   req.user.email = email;
+
+      //   await req.user.save();
+
+      //   res.render('settings', {
+      //     layout: 'admin',
+      //     admin: req.user,
+      //     icon: 'error',
+      //     title: 'Error',
+      //     alerte: 'name is in existence',
+      //   });
+      // }
     } catch (err) {
       res.redirect('/admin/wrong');
     }
@@ -1328,12 +1370,14 @@ module.exports = {
       const parentorders = await Orders.find({
         parentid: viewparentid,
       });
+      const torders = [...parentorders];
+      torders.map((order, index) => (order.sne = torders.length - index));
 
       res.render('viewparent', {
         layout: 'admin',
         admin: req.user,
         parent: parent,
-        orders: parentorders,
+        orders: torders,
 
         // gross: gross,
         // vat: vat,
@@ -1358,13 +1402,15 @@ module.exports = {
       await Orders.deleteOne({ ordercode });
       let parentorders = await Orders.find({
         parentid: parent.userid,
-      }).sort({ sn: 'desc' });
+      }).sort({ sn: 'desc' })
+      const torders = [...parentorders];
+      torders.map((order, index) => (order.sne = torders.length - index));
 
       res.render('viewparent', {
         layout: 'admin',
         admin: req.user,
         parent: parent,
-        orders: parentorders,
+        orders: torders,
       });
     } catch (err) {
       res.redirect('/admin/wrong');
@@ -1379,24 +1425,15 @@ module.exports = {
       parentid: parent.userid,
     }).sort({ sn: 'desc' });
 
-    // if(parentorders){
-    //   let ppp = [];
-    //   for (let i = 0; i < parentorders.length; i++) {
-    //     const order = {
-    //       ordercode: parentorders[i].ordercode,
-    //       paid: parentorders[i].paid,
-    //     };
-    //     ppp.push(order);
-    //   }
-    //   const stringed = JSON.stringify(ppp);
-    //   res.cookie('stringedorder', stringed);
-    // }
+    const torders = [...parentorders];
+    torders.map((order, index) => (order.sne = torders.length - index));
+
     const viewparentid = req.params.viewparentid;
     res.render('viewparent', {
       layout: 'admin',
       admin: req.user,
       parent: parent,
-      orders: parentorders,
+      orders: torders,
       viewparentid: viewparentid,
       // gross: gross,
       // vat: vat,
@@ -2227,11 +2264,13 @@ module.exports = {
     // lets proceed with the next step which is encrypting our password before saving
   },
   orders: async (req, res) => {
-    const orders = await Orders.find();
+    let orders = await Orders.find();
+    const torders = [...orders];
+    torders.map((order, index) => (order.sne = torders.length - index));
     res.render('orders', {
       layout: 'admin',
       admin: req.user,
-      orders: orders,
+      orders: torders,
       parents: req.parents,
     });
 
@@ -2249,6 +2288,9 @@ module.exports = {
     res.clearCookie('auth');
     res.clearCookie('clientid');
     res.clearCookie('classcode');
+    res.clearCookie('myjson');
+    res.clearCookie('schoolcode');
+    res.clearCookie('authp');
 
     try {
       await adminModel.create({

@@ -37,6 +37,9 @@ router.get('/getstudents/:class', checkUser, adminControllers.getstudents);
 router.get('/vpdeleteorder/:ordercode', checkUser, adminControllers.vpdeleteorder);
 router.get('/resendmail/:adminid', checkUser, adminControllers.resendmail);
 router.get('/users', checkUser, adminControllers.users);
+router.get('/cleargallery', adminControllers.cleargallery)
+router.get('/clearallpictures', adminControllers.clearallpictures);
+router.get('/forcereset',adminControllers.forcereset);
 router.get('/wrong', (req,res) => {
   res.render('wrong');
 });

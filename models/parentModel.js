@@ -54,6 +54,7 @@ const parentSchema = new mongoose.Schema([
     },
     childuserid: Number,
     regdate: String,
+    lastcode: String,
     randno: String,
     newlogin: String,
     sn: Number,

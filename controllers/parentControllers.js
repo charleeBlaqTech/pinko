@@ -13,6 +13,10 @@ const OrdersModel = require('../models/orderModel');
 const Package = require('../models/packageModel');
 const jwt = require('jsonwebtoken');
 const adminModel = require('../models/adminModel');
+const optionn = {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+};
 
 const randomn = require('crypto').randomBytes(5).toString('hex');
 
@@ -76,7 +80,7 @@ module.exports = {
     const hpwrd = await bcrypt.hash(details.pwrd, 10);
 
     const parid = getserialnum(1000000);
-    const shiprate = await adminModel.findOne({ host: true })
+    const shiprate = await adminModel.findOne({ host: true });
 
     try {
       await parentModel.create({
@@ -223,7 +227,6 @@ module.exports = {
         // home: true,
       });
     }
-
   },
   confirmpayment: async (req, res) => {
     const packages = await Package.find();
@@ -232,12 +235,12 @@ module.exports = {
       const myJSON = req.cookies.myjson;
       const arrayofobj = JSON.parse(myJSON);
       arrayofobj.map(async (el) => {
-        const sn = await OrdersModel.find({parentid:req.user.userid}).length;
-        const gsn= await OrdersModel.find().length
+        const sn = await OrdersModel.find({ parentid: req.user.userid });
+        const gsn = await OrdersModel.find();
         await OrdersModel.create({
           ordercode: el.ordercode,
-          sn: sn + 1,
-          gsn:gsn + 1,
+          sn: sn.length + 1,
+          gsn: gsn.length + 1,
           orderavatar: el.orderavatar,
           packageid: el.packageid,
           quantity: el.quantity,
@@ -255,7 +258,18 @@ module.exports = {
           schoolcode: el.schoolcode,
         });
       });
-
+      const tablee = arrayofobj.map(
+        (el, index) =>
+          `
+                <tr>
+                    <td>Item ${index + 1}</td>
+                    <td>${el.ordercode}</td>
+                    <td>${el.quantity}</td>
+                    <td>${el.packagename}</td>
+                    <td>${el.totalunitsprice.toLocaleString('en', optionn)}</td>
+                </tr>
+            `
+      );
       const html = `
             <!DOCTYPE html>
             <html lang="en">
@@ -277,6 +291,38 @@ module.exports = {
                     padding: 0 2%;
                     text-transform: capitalize;
                 }
+                .cocobody {
+                  margin-top: 20px;
+                  text-align: center;
+                  align-items: center;
+                  padding: 30px 0;
+                  font-size: 15px;
+                  text-transform: capitalize;
+                  text-shadow: 0 2px 4px black;
+                  color: bisque;
+                }
+                table {
+                  margin: 0 auto;
+                    outline-style: dashed;
+                  background-color: black;
+                  color: white;
+                  
+                }
+                thead {
+                  outline-style:dotted;
+                  margin-bottom: 10px;
+                  height:50px;
+
+                }
+                
+                td {
+                  padding: 10px 5px;
+                }
+                tr{
+                  height:10px;
+                  padding:40px 3px
+
+                }
                 
             </style>
             <body>
@@ -290,7 +336,46 @@ module.exports = {
                     <span>Hi ${capitalise(req.user.username)} </span>
                     <h2>Your order has been placed</h2>
 
-                    <p>Our shipping Agent(s) will reach out to you in less than 48 working hours</p>
+
+                    <div class="cocobody">
+                      <table>
+                        <thead>
+                          <td>S/n</td>
+                          <td>Ordercode</td>
+                          <td>Quantity</td>
+                          <td>Package</td>
+                          <td>Price(s) in AED</td>
+                        </thead>
+                        <tbody id="orders">
+                          ${tablee}
+
+                        </tbody>
+                        
+
+
+                        
+                      </table>
+                      <div >
+                          <p>Shipping : AED ${req.user.shiprate.toLocaleString(
+                            'en',
+                            optionn
+                          )}</p>
+                          <p>Gross : AED ${arrayofobj[0].gross.toLocaleString(
+                            'en',
+                            optionn
+                          )}</p>
+                          <p>Total : AED ${arrayofobj[0].total.toLocaleString(
+                            'en',
+                            optionn
+                          )}</p>
+                        </div>
+                      <p>Our shipping Agent(s) will reach out to you in less than 48 working hours</p>
+
+
+                    </div>
+                    
+            
+
                     
                 </div>
 
@@ -311,6 +396,18 @@ module.exports = {
 
       const admins = await adminModel.find();
       admins.map((el) => {
+        const tablee = arrayofobj.map(
+          (el, index) =>
+            `
+                <tr>
+                    <td>Item ${index + 1}</td>
+                    <td>${el.ordercode}</td>
+                    <td>${el.quantity}</td>
+                    <td>${el.packagename}</td>
+                    <td>${el.totalunitsprice.toLocaleString('en', optionn)}</td>
+                </tr>
+            `
+        );
         const html = `
             <!DOCTYPE html>
             <html lang="en">
@@ -331,6 +428,39 @@ module.exports = {
                     padding: 0 2%;
                     text-transform: capitalize;
                 }
+                .cocobody {
+                  margin-top: 20px;
+                  text-align: center;
+                  align-items: center;
+                  padding: 30px 0;
+                  font-size: 15px;
+                  text-transform: capitalize;
+                  text-shadow: 0 2px 4px black;
+                  color: bisque;
+                }
+                table {
+                  margin: 0 auto;
+                    outline-style: dashed;
+                  background-color: black;
+                  color: white;
+                  
+                }
+                thead {
+                  outline-style:dotted;
+                  margin-bottom: 10px;
+                  height:50px;
+
+                }
+                
+                td {
+                  padding: 10px 5px;
+                }
+                tr{
+                  height:10px;
+                  padding:40px 3px
+
+                }
+                
                 
             </style>
             <body>
@@ -344,7 +474,57 @@ module.exports = {
                     <span>Hi ${capitalise(el.username)} </span>
                     <h2>${capitalise(
                       req.user.username
-                    )} just placed an order</h2>
+                    )} just placed the following order</h2>
+
+                    <div class="cocobody">
+                      <table>
+                        <thead>
+                          <td>S/n</td>
+                          <td>Ordercode</td>
+                          <td>Quantity</td>
+                          <td>Package</td>
+                          <td>price in AED</td>
+                        </thead>
+                        <tbody id="orders">
+                          ${tablee}
+
+                        </tbody>
+                        
+
+
+                        
+                      </table>
+                      <div >
+                          <p>Shipping : AED ${req.user.shiprate.toLocaleString(
+                            'en',
+                            optionn
+                          )}</p>
+                          <p>Gross : AED ${arrayofobj[0].gross.toLocaleString(
+                            'en',
+                            optionn
+                          )}</p>
+                          <p>Total : AED ${arrayofobj[0].total.toLocaleString(
+                            'en',
+                            optionn
+                          )}</p>
+                        </div>
+
+                      <small>${req.user.name}</small>
+                      <br>
+                      <small>${req.user.email}</small>
+                      <br>
+                      <small>${req.user.phone}</small>
+                      <br>
+                      <small>Student in focus : ${
+                        arrayofobj[0].studentname
+                      }</small>
+                      <br>
+                      <small>Date and time of order : ${
+                        arrayofobj[0].dateordered
+                      }</small>
+                      
+
+                    </div>
 
                     
                     
@@ -363,25 +543,29 @@ module.exports = {
         // mailgunh.mail(html, email, subject);
         nodemh.mail(html, semail, subject);
       });
-      const myorders = await OrdersModel.find({
+
+      let myorders = await OrdersModel.find({
         parentid: req.user.userid,
       })
         .where('cleared')
         .equals(false)
-        .sort({sn:"desc"})
+        .sort({ sn: 'desc' });
+      const torders = [...myorders];
+      torders.map((order, index) => (order.sne = torders.length - index));
       res.render('myorders', {
         layout: 'parent',
         parent: req.user,
         alerte: 'Your order has been placed succesfully ',
         title: 'Payment confirmed !',
         icon: 'success',
-        orders: myorders,
+        orders: torders,
       });
     } catch (err) {
       res.render('pdb', {
         layout: 'parent',
         parent: req.user,
-        alerte: 'You can not complete this request at this moment. Please try again later',
+        alerte:
+          'You can not complete this request at this moment. Please try again later',
         title: 'Error !',
         icon: 'error',
         packages: packages,
@@ -547,25 +731,59 @@ module.exports = {
     }
   },
   deletefromparent: async (req, res) => {
-    const parent = req.user;
-    const ordercode = req.params.ordercode;
-    await OrdersModel.deleteOne({
-      ordercode: ordercode,
-    });
-    const myorders = await OrdersModel.find({
-      parentid: parent.userid,
-    });
+    try {
+      const parent = req.user;
+      const ordercode = req.params.ordercode;
+      await OrdersModel.deleteOne({
+        ordercode: ordercode,
+      });
+      const myorders = await OrdersModel.find({
+        parentid: parent.userid,
+      })
+        .where('cleared')
+        .equals(false);
+      const torders = [...myorders];
+      torders.map((order, index) => (order.sne = torders.length - index));
 
-    res.render('myorders', {
-      layout: 'parent',
-      parent: req.user,
-      orders: myorders,
-      // gross: gross,
-      // vat: vat,
-      // total: total,
+      res.render('myorders', {
+        layout: 'parent',
+        parent: req.user,
+        orders: torders,
+        // gross: gross,
+        // vat: vat,
+        // total: total,
 
-      // alert: 'Student with username  ' + username + ' doesnt exist',
-    });
+        // alert: 'Student with username  ' + username + ' doesnt exist',
+      });
+    } catch (err) {
+      console.log(err.message);
+      res.redirect('/admin/wrong');
+    }
+  },
+  deleteclfromparent: async (req, res) => {
+    try {
+      const parent = req.user;
+      const ordercode = req.params.ordercode;
+      await OrdersModel.deleteOne({
+        ordercode: ordercode,
+      });
+      const myorders = await OrdersModel.find({
+        parentid: parent.userid,
+      })
+        .where('cleared')
+        .equals(true);
+      const torders = [...myorders];
+      torders.map((order, index) => (order.sne = torders.length - index));
+
+      res.render('parentclearedorders', {
+        layout: 'parent',
+        parent: req.user,
+        orders: torders,
+      });
+    } catch (err) {
+      console.log(err.message);
+      res.redirect('/admin/wrong');
+    }
   },
   psettings: async (req, res) => {
     res.render('psettings', {
@@ -585,33 +803,35 @@ module.exports = {
     })
       .where('cleared')
       .equals(true);
+    const torders = [...myorders];
+    torders.map((order, index) => (order.sne = torders.length - index));
 
     res.render('parentclearedorders', {
       layout: 'parent',
       parent: req.user,
-      orders: myorders,
-      // gross: gross,
-      // vat: vat,
-      // total: total,
-
-      // alert: 'Student with username  ' + username + ' doesnt exist',
+      orders: torders,
     });
   },
   myorders: async (req, res) => {
-    const parent = req.user;
-    const myorders = await OrdersModel.find({
-      parentid: parent.userid,
-    })
-      .where('cleared')
-      .equals(false)
-      .sort({ sn: 'desc' });
-
-
-    res.render('myorders', {
-      layout: 'parent',
-      parent: req.user,
-      orders: myorders,
-    });
+    try {
+      const parent = req.user;
+      let myorders = await OrdersModel.find({
+        parentid: parent.userid,
+      })
+        .where('cleared')
+        .equals(false)
+        .sort({ sn: 'desc' });
+      const torders = [...myorders];
+      torders.map((order, index) => (order.sne = torders.length - index));
+      res.render('myorders', {
+        layout: 'parent',
+        parent: req.user,
+        orders: torders,
+      });
+    } catch (err) {
+      console.log(err.message);
+      res.redirect('/admin/wrong');
+    }
   },
 
   editusername: async (req, res) => {
@@ -654,9 +874,7 @@ module.exports = {
     }
   },
   finalresetpassword: async (req, res) => {
-    
-
-    try{
+    try {
       const { vpin } = req.body;
       const jwtvcode = req.cookies.vcode;
 
@@ -698,11 +916,9 @@ module.exports = {
           title: 'Verification failed ! ',
         });
       }
-      
-    }
-    catch(err){
-      console.log(err.message)
-      res.redirect('/wrong')
+    } catch (err) {
+      console.log(err.message);
+      res.redirect('/wrong');
     }
   },
   emailupdate: async (req, res) => {
@@ -876,6 +1092,9 @@ module.exports = {
     const student = await studentModel.findOne({ signparent: find });
     if (student) {
       req.suserid = student.userid;
+      req.user.laststudentid = student.userid;
+      req.user.laststudentname = student.name;
+      await req.user.save();
       console.log(req.suserid + ' is child');
 
       // const boughts = await boughtModel.find({ parentuserid: req.user.userid });
@@ -935,7 +1154,7 @@ module.exports = {
         studentuserid: student.userid,
       });
 
-      req.wm = stdntpictures;
+      // req.wm = stdntpictures;
       const packages = await Package.find();
 
       if (stdntpictures.length > 0 && packages.length > 0) {
@@ -1008,7 +1227,7 @@ module.exports = {
     let ordercodes = {};
     console.log(total + ' is total');
     if (total > 0) {
-      total = total ;
+      total = total;
       if (!Array.isArray(imgdir)) {
         imgdir = [imgdir];
       }
@@ -1047,6 +1266,9 @@ module.exports = {
           cleared: false,
           moment: moment().format('YYYY-MM-DD HH:mm:ss'),
           schoolcode: student.schoolcode,
+          gross: gross,
+          vat: Number(ship),
+          total: total,
         };
 
         // await OrdersModel.create({

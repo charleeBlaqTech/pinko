@@ -6,8 +6,9 @@ const adminSchema = new mongoose.Schema([
       trim: true,
       lowercase: true,
     },
-    host:Boolean,
-    pending:Boolean,
+    host: Boolean,
+    slave: Boolean,
+    pending: Boolean,
     addadmin: {
       type: Number,
     },
@@ -23,9 +24,9 @@ const adminSchema = new mongoose.Schema([
     lastseen: {
       type: String,
     },
-    uploads:{
+    uploads: {
       type: Number,
-      default: 0
+      default: 0,
     },
     email: {
       type: String,
@@ -45,7 +46,7 @@ const adminSchema = new mongoose.Schema([
       minLength: [6, 'Password is too short'],
     },
     phone: Number,
-    secret:String,
+    secret: String,
     username: {
       type: String,
       required: [true, 'Username can not be empty'],
@@ -75,14 +76,12 @@ const adminSchema = new mongoose.Schema([
       type: Boolean,
       default: false,
     },
-    slave: Boolean,
     admin: {
       type: Boolean,
       default: true,
     },
     adminid: Number,
     adminshiprate: Number,
-    
   },
 ]);
 

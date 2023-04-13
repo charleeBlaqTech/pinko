@@ -125,6 +125,7 @@
                                     <thead>
                                         <tr class="align-items-center">
                                             {{!-- <th>Orders</th> --}}
+                                            <th>s/n</th>
                                             <th>Username</th>
 
                                             <th>Date</th>
@@ -141,13 +142,16 @@
 
                                         </tr>
                                     </thead>
-                                    <tbody class="cele">
+                                    <tbody class="cele" style="max-height:50vh;overflow:auto;">
 
                                         {{#each orders}}
 
 
                                         <tr class="cele text-center tooltip-row" id="bella{{@index}}">
                                             <td class="text-capitalize">
+                                                {{sne}}
+                                            </td>
+                                            <td title="visit {{username}}'s page" class="ttooltip text-capitalize">
                                                 <a href="/admin/viewparent/{{parentid}}">{{username}}</a>
                                             </td>
                                             
