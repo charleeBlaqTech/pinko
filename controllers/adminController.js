@@ -1725,7 +1725,8 @@ module.exports = {
     // lets proceed with the next step which is encrypting our password before saving
   },
   searchstudent: async (req, res) => {
-    const searchstudent = req.body.search;
+    schoolz()
+    const searchstudent = req.body.search.toLowerCase();
     const pico = await studentModel.find({ name: { $regex: searchstudent } });
     if (pico.length > 0) {
       res.render('adminstudents', {
@@ -2617,6 +2618,8 @@ module.exports = {
     }
   },
   login: async (req, res) => {
+              schoolz();
+
     console.log('im at administrator');
 
     const { username, pwrd } = req.body;

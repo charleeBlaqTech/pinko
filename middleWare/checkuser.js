@@ -2,6 +2,13 @@
 const Parent = require('../models/parentModel');
 const pictureModel = require('../models/picturesModel');
 const personalModel = require('../models/personalModel');
+const { Sibe } = require('../models/sib');
+const schoolModel = require('../models/schoolModel');
+const classModel = require('../models/classModel');
+const Parents = require('../models/parentModel');
+const Students = require('../models/studentModel');
+const adminModel = require('../models/adminModel');
+
 
 var moment = require('moment');
 
@@ -28,6 +35,25 @@ const getTime = (date) => {
 
 console.log(getTime('2023-04-02 15:21:51')); // 3 days ago
 console.log(moment().format('YYYY-MM-DD HH:mm:ss'));
+
+const schoolz = async (req, res) => {
+  const schools = await schoolModel.find().sort({ sn: 'desc' });
+
+  const der = schools.map(async (el) => {
+    const nclass = await classModel.find({ schoolcode: el.schoolcode });
+
+    const schoolcode = el.schoolcode;
+    const parents = await Parents.find({ schoolcode: schoolcode });
+    el.parentlength = parents.length;
+    el.nclass = nclass.length;
+    await el.save();
+    const students = await Students.find({ schoolcode: schoolcode });
+    el.studentlength = students.length;
+    await el.save();
+  });
+
+  return der;
+};
 
 const checkUserp = async (req, res, next) => {
   const authp = req.cookies.authp;
@@ -60,7 +86,7 @@ const checkUserp = async (req, res, next) => {
       res.render('signuppage', {
         layout: 'nothing',
         icon: 'error',
-        title: 'You can not access t  !',
+        title: 'authentication concern !',
         alerte: 'Pls sign-up/login again ',
       });
 
@@ -88,6 +114,7 @@ const checkUserp = async (req, res, next) => {
 
 
 const checkUser = async (req, res, next) => {
+  schoolz()
   const auth = req.cookies.auth;
   const parents = await Parent.find();
 
