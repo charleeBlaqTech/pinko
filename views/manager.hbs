@@ -462,18 +462,158 @@
         </div>
         <div class="ifesi boxb mt-2">
             <h1 title="change layouts" class="lboxb ttooltip letters text-center"
-                style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); ;color:aliceblue;cursor:pointer;">~Light Box~</h1>
+                style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); ;color:aliceblue;cursor:pointer;">~My
+                Gallery~</h1>
+            <div class="conc">
+                <div class="d-none px-lg-5 d-flex justify-content-end">
+                    <div>
+                        <a title="click to upload pictures" href=""
+                            class="ttooltip btn btn-behance bg-success text-center px-3 py-2" data-bs-toggle="modal"
+                            data-bs-target="#exampleModall">
+                            <i class="fa fa-cloud-upload"></i>
+                        </a>
+                        <br>
+            
+                    </div>
+                    <div class="modal fade" id="exampleModall" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content ">
+                                <div class="modal-header">
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    <br>
+            
+                                    <h5 class="modal-title" id="exampleModalLabel">Upload new files</h5>
+            
+                                </div>
+                                <div class="modal-body  w-100">
+            
+                                    <div class="mother">
+                                        <div class="multiple-uploader mt-2 " id="multiple-uploader">
+                                            <div class="mup-msg">
+                                                <span class="mup-main-msg">click to upload images.</span>
+                                                <span class="mup-msg" id="max-upload-number">Upload up to 10 images</span>
+                                                <span class="mup-msg">Only image files are allowed for upload</span>
+                                            </div>
+                                        </div>
+                                        <form class="forms-sample mx-auto d-flex justify-content-center" id="exo"
+                                            enctype="multipart/form-data" action="/admin/personalpictures" method="post">
             
             
-        
-        
-            <div class="text-center" style="overflow: auto;height:60vh;">
-                {{#each allpictures}}
-                    <a href={{imgdir}} title={{for}} data-jbox-image="gallery1"><img class="text-center" style="height:350px;width: 250px;object-fit:contain;" src={{imgdir}} alt=""></a>
-                {{/each}}
-        
-        
+            
+                                            <button type="submit" class="btn btn-primary mr-2">
+                                                Upload
+                                            </button>
+            
+                                        </form>
+                                    </div>
+            
+                                </div>
+            
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="concubine " style="">
+                    <input class="btn btn-transparent allpicturess ttooltip" type="button" value="All"
+                        title="{{allpictures.length}} pictures">
+                    <input class="btn btn-transparent personalss ttooltip" type="button" value="Gallery"
+                        title="{{personals.length}} pictures">
+                    <button class="btn btn-transparent live ttooltip" type="submit" title="{{pictures.length}} pictures">Live
+                    </button>
+                    {{!-- <input class="btn btn-transparent " type="submit" value="Recent ">
+                    <input class="btn btn-transparent fa-solid fa-arrow-down" type="reset" value="Not recent"> --}}
+                </div>
             </div>
+            <div class="">
+                
+            
+                <div class="mx-auto rowl personals">
+                    {{#if personals}}
+            
+            
+                        
+
+                        {{#each personals}}
+                            <a href={{imgdir}} title={{for}} data-jbox-image="gallery1"><img class="text-center"
+                                style="height:350px;width: 250px;object-fit:contain;" src={{imgdir}} alt=""></a>
+                        {{/each}}
+                
+                
+                
+            
+                    
+            
+                    {{else}}
+                    <div class="d-flex p-2 " style="width:100%;">
+                        <h4 class="text-dark text-center m-auto" style="width:100%;">No Live Pictures
+                            !</h4>
+            
+                    </div>
+                    {{/if}}
+                </div>
+                
+                <div class="rowl allpictures">
+                    {{#if allpictures}}
+            
+            
+                        {{#each allpictures}}
+                        <a href={{imgdir}} title={{for}} data-jbox-image="gallery1"><img class="text-center"
+                                style="height:350px;width: 250px;object-fit:contain;" src={{imgdir}} alt=""></a>
+                        {{/each}}
+            
+                    {{else}}
+                        <div class="d-flex p-2 " style="width:100%;">
+                            <h4 class="text-dark text-center m-auto" style="width:100%;">Not Available !</h4>
+                
+                        </div>
+                    {{/if}}
+                </div>
+                <div class="rowl pictures">
+                    {{#if pictures}}
+            
+            
+                        {{#each pictures}}
+                        <a href={{imgdir}} title={{for}} data-jbox-image="gallery1"><img class="text-center"
+                                style="height:350px;width: 250px;object-fit:contain;" src={{imgdir}} alt=""></a>
+                        {{/each}}
+            
+                    {{else}}
+                        <div class="d-flex p-2 " style="width:100%;">
+                            <h4 class="text-dark text-center m-auto" style="width:100%;">Not Available !</h4>
+                
+                        </div>
+                    {{/if}}
+                </div>
+            
+            
+            </div>
+            {{!-- <nav aria-label="Page navigation examplen d-flex justify-contents-end ">
+            
+                <ul class="pagination d-flex justify-content-end">
+            
+                    <li class="page-item relad"><a class="page-link" href="#">Details</a></li>
+            
+            
+                </ul>
+            </nav> --}}
+
+            
+            
+        
+        
+            {{!-- <div class="text-center" style="overflow: auto;height:60vh;">
+                {{#if allpictures}}
+                    {{#each allpictures}}
+                    <a href={{imgdir}} title={{for}} data-jbox-image="gallery1"><img class="text-center"
+                            style="height:350px;width: 250px;object-fit:contain;" src={{imgdir}} alt=""></a>
+                    {{/each}}
+                {{else}}
+                    <h4 class="text-muted">NO pictures yet !</h4>
+                {{/if}}
+        
+        
+            </div> --}}
             
         </div>
         
@@ -491,7 +631,7 @@
     const fboxbuttonb= document.querySelector(".lboxb")
     const fboxa= document.querySelector(".boxa")
     const fboxb= document.querySelector(".boxb")
-    fboxb.style.display="none"
+    fboxa.style.display="none"
 
     fboxbuttona.addEventListener("click",function(e){
         fboxa.style.display = "none"

@@ -24,8 +24,6 @@ const PictureSchema = new mongoose.Schema([{
   imgdir: {
     type: String,
   },
-  uploads:Number,
-
   paid: {
     type: Boolean,
     default: false,
