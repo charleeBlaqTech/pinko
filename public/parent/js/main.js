@@ -15,6 +15,9 @@
   obosi.forEach((ell) => {
     ell.style.display = 'none';
   });
+  function runthis() {
+    alert('hi');
+  }
   
   $(document).ready(function () {
     const supu = document.querySelectorAll('.checkboxx');
@@ -123,6 +126,20 @@
     });
   });
   tryr();
+  $(document).ready(function () {
+    $('.xtrows').click(function () {
+      const allem = $('.xtrows').length
+      // alert(allem)
+      if (allem>1){
+        $(this).closest('tr').remove()
+        tryr();
+      }
+      else{
+        alert('OOps! you can not proceed with an empty cart' );
+
+      }
+    })
+  })
   $(document).ready(function () {
     function toggleNavbarMethod() {
       if ($(window).width() > 992) {

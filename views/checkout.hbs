@@ -168,11 +168,16 @@
 
                                     </div>
                                 </td>
-                                <td class="align-middle  xtrows" style="background-color:#7CB9E8;" onClick="this.parentNode.parentNode.removeChild(this.parentNode)" id="del{{@index}}"
+                                <td title="delete item" class="ttooltip align-middle  xtrows" style="background-color:#7CB9E8;" onClick="runthis()" id="del{{@index}}"
+                                    >
+                                    <button type="button" class=" btn btn-sm"><i
+                                            class="fa fa-trash"></i></button>
+                                </td>
+                                {{!-- <td class="align-middle  xtrows" style="background-color:#7CB9E8;" onClick="this.parentNode.parentNode.removeChild(this.parentNode)" id="del{{@index}}"
                                     >
                                     <button class=" btn btn-sm"><i
                                             class="fa fa-trash"></i></button>
-                                </td>
+                                </td> --}}
 
                             </tr>
                         {{/each}}
