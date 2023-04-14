@@ -571,10 +571,11 @@ ul li .descr {
                             {{#each admins}}
 
 
-                            <tr class="cele">
+                            <tr class="cele text-center">
                                 <td title="click to learn more" class="ttooltip hanku text-center text-capitalize fs-lg-30" data-bs-toggle="modal"
                                     data-bs-target="#exampleModalaboute{{@index}}" style="cursor: pointer;"><a class="link link--kukuri" href="#" data-letters={{name}}>{{name}}</a>
                                 </td>
+                                {{!-- <td>{{username}}</td> --}}
                                     <div class="modal fade" id="exampleModalaboute{{@index}}" tabindex="-1" aria-labelledby="exampleModalLabel"
                                         aria-hidden="true">
                                         <div class="modal-dialog">
@@ -631,7 +632,7 @@ ul li .descr {
                                             </div>
                                         </div>
                                     </div>
-                                {{#if restrict}}
+                                {{!-- {{#if restrict}} --}}
                                     <td class="text-muted text-center text-capitalize fs-lg-30"
                                         data-bs-toggle="modal" data-bs-target="#exampleModalpoi{{@index}}">{{username}} <i class=" fa fa-edit"></i></td>
                                     <div class="modal fade" id="exampleModalpoi{{@index}}" tabindex="-1"
@@ -685,7 +686,8 @@ ul li .descr {
                                             </div>
                                         </div>
                                     </div>
-                                {{else}}
+                                {{!-- {{else}} --}}
+                                
                                 
                                 
                                 <div class="modal fade" id="exampleModalpoi{{@index}}" tabindex="-1"
@@ -738,7 +740,7 @@ ul li .descr {
                                         </div>
                                     </div>
                                 </div>
-                                {{/if}}
+                                {{!-- {{/if}} --}}
                                 <td class="text-center "><a href="mailto:{{email}}">{{email}}</a></td>
 
                                 <td title={{fpwrd}} class="ttooltip text-center px-0 border-0 "><input
