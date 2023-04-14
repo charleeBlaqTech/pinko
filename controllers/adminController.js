@@ -116,11 +116,13 @@ async function resizeImage(fileName) {
       .toFormat('jpeg', { mozjpeg: true })
       .composite([
         {
-          input: './public/images/logo-1.png',
-          top: 200,
-          left: 150,
+          input: './public/images/overlay.png',
+          top: 265,
+          left: 100,
+          
         },
       ])
+      
       .toFile('./public/sharp/' + fileName);
   } catch (error) {
     console.log(error);
