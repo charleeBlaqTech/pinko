@@ -174,7 +174,7 @@ const checkUser = async (req, res, next) => {
         res.render('adminloginpage', {
           layout: 'nothing',
           icon: 'error',
-          title: 'User account is temporarily disabled  !',
+          title: 'Authentication expired !',
           alerte: 'Pls login again ',
         });
       }

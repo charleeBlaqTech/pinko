@@ -416,7 +416,7 @@
 
                         <div style="display: flex;justify-content:space-between;flex:0 1 auto;flex-wrap:wrap;">
                             <div>
-                                <h1 class="card-title " style="cursor: pointer;" data-bs-toggle="modal"
+                                <h1 title="edit name" class="ttooltip card-title " style="cursor: pointer;" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">{{student.name}}
                                     <i class="fa fa-edit"></i>
                                 </h1>
@@ -454,9 +454,9 @@
                                     </div>
                                 </div>
 
-                                <h4 class="text-capitalize">{{student.schoolname}}</h4>
+                                <h4 title="{{student.name}}'s school" class="ttooltip text-capitalize">{{student.schoolname}}</h4>
 
-                                <h4 class="card-title text-muted">{{student.classs}}</h4>
+                                <h4 title="{{student.name}}'s class" class="ttooltip card-title text-muted">{{student.classs}}</h4>
 
                             </div>
                             <div class="w-45">
@@ -464,13 +464,13 @@
                                 <h6 class="text-success" id="clipr">copied to clipboard </h6>
 
                                 <div class="diva" style="display: flex;flex-wrap:wrap;">
-                                    <span class="btn btn-primary px-3 py-2 text-capitalize ccopy w-70 w-col-lg-50"
+                                    <span title="click to copy" class=" ttooltip btn btn-primary px-3 py-2 text-capitalize ccopy w-70 w-col-lg-50"
                                         onclick="clickpar()">
                                         Copy: <span id="clickpar">{{student.signparent}}</span>
                                     </span>
 
-                                    <a href="/admin/schoolcode/{{student.userid}}"
-                                        class="btn fs-30 px-3 py-2 text-capitalize text-light w-70 lg-w-50"
+                                    <a title="regenerate new student code" href="/admin/schoolcode/{{student.userid}}"
+                                        class="ttooltip btn fs-30 px-3 py-2 text-capitalize text-light w-70 lg-w-50"
                                         style="background-color: rgb(80, 226, 207);">
                                         Regenerate
                                     </a>
@@ -489,251 +489,289 @@
 
 
                     
-                    <div class="fesi mt-1 text-center">
-                        <div class="ifesi boxa ">
-                            <h1 title="gallery layout" class="ttooltip letters text-center"
-                                style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); ;color:aliceblue;cursor:pointer;">
-                                ~<span style="text-transform:capitalize;">{{student.name}}</span>~</h1>
-                            <div class="conc">
-                                <div class=" px-lg-5 d-flex justify-content-end">
-                                    <div>
-                                        <a title="click to upload pictures" href=""
-                                            class="ttooltip btn btn-behance bg-success text-center px-3 py-2"
-                                            data-bs-toggle="modal" data-bs-target="#exampleModaly">
-                                            <i class="fa fa-cloud-upload"></i>
-                                        </a>
-                                        <br>
+                    
 
-                                    </div>
-                                    <div class="modal fade" id="exampleModaly" tabindex="-1"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content ">
-                                                <div class="modal-header">
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
-                                                    <br>
-
-                                                    <h5 class="modal-title" id="exampleModalLabel">Upload new files</h5>
-
-                                                </div>
-                                                <div class="modal-body  w-100">
-
-                                                    <div class="mother">
-                                                        <div class="multiple-uploader mt-2 " id="multiple-uploader">
-                                                            <div class="mup-msg">
-                                                                <span class="mup-main-msg">click to upload
-                                                                    images.</span>
-                                                                <span class="mup-msg" id="max-upload-number">Upload up
-                                                                    to 10 images</span>
-                                                                <span class="mup-msg">Only image files are allowed for
-                                                                    upload</span>
+                    {{#if pictures}}
+                        <div class="fesi mt-1 text-center">
+                            <div class="ifesi boxa ">
+                                <h1 title="gallery layout" class="ttooltip letters text-center"
+                                    style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); ;color:aliceblue;cursor:pointer;">
+                                    ~<span style="text-transform:capitalize;">{{student.name}}</span>~</h1>
+                                <div class="conc">
+                                    <div class=" px-lg-5 d-flex justify-content-end">
+                                        <div>
+                                            <a title="click to upload pictures" href=""
+                                                class="ttooltip btn btn-behance bg-success text-center px-3 py-2" data-bs-toggle="modal"
+                                                data-bs-target="#exampleModaly">
+                                                <i class="fa fa-cloud-upload"></i>
+                                            </a>
+                                            <br>
+                        
+                                        </div>
+                                        <div class="modal fade" id="exampleModaly" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content ">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                        <br>
+                        
+                                                        <h5 class="modal-title" id="exampleModalLabel">Upload new files</h5>
+                        
+                                                    </div>
+                                                    <div class="modal-body  w-100">
+                        
+                                                        <div class="mother">
+                                                            <div class="multiple-uploader mt-2 " id="multiple-uploader">
+                                                                <div class="mup-msg">
+                                                                    <span class="mup-main-msg">click to upload
+                                                                        images.</span>
+                                                                    <span class="mup-msg" id="max-upload-number">Upload up
+                                                                        to 10 images</span>
+                                                                    <span class="mup-msg">Only image files are allowed for
+                                                                        upload</span>
+                                                                </div>
                                                             </div>
+                                                            <form class="forms-sample mx-auto d-flex justify-content-center" id="exo"
+                                                                enctype="multipart/form-data" action="/admin/uploads" method="post"
+                                                                accept="image/png,image/jpeg">
+                        
+                        
+                        
+                                                                <button type="submit" class="btn btn-primary mr-2">
+                                                                    Upload
+                                                                </button>
+                        
+                                                            </form>
                                                         </div>
-                                                        <form class="forms-sample mx-auto d-flex justify-content-center" id="exo" enctype="multipart/form-data"
-                                                            action="/admin/uploads" method="post" accept="image/png,image/jpeg">
-                                                        
-                                                        
-                                                        
-                                                            <button type="submit" class="btn btn-primary mr-2">
-                                                                Upload
-                                                            </button>
-                                                        
-                                                        </form>
+                        
                                                     </div>
-
+                        
                                                 </div>
-
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="concubine px-3" style="">
-                                    <nav class="ttooltip lboxa" title="switch to lightbox" aria-label="Page navigation example d-flex justify-contents-end ">
-                                    
-                                        <ul class="pagination d-flex justify-content-end">
-                                    
-                                            <li class="page-item relad"><a class="page-link" href="#"> <i class="fa fa-toggle-on"></i> </a></li>
-                                    
-                                    
-                                        </ul>
-                                    </nav>
-                                    <nav aria-label="Page navigation examplen d-flex justify-contents-end ">
-                                    
-                                        <ul class="pagination d-flex justify-content-end">
-                                    
-                                            <li class="page-item relad"><a class="page-link" href="#">Details</a></li>
-                                    
-                                    
-                                        </ul>
-                                    </nav>
-                                    <nav aria-label="Page navigation examplen d-flex justify-contents-end ">
-                                    
-                                        <ul class="pagination d-flex justify-content-end">
-                                    
-                                            <li class="page-item relad"><a class="page-link" href="/admin/delete/{{student.userid}}"> <i class="fa fa-trash"></i> all</a></li>
-                                    
-                                    
-                                        </ul>
-                                    </nav>
-                                </div>
-                            </div>
-
-
-                            <div class="">
-                                
-
-                                <div class="rowl picturehs  text-center">
-                                    {{#if pictures}}
-
-
-                                    {{#each pictures}}
-                                    <div class=" text-center column" style="position:relative;" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModalio{{@index}}">
-                                        <img title="uploaded by {{uploadedby}} {{momentago}}" src={{imgdir}}
-                                            class="ttooltip pict melo" style="padding: 0;" alt="...">
-                                        <p class="  mt-n5 mx-auto text-center remova bg-dark w-50 text-light"
-                                            style="position: absolute;margin:0 auto;"><i class="fa fa-user"></i> {{for}}
-                                        </p>
-                                        <p class="mt-n4 mx-auto text-center remova bg-dark w-50 text-light"
-                                            style="position: absolute;margin:0 auto;">
-                                            {{picode}}</p>
-
+                        
+                                    <div class="concubine px-3" style="">
+                                        <nav class="ttooltip lboxa" title="switch to lightbox"
+                                            aria-label="Page navigation example d-flex justify-contents-end ">
+                        
+                                            <ul class="pagination d-flex justify-content-end">
+                        
+                                                <li class="page-item relad"><a class="page-link" href="#"> <i class="fa fa-toggle-on"></i> </a>
+                                                </li>
+                        
+                        
+                                            </ul>
+                                        </nav>
+                                        <nav aria-label="Page navigation examplen d-flex justify-contents-end ">
+                        
+                                            <ul class="pagination d-flex justify-content-end">
+                        
+                                                <li class="page-item relad"><a class="page-link" href="#">Details</a></li>
+                        
+                        
+                                            </ul>
+                                        </nav>
+                                        <nav aria-label="Page navigation examplen d-flex justify-contents-end ">
+                        
+                                            <ul class="pagination d-flex justify-content-end">
+                        
+                                                <li class="page-item relad"><a class="page-link" href="/admin/deleteall/{{student.userid}}"> <i
+                                                            class="fa fa-trash"></i> all</a></li>
+                                                {{!-- <li class="page-item relad"><a class="page-link" href="/admin/delete/{{student.userid}}">
+                                                        <i class="fa fa-trash"></i> all</a></li> --}}
+                        
+                        
+                                            </ul>
+                                        </nav>
                                     </div>
-                                    <div class="modal fade" id="exampleModalio{{@index}}" tabindex="-1"
-                                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                        <div class="modal-dialog">
-                                            <div class="modal-content">
-                                                <div class="modal-header">
-                                                    <h2 class="modal-title text-capitalize text-center"
-                                                        id="exampleModalLabel">
-                                                        <small>uploaded by </small>{{uploadedby}}
-                                                    </h2>
-
-
-                                                    {{!-- <h5 class="modal-title" id="exampleModalLabel">exit </h5> --}}
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                                        aria-label="Close"></button>
+                                </div>
+                        
+                        
+                                <div class="">
+                        
+                        
+                                    <div class="rowl picturehs  text-center">
+                                        {{#if pictures}}
+                        
+                        
+                                        {{#each pictures}}
+                                        <div class=" text-center column" style="position:relative;" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModalio{{@index}}">
+                                            <img title="uploaded by {{uploadedby}} {{momentago}}" src={{imgdir}} class="ttooltip pict melo"
+                                                style="padding: 0;" alt="...">
+                                            <p class="  mt-n5 mx-auto text-center remova bg-dark w-50 text-light"
+                                                style="position: absolute;margin:0 auto;"><i class="fa fa-user"></i> {{for}}
+                                            </p>
+                                            <p class="mt-n4 mx-auto text-center remova bg-dark w-50 text-light"
+                                                style="position: absolute;margin:0 auto;">
+                                                {{picode}}</p>
+                        
+                                        </div>
+                                        <div class="modal fade" id="exampleModalio{{@index}}" tabindex="-1" aria-labelledby="exampleModalLabel"
+                                            aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h2 class="modal-title text-capitalize text-center" id="exampleModalLabel">
+                                                            <small>uploaded by </small>{{uploadedby}}
+                                                        </h2>
+                        
+                        
+                                                        {{!-- <h5 class="modal-title" id="exampleModalLabel">exit </h5> --}}
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div class="my-3 mx-auto text-center">
+                                                            <a class=" text-center" href={{imgdir}} style="display: block;margin:0 auto;">
+                                                                <img src={{imgdir}} style="width:100%;" alt="">
+                                                            </a>
+                                                        </div>
+                                                        <div class="d-flex justify-content-end w-100 ">
+                                                            <small class="text-capitalize text-end text-info">
+                                                                {{momentago}}</small>
+                                                        </div>
+                                                        <br>
+                                                        <div class="d-flex justify-content-end">
+                                                            <a href="/admin/deletepix/{{pixname}}"><i class="fa fa-trash text-danger"></i></a>
+                        
+                        
+                        
+                        
+                                                        </div>
+                                                    </div>
+                        
                                                 </div>
-                                                <div class="modal-body">
-                                                    <div class="my-3 mx-auto text-center">
-                                                        <a class=" text-center" href={{imgdir}}
-                                                            style="display: block;margin:0 auto;">
-                                                            <img src={{imgdir}} style="width:100%;" alt="">
-                                                        </a>
-                                                    </div>
-                                                    <div class="d-flex justify-content-end w-100 ">
-                                                        <small class="text-capitalize text-end text-info">
-                                                            {{momentago}}</small>
-                                                    </div>
-                                                    <br>
-                                                    <div class="d-flex justify-content-end">
-                                                        <a href="/admin/deletepix/{{pixname}}"><i
-                                                                class="fa fa-trash text-danger"></i></a>
-
-
-
-
-                                                    </div>
-                                                </div>
-
                                             </div>
                                         </div>
+                        
+                        
+                        
+                        
+                                        {{/each}}
+                        
+                                        {{else}}
+                                        <div class="d-flex p-2 " style="width:100%;">
+                                            <h4 class="text-dark text-center m-auto" style="width:100%;">No Pictures yet !
+                                                !</h4>
+                        
+                                        </div>
+                                        {{/if}}
                                     </div>
-
-
-
-
-                                    {{/each}}
-
-                                    {{else}}
-                                    <div class="d-flex p-2 " style="width:100%;">
-                                        <h4 class="text-dark text-center m-auto" style="width:100%;">No Pictures yet !
-                                            !</h4>
-
-                                    </div>
-                                    {{/if}}
+                        
+                        
+                        
                                 </div>
-                                
-
-
+                        
                             </div>
-                            
+                            <div class="ifesi boxb mt-2">
+                                <h1 title="Lightbox layout" class=" ttooltip letters text-center"
+                                    style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); ;color:aliceblue;cursor:pointer;">
+                                    ~<span style="text-transform:capitalize;">{{student.name}}</span>~</h1>
+                                <div class="conc">
+                        
+                                    {{!-- <div class=" px-lg-5 d-flex justify-content-end">
+                                        <div>
+                        
+                        
+                                        </div>
+                        
+                                    </div> --}}
+                        
+                        
+                                    <div class="concubine col-12 d-flex justify-contents-between px-3" style="">
+                                        <nav class="lboxb" aria-label="Page navigation example d-flex justify-contents-end mr-1 ">
+                        
+                                            <ul class="pagination d-flex justify-content-end">
+                        
+                                                <li title="gallery-layout" class="ttooltip page-item relad"><a class="page-link" href="#"><i
+                                                            class="fa fa-toggle-off"></i></a></li>
+                        
+                        
+                                            </ul>
+                                        </nav>
+                        
+                                        <nav title="delete all pictures" class="ttooltip"
+                                            aria-label="Page navigation examplen d-flex justify-contents-end ">
+                        
+                                            <ul class="pagination d-flex justify-content-end">
+                        
+                                                <li class="page-item relad"><a class="page-link" href="/admin/delete/{{student.userid}}"> <i
+                                                            class="fa fa-trash"></i> all</a></li>
+                        
+                        
+                                            </ul>
+                                        </nav>
+                                    </div>
+                                </div>
+                                <div class="">
+                        
+                        
+                        
+                                    <div class="rowl picturesh ">
+                                        {{#if pictures}}
+                        
+                        
+                                        {{#each pictures}}
+                                        <a href={{imgdir}} title={{for}} data-jbox-image="gallery1"><img class="text-center"
+                                                style="height:350px;width: 250px;object-fit:contain;" src={{imgdir}} alt=""></a>
+                                        {{/each}}
+                        
+                                        {{else}}
+                                        <div class="d-flex p-2 " style="width:100%;">
+                                            <h4 class="text-dark text-center m-auto" style="width:100%;">No pictures yet ! !
+                                            </h4>
+                        
+                                        </div>
+                                        {{/if}}
+                                    </div>
+                        
+                        
+                                </div>
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                            </div>
+                        
                         </div>
-                        <div class="ifesi boxb mt-2">
-                            <h1 title="Lightbox layout" class=" ttooltip letters text-center"
-                                style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); ;color:aliceblue;cursor:pointer;">
-                                ~<span style="text-transform:capitalize;">{{student.name}}</span>~</h1>
-                            <div class="conc">
-
-                                {{!-- <div class=" px-lg-5 d-flex justify-content-end">
-                                    <div>
-                                        
-                                
+                        
+                        
+                    {{else}}
+                        <div class=" px-lg-1">
+                            <div class="mother">
+                                <div class="multiple-uploader mt-2 " id="multiple-uploader">
+                                    <div class="mup-msg">
+                                        <span class="mup-main-msg">click to upload
+                                            images.</span>
+                                        <span class="mup-msg" id="max-upload-number">Upload up
+                                            to 10 images</span>
+                                        <span class="mup-msg">Only image files are allowed for
+                                            upload</span>
                                     </div>
-                                    
-                                </div> --}}
-                                
-
-                                <div class="concubine col-12 d-flex justify-contents-between px-3" style="">
-                                    <nav class="lboxb" aria-label="Page navigation example d-flex justify-contents-end mr-1 ">
-                                
-                                        <ul class="pagination d-flex justify-content-end">
-                                
-                                            <li title="gallery-layout" class="ttooltip page-item relad"><a class="page-link" href="#"><i class="fa fa-toggle-off"></i></a></li>
-                                
-                                
-                                        </ul>
-                                    </nav>
-                                    
-                                    <nav title="delete all pictures" class="ttooltip" aria-label="Page navigation examplen d-flex justify-contents-end ">
-                                
-                                        <ul class="pagination d-flex justify-content-end">
-                                
-                                            <li class="page-item relad"><a class="page-link" href="/admin/delete/{{student.userid}}"> <i class="fa fa-trash"></i> all</a></li>
-                                
-                                
-                                        </ul>
-                                    </nav>
                                 </div>
-                            </div>
-                            <div class="">
-
-
-                                
-                                <div class="rowl picturesh ">
-                                    {{#if pictures}}
-
-
-                                    {{#each pictures}}
-                                    <a href={{imgdir}} title={{for}} data-jbox-image="gallery1"><img class="text-center"
-                                            style="height:350px;width: 250px;object-fit:contain;" src={{imgdir}}
-                                            alt=""></a>
-                                    {{/each}}
-
-                                    {{else}}
-                                    <div class="d-flex p-2 " style="width:100%;">
-                                        <h4 class="text-dark text-center m-auto" style="width:100%;">No pictures yet ! !
-                                        </h4>
-
-                                    </div>
-                                    {{/if}}
-                                </div>
-
-
-                            </div>
+                                <form class="forms-sample mx-auto d-flex justify-content-center" id="exo" enctype="multipart/form-data"
+                                    action="/admin/uploads" method="post" accept="image/png,image/jpeg">
                             
-
-
-
-
-
                             
-
+                            
+                                    <button type="submit" class="btn btn-primary mr-2">
+                                        Upload
+                                    </button>
+                            
+                                </form>
+                            </div>
                         </div>
+                    {{/if}}
 
-                    </div>
+                    
 
 
                     
@@ -746,6 +784,20 @@
 
 
 
+            </div>
+            <div class="mt-2">
+                <nav aria-label="Page navigation examplen d-flex justify-contents-end ">
+            
+                    <ul class="pagination d-flex justify-content-end">
+            
+                        <li class="page-item "><a class="page-link text-danger" href="/admin/delete/{{student.userid}}"> <i
+                                    class="fa fa-trash"></i> Delete account</a></li>
+                        {{!-- <li class="page-item relad"><a class="page-link" href="/admin/delete/{{student.userid}}"> <i
+                                    class="fa fa-trash"></i> all</a></li> --}}
+            
+            
+                    </ul>
+                </nav>
             </div>
 
             
