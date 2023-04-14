@@ -22,6 +22,8 @@ const  {setUser,setUserp}  = require('./middleWare/setuser');
 // const upload = multer()
 
 // bodyParser.json([options])
+const homedir = __dirname
+
 
 // 2.  Connect Mongoose
 
@@ -61,9 +63,12 @@ app.use(setUserp);
 app.use(
   fileUpload({
     // useTempFiles: true,
-    tempFileDir: './public/uploads',
+    tempFileDir: __dirname+'/public/uploads',
   })
 );
+const patho = __dirname;
+// module.exports = patho
+console.log(__dirname + ' is directory name on appjs');
 
 app.use('/', homeRoutes);
 // app.use('/student', studentRoutes);
@@ -104,3 +109,5 @@ const PORTs = process.env.PORT;
 app.listen(PORTs, () => {
   console.log(`Now Listening on Port ${PORTs}`);
 });
+
+module.exports = patho

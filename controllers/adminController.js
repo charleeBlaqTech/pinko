@@ -3,7 +3,8 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 
 const { sib } = require('../models/sib');
-
+// const {patho} = require('/app')
+const path = require('path');
 const parentModel = require('../models/parentModel');
 const adminModel = require('../models/adminModel');
 const studentModel = require('../models/studentModel');
@@ -32,7 +33,9 @@ var transporter = nodemailer.createTransport({
     pass: process.env.PASS,
   },
 });
-
+const dir = __dirname
+const maindir = dir.split('contr')[0]
+console.log(maindir + " is dirname")
 let options = {
   text: 'Codar Institute',
   textSize: 6,
@@ -106,23 +109,23 @@ const getTime = (date) => {
 async function resizeImage(fileName) {
   try {
     console.log(fileName + ' from sharp');
-    await sharp('./public/uploads/' + fileName)
-      .resize({
-        width: 550,
-        height: 650,
+    await sharp(maindir + '/public/uploads/' + fileName)
+      .resize(800, 800, {
+        // width: 550,
+        // height: 650,
+
         fit: 'contain',
         background: { r: 255, g: 255, b: 255, alpha: 1 },
       })
       .toFormat('jpeg', { mozjpeg: true })
       .composite([
         {
-          input: './public/images/overlay.png',
-          top: 265,
-          left: 100,
-          
+          input: maindir + '/public/images/overlay.png',
+          top: 400,
+          left: 400,
         },
       ])
-      
+
       .toFile('./public/sharp/' + fileName);
   } catch (error) {
     console.log(error);
@@ -132,7 +135,7 @@ async function resizeImage(fileName) {
 async function resizeImagepack(fileName) {
   try {
     console.log(fileName + ' from sharp');
-    await sharp('./public/packages/' + fileName)
+    await sharp(maindir + '/public/packages/' + fileName)
       .resize({
         width: 550,
         height: 750,
@@ -150,7 +153,7 @@ async function resizeImagepack(fileName) {
 async function resizeImagep(fileName) {
   try {
     console.log(fileName + ' from sharp');
-    await sharp('./public/personals/' + fileName)
+    await sharp(maindir + '/public/personals/' + fileName)
       .resize({
         width: 650,
         height: 750,
@@ -166,7 +169,7 @@ async function resizeImagep(fileName) {
   return;
 }
 // resizeImage("omahd.jpg");
-
+console.log(__dirname+ " is directory name ");
 module.exports = {
   clearallpictures: async (req, res) => {
     await personalModel.deleteMany();
@@ -382,7 +385,7 @@ module.exports = {
     try {
       const userid = req.cookies.studentuserid;
       const student = await Students.findOne({ userid });
-      let fileDir = './public/uploads/';
+      let fileDir = maindir + '/public/uploads/';
 
       if (req.files) {
         let files = req.files.imagine;
@@ -427,7 +430,7 @@ module.exports = {
                 schoolcode: student.schoolcode,
                 class: student.classs,
                 uploaddate: justDate(),
-                imgdir: '/sharp/' + fileName,
+                imgdir:'/sharp/' + fileName,
                 downloadtimes: 0,
                 studentuserid: student.userid,
                 classid: student.classid,
