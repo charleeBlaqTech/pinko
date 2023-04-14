@@ -1556,7 +1556,7 @@ module.exports = {
     let personal = await personalModel.findOne({ picode: picode });
     if (personal) {
       try {
-        fs.unlinkSync('public' + personal.imgdir);
+        fs.unlinkSync('./public' + personal.imgdir);
         console.log(
           'wow i succesfully deleted ' +
             personal.imgdir +
@@ -1635,7 +1635,7 @@ module.exports = {
     const picos = await pictureModel.find({ studentuserid: userid });
     for (let i = 0; i < picos.length; i++) {
       try {
-        fs.unlinkSync('public/' + picos[i].imgdir);
+        fs.unlinkSync('./public' + picos[i].imgdir);
       } catch (err) {
         console.log(err);
       }
@@ -1664,7 +1664,7 @@ module.exports = {
     if (pico) {
       const student = await Students.findOne({ userid: pico.studentuserid });
       try {
-        fs.unlinkSync('public/' + pico.imgdir);
+        fs.unlinkSync('./public' + pico.imgdir);
         // fs.unlinkSync('public/' + pico.wm);
       } catch (err) {
         console.log(err.message);
