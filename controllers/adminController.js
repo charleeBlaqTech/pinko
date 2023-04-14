@@ -2837,6 +2837,9 @@ module.exports = {
   hashcode: async (req, res) => {
     const userid = req.params.hashcode;
     const student = await studentModel.findOne({ userid });
+    const pictures = await pictureModel
+      .find({ studentuserid: userid })
+      .sort({ sn: 1 });
 
     student.signparent = getserialnum(100000);
     await student.save();
@@ -2845,6 +2848,7 @@ module.exports = {
       parents: req.parents,
       admin: req.user,
       student: student,
+      pictures:pictures
     });
   },
   allstudents: async (req, res) => {
