@@ -23,6 +23,8 @@ const Orders = require('../models/orderModel');
 const randomn = require('crypto').randomBytes(5).toString('hex');
 var moment = require('moment');
 const nodemailer = require('nodemailer');
+const fsextra = require('fs-extra');
+
 var CryptoJS = require('crypto-js');
 console.log(CryptoJS.HmacSHA1('Message', 'Key') + ' is crypto');
 
@@ -222,7 +224,11 @@ module.exports = {
         try {
           for (let i = 0; i < files.length; i++) {
             console.log('here line 123');
-            const fileName = files[i].name.split(' ').join('_');
+            const fileName = files[i].name
+              .split('-')
+              .join('')
+              .split(' ')
+              .join('');
             // await pictureModel.deleteOne({ pixname: fileName });
             const pixo = await personalModel.findOne({ pixname: fileName });
             const pps = await personalModel.find();
@@ -399,7 +405,8 @@ module.exports = {
         try {
           for (let i = 0; i < files.length; i++) {
             console.log('here line 123');
-            const fileName = files[i].name.split(' ').join('_');
+            const extt = files[i].name.split('.')[1]
+            const fileName = randomn+"." + extt 
             // await pictureModel.deleteOne({ pixname: fileName });
             const pixo = await pictureModel.findOne({ pixname: fileName });
             if (!pixo) {
@@ -2044,7 +2051,7 @@ module.exports = {
     const package = await Package.findOne({ packageid: packageid });
     try {
       if (files) {
-        fileName = files.name.split(' ').join('_');
+        fileName = files.name.name.split('-').join('').split(' ').join('');
         try {
           fs.unlinkSync('./public' + package.packimg);
           console.log('file deleted successfully');
@@ -2169,7 +2176,7 @@ module.exports = {
     const { name, desc, price } = req.body;
     const files = req.files.pixo;
     let fileDir = './public/packages/';
-    const fileName = files.name.split(' ').join('_');
+    const fileName = files.name.split('-').join('').split(' ').join('');
     const ifp = await Package.findOne({ packimg: '/packages/' + fileName });
     if (!ifp) {
       const errorarray = [];
