@@ -121,8 +121,8 @@ async function resizeImage(fileName) {
       .composite([
         {
           input: maindir + '/public/images/overlay.png',
-          top: 400,
-          left: 400,
+          top: 300,
+          left: 300,
         },
       ])
 
@@ -2585,6 +2585,7 @@ module.exports = {
       photog: photos.length,
       ordersl: orders.length,
       pictures: photos,
+      maindir:maindir,
 
       // photog: photos.length,
       icon: 'success',
@@ -2693,6 +2694,7 @@ module.exports = {
                 photog: photos.length,
                 pictures: photos,
                 icon: 'success',
+                maindir:maindir,
                 ordersl: orders.length,
                 alerte: process.env.loginwelcome + ifusername.username,
               });
