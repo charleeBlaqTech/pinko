@@ -385,7 +385,7 @@ Basic input element using psuedo classes
             </div>
             
             <div class="hr"></div>
-            <div class="foot-lnk">
+            {{!-- <div class="foot-lnk">
               <a href="#forgot" id="fg">Forgot Password?</a>
 
 
@@ -394,24 +394,10 @@ Basic input element using psuedo classes
 
 
 
-            </div>
+            </div> --}}
           </div>
         </form>
-        <div id="fgf" class="mt-5 text-center">
-          <form method="post" action="/parent/verifymailforgotpwrd">
-            <h4 class="text-info">I forgot my password </h4>
-            <br>
-            <br>
-            <br>
-            <input type="email" name="email" class="question text-light text-center" style="font-size: 15px;" id="nme" required autocomplete="off" />
-            <label for="nme"><span class="text-light">Enter your email?</span></label>
-        
-            <div class="group">
-              <input type="submit" class="button col-sm-10 col-lg-6 mx-auto " value="Verify Email">
-            </div>
-        
-          </form>
-        </div>
+        {{!-- `wsqa  --}}
         <div class="sign-up-htm">
           <form action="/parent/parentsignup" id="loginAccount" method="post">
 

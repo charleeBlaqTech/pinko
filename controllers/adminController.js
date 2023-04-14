@@ -120,9 +120,9 @@ async function resizeImage(fileName) {
       .toFormat('jpeg', { mozjpeg: true })
       .composite([
         {
-          input: maindir + '/public/images/overlayb.png',
-          top: 100,
-          left: 50,
+          input: maindir + '/public/images/overlay.png',
+          top: 250,
+          left: 250,
         },
       ])
 
