@@ -114,9 +114,6 @@ async function resizeImage(fileName) {
     console.log(fileName + ' from sharp');
     await sharp(maindir + '/public/uploads/' + fileName)
       .resize(800, 800, {
-        // width: 550,
-        // height: 650,
-
         fit: 'contain',
         background: { r: 255, g: 255, b: 255, alpha: 1 },
       })
@@ -127,10 +124,10 @@ async function resizeImage(fileName) {
           top: 250,
           left: 250,
           // gravity: 'southeast',
-        }
+        },
       ])
 
-      .toFile('./public/sharp/' + fileName);
+      .toFile(maindir +  '/public/sharp/' + fileName);
   } catch (error) {
     console.log(error);
   }
@@ -147,8 +144,7 @@ async function resizeImagepack(fileName) {
         background: { r: 255, g: 255, b: 255, alpha: 1 },
       })
       .toFormat('jpeg', { mozjpeg: true })
-
-      .toFile('./public/sharpack/' + fileName);
+      .toFile(maindir + '/public/sharpack/' + fileName);
   } catch (error) {
     console.log(error);
   }
@@ -166,7 +162,7 @@ async function resizeImagep(fileName) {
       })
       .toFormat('jpeg', { mozjpeg: true })
 
-      .toFile('./public/sharpp/' + fileName);
+      .toFile(maindir + '/public/sharpp/' + fileName);
   } catch (error) {
     console.log(error);
   }
