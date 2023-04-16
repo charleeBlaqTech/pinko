@@ -300,6 +300,7 @@
     "throttleit": "^1.0.0",
     "timm": "^1.7.1",
     "tinycolor2": "^1.6.0",
+    "tinymce": "^6.4.1",
     "to-regex-range": "^5.0.1",
     "toidentifier": "^1.0.1",
     "token-types": "^4.2.1",
