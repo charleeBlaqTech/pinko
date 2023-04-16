@@ -10,6 +10,7 @@ const { nodem, nodemh } = require('../models/nodemailer');
 var moment = require('moment');
 const boughtModel = require('../models/boughtModel');
 const OrdersModel = require('../models/orderModel');
+const MordersModel = require('../models/morderModel');
 const Package = require('../models/packageModel');
 const jwt = require('jsonwebtoken');
 const adminModel = require('../models/adminModel');
@@ -231,36 +232,62 @@ module.exports = {
   confirmpayment: async (req, res) => {
     const packages = await Package.find();
 
-    try {
-      const myJSON = req.cookies.myjson;
-      const arrayofobj = JSON.parse(myJSON);
-      arrayofobj.map(async (el) => {
-        const sn = await OrdersModel.find({ parentid: req.user.userid });
-        const gsn = await OrdersModel.find();
-        await OrdersModel.create({
-          ordercode: el.ordercode,
-          sn: sn.length + 1,
-          gsn: gsn.length + 1,
-          orderavatar: el.orderavatar,
-          packageid: el.packageid,
-          quantity: el.quantity,
-          packagename: el.packagename,
-          priceperpackage: el.priceperpackage,
-          totalunitsprice: el.totalunitsprice,
-          justdate: el.justdate,
-          dateordered: el.dateordered,
-          username: el.username,
-          studentname: el.studentname,
-          parentid: el.parentid,
-          studentid: el.studentid,
-          paid: true,
-          cleared: false,
-          schoolcode: el.schoolcode,
-        });
+    // try {
+    const myJSON = req.cookies.myjson;
+    const arrayofobj = JSON.parse(myJSON);
+    const oocode = getserialnum(10000);
+
+    // await OrdersModel.deleteMany();
+    // await MordersModel.deleteMany();
+    const sn = await OrdersModel.find({ parentid: req.user.userid });
+    const gsn = await OrdersModel.find();
+    await arrayofobj.map(async (el) => {
+      await MordersModel.create({
+        sordercode: oocode,
+        sn: sn.length + 1,
+        gsn: gsn.length + 1,
+        orderavatar: el.orderavatar,
+        packageid: el.packageid,
+        quantity: el.quantity,
+        packagename: el.packagename,
+        priceperpackage: el.priceperpackage,
+        totalunitsprice: el.totalunitsprice,
+        justdate: el.justdate,
+        dateordered: el.dateordered,
+        username: el.username,
+        studentname: el.studentname,
+        parentid: el.parentid,
+        studentid: el.studentid,
+        paid: true,
+        cleared: false,
+        schoolcode: el.schoolcode,
       });
-      const tablee = arrayofobj.map(
-        (el, index) =>
-          `
+    });
+    await OrdersModel.create({
+      ordercode: oocode,
+      orderjson: myJSON,
+      sn: sn.length + 1,
+      gsn: gsn.length + 1,
+      orderlength: arrayofobj.length,
+      studentname: arrayofobj[0].studentname,
+      cleared: false,
+      totalunitsprice: arrayofobj[0].totalunitsprice,
+      justdate: arrayofobj[0].justdate,
+      dateordered: arrayofobj[0].dateordered,
+      username: arrayofobj[0].username,
+      studentname: arrayofobj[0].studentname,
+      parentid: arrayofobj[0].parentid,
+      studentid: arrayofobj[0].studentid,
+      paid: true,
+      cleared: false,
+      schoolcode: arrayofobj[0].schoolcode,
+      gross: Number(arrayofobj[0].gross.split(',').join('')),
+      ship: Number(arrayofobj[0].vat),
+      total: Number(arrayofobj[0].total.split(',').join('')),
+    });
+    const tablee = arrayofobj.map(
+      (el, index) =>
+        `
                 <tr>
                     <td>Item ${index + 1}</td>
                     <td>${el.ordercode}</td>
@@ -269,8 +296,9 @@ module.exports = {
                     <td>${el.totalunitsprice.toLocaleString('en', optionn)}</td>
                 </tr>
             `
-      );
-      const html = `
+    );
+
+    const html = `
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -298,8 +326,8 @@ module.exports = {
                   padding: 30px 0;
                   font-size: 15px;
                   text-transform: capitalize;
-                  text-shadow: 0 2px 4px black;
-                  color: bisque;
+                  
+                  color: black;
                 }
                 table {
                   margin: 0 auto;
@@ -355,15 +383,16 @@ module.exports = {
 
                         
                       </table>
-                      <div >
-                          <p>Shipping : AED ${req.user.shiprate.toLocaleString(
-                            'en',
-                            optionn
-                          )}</p>
+                      <div style="color:black;">
                           <p>Gross : AED ${arrayofobj[0].gross.toLocaleString(
                             'en',
                             optionn
                           )}</p>
+                          <p>Shipping : AED ${req.user.shiprate.toLocaleString(
+                            'en',
+                            optionn
+                          )}</p>
+                          
                           <p>Total : AED ${arrayofobj[0].total.toLocaleString(
                             'en',
                             optionn
@@ -386,19 +415,19 @@ module.exports = {
             </html>
 
           `;
-      const email = req.user.email;
-      const subject = `PPSE`;
-      res.clearCookie('myjson');
-      res.clearCookie('stringedorder');
+    const email = req.user.email;
+    const subject = `PPSE`;
+    await res.clearCookie('myjson');
+    // res.clearCookie('stringedorder');
 
-      // mailgunh.mail(html, email, subject);
-      nodemh.mail(html, email, subject);
+    // mailgunh.mail(html, email, subject);
+    nodemh.mail(html, email, subject);
 
-      const admins = await adminModel.find();
-      admins.map((el) => {
-        const tablee = arrayofobj.map(
-          (el, index) =>
-            `
+    const admins = await adminModel.find();
+    await admins.map((el) => {
+      const tablee = arrayofobj.map(
+        (el, index) =>
+          `
                 <tr>
                     <td>Item ${index + 1}</td>
                     <td>${el.ordercode}</td>
@@ -407,8 +436,8 @@ module.exports = {
                     <td>${el.totalunitsprice.toLocaleString('en', optionn)}</td>
                 </tr>
             `
-        );
-        const html = `
+      );
+      const html = `
             <!DOCTYPE html>
             <html lang="en">
             <head>
@@ -435,8 +464,8 @@ module.exports = {
                   padding: 30px 0;
                   font-size: 15px;
                   text-transform: capitalize;
-                  text-shadow: 0 2px 4px black;
-                  color: bisque;
+                  color: black;
+
                 }
                 table {
                   margin: 0 auto;
@@ -494,12 +523,13 @@ module.exports = {
 
                         
                       </table>
-                      <div >
-                          <p>Shipping : AED ${req.user.shiprate.toLocaleString(
+                      <div style="color:black;">
+                          
+                          <p>Gross : AED ${arrayofobj[0].gross.toLocaleString(
                             'en',
                             optionn
                           )}</p>
-                          <p>Gross : AED ${arrayofobj[0].gross.toLocaleString(
+                          <p>Shipping : AED ${req.user.shiprate.toLocaleString(
                             'en',
                             optionn
                           )}</p>
@@ -537,40 +567,62 @@ module.exports = {
             </html>
 
           `;
-        const semail = el.email;
-        const subject = 'New Order !';
+      const semail = el.email;
+      const subject = 'New Order !';
 
-        // mailgunh.mail(html, email, subject);
-        nodemh.mail(html, semail, subject);
-      });
+      // mailgunh.mail(html, el.email, subject)
+      nodemh.mail(html, semail, subject);
+    });
 
-      let myorders = await OrdersModel.find({
-        parentid: req.user.userid,
-      })
-        .where('cleared')
-        .equals(false)
-        .sort({ sn: 'desc' });
-      const torders = [...myorders];
-      torders.map((order, index) => (order.sne = torders.length - index));
-      res.render('myorders', {
-        layout: 'parent',
-        parent: req.user,
-        alerte: 'Your order has been placed succesfully ',
-        title: 'Payment confirmed !',
-        icon: 'success',
-        orders: torders,
-      });
-    } catch (err) {
-      res.render('pdb', {
-        layout: 'parent',
-        parent: req.user,
-        alerte:
-          'You can not complete this request at this moment. Please try again later',
-        title: 'Error !',
-        icon: 'error',
-        packages: packages,
-      });
-    }
+    let myorders = await OrdersModel.find({
+      parentid: req.user.userid,
+    })
+      .where('cleared')
+      .equals(false)
+      .sort({ sn: 'desc' });
+    const torders = [...myorders];
+    torders.map((order, index) => (order.sne = torders.length - index));
+    res.render('myorders', {
+      layout: 'parent',
+      parent: req.user,
+      alerte: 'Your order has been placed succesfully ',
+      title: 'Payment confirmed !',
+      icon: 'success',
+      orders: torders,
+    });
+    // }
+    // catch (err) {
+    //   console.log(err.message + ' is console from payment');
+    //   res.render('pdb', {
+    //     layout: 'parent',
+    //     parent: req.user,
+    //     alerte:
+    //       'You can not complete this request at this moment. Please try again later',
+    //     title: 'Error !',
+    //     icon: 'error',
+    //     packages: packages,
+    //   });
+    //   // await OrdersModel.create({
+    //   //   ordercode: el.ordercode,
+    //   //   sn: sn.length + 1,
+    //   //   gsn: gsn.length + 1,
+    //   //   orderavatar: el.orderavatar,
+    //   //   packageid: el.packageid,
+    //   //   quantity: el.quantity,
+    //   //   packagename: el.packagename,
+    //   //   priceperpackage: el.priceperpackage,
+    //   //   totalunitsprice: el.totalunitsprice,
+    //   //   justdate: el.justdate,
+    //   //   dateordered: el.dateordered,
+    //   //   username: el.username,
+    //   //   studentname: el.studentname,
+    //   //   parentid: el.parentid,
+    //   //   studentid: el.studentid,
+    //   //   paid: true,
+    //   //   cleared: false,
+    //   //   schoolcode: el.schoolcode,
+    //   // });
+    // }
   },
   packages: async (req, res) => {
     const packages = await Package.find();
@@ -730,6 +782,34 @@ module.exports = {
       });
     }
   },
+  viewbookedorder: async (req, res) => {
+    try {
+      const parent = req.user;
+      const ordercode = req.params.ordercode;
+      const oorder = await MordersModel.find({
+        sordercode: ordercode,
+      });
+      const mainorder = await OrdersModel.findOne({
+        ordercode: ordercode,
+      });
+      console.log(mainorder + " is mainorder");
+
+      res.render('pvieworders', {
+        layout: 'parent',
+        parent: req.user,
+        orders: oorder,
+        mainorder: mainorder,
+        // gross: gross,
+        // vat: vat,
+        // total: total,
+
+        // alert: 'Student with username  ' + username + ' doesnt exist',
+      });
+    } catch (err) {
+      console.log(err.message);
+      res.redirect('/admin/wrong');
+    }
+  },
   deletefromparent: async (req, res) => {
     try {
       const parent = req.user;
@@ -737,11 +817,14 @@ module.exports = {
       await OrdersModel.deleteOne({
         ordercode: ordercode,
       });
+      await MordersModel.deleteMany({
+        sordercode: ordercode,
+      });
       const myorders = await OrdersModel.find({
         parentid: parent.userid,
       })
-        .where('cleared')
-        .equals(false);
+        .where('paid')
+        .equals(true);
       const torders = [...myorders];
       torders.map((order, index) => (order.sne = torders.length - index));
 
@@ -766,6 +849,9 @@ module.exports = {
       const ordercode = req.params.ordercode;
       await OrdersModel.deleteOne({
         ordercode: ordercode,
+      });
+      await MordersModel.deleteMany({
+        sordercode: ordercode,
       });
       const myorders = await OrdersModel.find({
         parentid: parent.userid,
@@ -818,6 +904,8 @@ module.exports = {
       let myorders = await OrdersModel.find({
         parentid: parent.userid,
       })
+        .where('paid')
+        .equals(true)
         .where('cleared')
         .equals(false)
         .sort({ sn: 'desc' });
@@ -1094,6 +1182,7 @@ module.exports = {
       req.suserid = student.userid;
       req.user.laststudentid = student.userid;
       req.user.laststudentname = student.name;
+      req.user.lastcode = find;
       await req.user.save();
       console.log(req.suserid + ' is child');
 

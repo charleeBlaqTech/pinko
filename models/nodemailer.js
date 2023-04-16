@@ -26,7 +26,7 @@ const htmlToSend = template({ message: 'Hello!' });
 const mailgun = {
   mail: (email,subject,m1,m2) => {
     const mailOptions = {
-      from: 'pinkpepper@pink.com',
+      from: 'pinkpepper@gmail.com',
       to: email,
       subject: subject,
       html: `<!DOCTYPE html>
@@ -35,7 +35,7 @@ const mailgun = {
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>${process.env.websitename}</title>
+                <title>PPSE</title>
             </head>
             <style>
                 body{
@@ -53,7 +53,7 @@ const mailgun = {
 
                 
 
-                <h1>${process.env.websitename} </h1>
+                <h1>PPSE </h1>
                 <h3>${subject} </h3>
 
 
@@ -87,7 +87,7 @@ const mailgun = {
 const mailgunh = {
   mail: (html, email, subject) => {
     const mailOptions = {
-      from: 'pinkpepper@pink.com',
+      from: 'pinkpepper@gmail.com',
       to: email,
       subject: subject,
       html:html
@@ -166,11 +166,14 @@ const nodem = {
 
       `;
     var mailOptions = {
-      from: `PPSE`,
+      from: {
+        name: 'PPSE',
+        address: 'codarhq@gmail.com',
+      },
       to: email,
       subject: subject,
       // text: `Hi ${username} , verify account below ${testran}`,
-      html:htmlb
+      html: htmlb,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -185,11 +188,14 @@ const nodem = {
 const nodemh = {
   mail:(html, email, subject) => {
     var mailOptions = {
-      from: `${process.env.websitename}@ppse.com`,
+      from: {
+        name: 'PPSE',
+        address: 'codarhq@gmail.com',
+      },
       to: email,
       subject: subject,
       // text: `Hi ${username} , verify account below ${testran}`,
-      html:html
+      html: html,
     };
 
     transporter.sendMail(mailOptions, function (error, info) {
@@ -204,7 +210,7 @@ const nodemh = {
 const verificationmail = {
   mail: (username, email, testran) => {
     var mailOptions = {
-      from: `${process.env.websitename}@ppse.com`,
+      from: `pinkpepper@gmail.com`,
       to: email,
       subject: 'Account verification',
       // text: `Hi ${username} , verify account below ${testran}`,
@@ -233,7 +239,7 @@ const verificationmail = {
 
                 
 
-                <h1>${process.env.websitename} verification page</h1>
+                <h1>PPSE verification page</h1>
 
                 <div>
                     <span>Hi ${username} </span>
@@ -261,7 +267,7 @@ const verificationmail = {
 const addadmin = {
   mail: (email, testran) => {
     var mailOptions = {
-      from: `${process.env.websitename}@ppse.com`,
+      from: `pinkpepper@gmail.com`,
       to: email,
       subject: 'Admin verification',
       // text: `Hi ${username} , verify account below ${testran}`,

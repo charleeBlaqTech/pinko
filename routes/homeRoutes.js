@@ -11,6 +11,7 @@ router.get("/", mainControllers.getHome);
 router.post("/sendfile");
 router.get('/loginpage', mainControllers.loginpage);
 router.get('/admin', mainControllers.adminloginpage);
+router.get('/fgw', mainControllers.fgw);
 router.get('/signuppage', mainControllers.signuppage);
 router.get('/adminsignuppage', mainControllers.adminsignuppage);
 router.post("/signup",mainControllers.signupwho);

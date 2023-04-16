@@ -1,7 +1,3 @@
-
-
-
-
 <style type="text/css">
     /**
    * Google webfonts. Recommended to include the .woff version for cross-client compatibility.
@@ -116,14 +112,14 @@
 </style>
 
 
-<body style="background-color: #e9ecef;">
-    
-    
+<body style="background-color: #e9ecef;text-align:center;">
+
+
     <!-- start body -->
     <table border="0" cellpadding="0" cellspacing="0" width="100%">
 
         <!-- start logo -->
-        
+
         <!-- end logo -->
 
         <!-- start hero -->
@@ -145,8 +141,8 @@
                                 </a>
                             </div>
                             <h1
-                                style="margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">
-                                Confirm Your Email Address</h1>
+                                style="text-align:center;margin: 0; font-size: 32px; font-weight: 700; letter-spacing: -1px; line-height: 48px;">
+                                Account recovery !</h1>
                         </td>
                     </tr>
                 </table>
@@ -171,33 +167,35 @@
 
                     <!-- start copy -->
                     <tr>
-                        <td align="left" bgcolor="#ffffff"
+                        <td align="center" bgcolor="#ffffff"
                             style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-                            <p style="margin: 0;">Tap the button below to confirm your email address. If you didn't
-                                create an account with <a href="/">Pink Pepper</a>, you can safely delete
-                                this email.</p>
+                            <p style="margin: 0;">Enter your email address. </p>
                         </td>
                     </tr>
                     <!-- end copy -->
 
                     <!-- start button -->
                     <tr>
-                        <td align="left" bgcolor="#ffffff">
+                        <td align="center" bgcolor="#ffffff">
                             <table border="0" cellpadding="0" cellspacing="0" width="100%">
                                 <tr>
                                     <td align="center" bgcolor="#ffffff" style="padding: 12px;">
                                         <table border="0" cellpadding="0" cellspacing="0">
-                                            <form action={{posto}} method="post" class="form-control">
+                                            <form method="post" action="/parent/verifymailforgotpwrd">
                                                 <tr style="display: flex;flex-wrap:wrap;">
-                                                    <div  class="sdg col-lg-6">
+                                                    <div class="sdg col-lg-6">
                                                         {{!-- <h1>Enter verification pin </h1> --}}
 
-                                                        <input type="text" name="vpin" id="destinyf"  style="text-align:center; padding: 16px 36px;border-radius: 6px; outline:none;border:0" placeholder="Enter pin here">
+                                                        <input type="email" name="email" id="destinyf"
+                                                            style="text-align:center; padding: 16px 36px;border-radius: 6px; outline:none;border:0"
+                                                            placeholder="Enter email here">
                                                     </div>
-                                                    <td  class="sdg" align="center" bgcolor="#1a82e2" style="border-radius: 6px;" >
+                                                    <td class="sdg" align="center" bgcolor="#1a82e2"
+                                                        style="border-radius: 6px;">
 
                                                         {{!-- <button type="submit">verify</button> --}}
-                                                        <button style="background-color: transparent;border:0" type="submit">
+                                                        <button style="background-color: transparent;border:0"
+                                                            type="submit">
                                                             <div class="medo"
                                                                 style="display: inline-block; padding: 16px 36px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; color: #ffffff; text-decoration: none; border-radius: 6px;position:relative;z-index:3"
                                                                 href="#">Let's ride !</div>
@@ -217,13 +215,7 @@
                     <!-- end button -->
 
                     <!-- start copy -->
-                    <tr>
-                        <td align="left" bgcolor="#ffffff"
-                            style="padding: 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 16px; line-height: 24px;">
-                            <p style="margin: 0;">If you didnt get a mail click the link below to try again, :</p>
-                            <p style="margin: 0;"><a href="/signuppage" target="_blank">click me</a></p>
-                        </td>
-                    </tr>
+                    
                     <!-- end copy -->
 
                     <!-- start copy -->
@@ -253,24 +245,7 @@
         <tr>
         <td align="center" valign="top" width="600">
         <![endif]-->
-                <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px;">
-
-                    <!-- start permission -->
-                    <tr>
-                        <td align="center" bgcolor="#e9ecef"
-                            style="padding: 12px 24px; font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif; font-size: 14px; line-height: 20px; color: #666;">
-                            <p style="margin: 0;">You received this email because we received a request for
-                                sign up for your account. If you didn't request signup you can safely
-                                delete this email.</p>
-                        </td>
-                    </tr>
-                    <!-- end permission -->
-
-                    <!-- start unsubscribe -->
-                    
-                    <!-- end unsubscribe -->
-
-                </table>
+                
                 <!--[if (gte mso 9)|(IE)]>
         </td>
         </tr>

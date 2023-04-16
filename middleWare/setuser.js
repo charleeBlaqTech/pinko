@@ -50,7 +50,7 @@ const setUser = async (req, res, next) => {
         orders.map(async (el) => {
           el.momentago = getTime(el.moment);
           await el.save();
-          console.log(el.momentago + ' from checkuser');
+          // console.log(el.momentago + ' from checkuser');
         });
         next();
       }
@@ -60,7 +60,7 @@ const setUser = async (req, res, next) => {
     }
     else {
       // req.user = "i";
-      console.log('no user available yet');
+      // console.log('no user available yet');
       next();
     }
     
@@ -85,15 +85,15 @@ const setUserp = async (req, res, next) => {
       req.user = await parentModel.findOne({ userid: userid });
       // await req.user.save();
       if(req.user){
-        console.log(
-          'after checking current user is an admin whose username is ' +
-            req.user.username
-        );
+        // console.log(
+        //   'after checking current user is an admin whose username is ' +
+        //     req.user.username
+        // );
         const orders = await Orders.find();
         orders.map(async (el) => {
           el.momentago = getTime(el.moment);
           await el.save();
-          console.log(el.momentago + ' from checkuser');
+          // console.log(el.momentago + ' from checkuser');
         });
         next();
       }
@@ -103,12 +103,12 @@ const setUserp = async (req, res, next) => {
     }
     else {
       // req.user = "i";
-      console.log('no user available yet');
+      // console.log('no user available yet');
       next();
     }
     
   } catch (err) {
-    console.log(err.message);
+    // console.log(err.message);
     res.clearCookie('auth');
   }
   

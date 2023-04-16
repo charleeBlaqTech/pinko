@@ -309,20 +309,9 @@ input:valid ~ label {
                         {{#if parent.momentago}}
                         <small class="text-capitalize text-muted">Last seen : {{parent.momentago}}</small><br>
                         {{/if}}
-                        <br>
                         
-                        <form action="/admin/changeparentshipping" method="post">
-                            <div class="kbody">
-                                <div class="input-field">
-                                    <input onfocusout="this.form.submit()" name="ship" type="text" required spellcheck="false" value={{parent.shiprate}} >
-                                    <input type="hidden" name="hido" value={{parent.userid}}>
-                                    <label>Shipping <small>in AED</small></label>
-                                </div>
-                            </div>
-                        </form>
-                        <br>
-                        <br>
-
+                        {{!-- <small>shipping rate per order : AED <span class="tofix">{{parent.shiprate}}</span></small> --}}
+                        
 
 
                         <br>
@@ -332,127 +321,137 @@ input:valid ~ label {
 
                             {{#if orders }}
 
-                            <div class="table-responsive w-100">
-                                <h6 class="font-weight-bold text-capitalize text-muted">All Orders made by
-                                    {{parent.username}}</h6>
+                            
+
+                            <div class="table-responsive text-center">
                                 <table class="table table-striped text-center">
                                     <thead>
-                                        <tr>
+                                        <tr class="align-items-center text-center">
                                             {{!-- <th>Orders</th> --}}
                                             <th>s/n</th>
-                                            <th>Ordercodes</th>
+                                            <th>Username</th>
+                            
                                             <th>Date</th>
-                                            {{!-- <th>Username</th> --}}
-                                            <th>Avatar</th>
+                                            <th>Ordercode</th>
+                            
+                                            {{!-- <th>Avatar</th>
                                             <th>Package</th>
-                                            <th>Quantity </th>
-                                            <th class="text-center">Unit Price <br><small
-                                                    class="text-muted text-center">AED</small></th>
-                                            <th class="text-center">Gross <br><small
-                                                    class="text-muted text-center">AED</small></th>
-                                            <th class="text-center">Completed</th>
-                                            <th class="text-center">Delete</th>
+                                            <th>Quantity </th> --}}
+                                            <th class="text-center">Net <small class="text-muted text-center">AED</small></th>
+                                            <th>Status</th>
+                                            <th title="view order cart " class="ttooltip">View </th>
+                                            <th class="ttooltip text-center" title="Change order status">Change</th>
 
+                                            <th>Delete </th>
+                                            {{!-- <th class="text-center">Gross <br><small class="text-muted text-center">AED</small></th> --}}
+                            
+                            
                                         </tr>
                                     </thead>
-                                    <tbody class="cele">
-
-
+                                    <tbody class="cele" style="max-height:50vh;overflow:auto;">
+                            
                                         {{#each orders}}
-
-                                        <tr class="cele">
-                                            <td>
+                            
+                            
+                                        <tr class="cele text-center" id="bella{{@index}}">
+                                            <td title="{{studentname}}'s pictures " class="ttooltip text-capitalize">
                                                 {{sne}}
                                             </td>
-                                            <td class="text-capitalize">
-                                                {{ordercode}}
+                                            <td title="visit {{username}}'s page" class="ttooltip text-capitalize">
+                                                <a href="/admin/viewparent/{{parentid}}">{{username}}</a>
                                             </td>
-                                            <td class="text-capitalize">
-                                                {{ordercode}}
-                                            </td>
-                                            <td class="text-capitalize">
+                            
+                                            <td class="ttooltip text-capitalize" title="{{momentago}}">
                                                 {{justdate}}
                                             </td>
-                                            {{!-- <td class="text-capitalize">
-                                                <a href="/parent/viewparent/{{parentid}}">{{username}}</a>
-                                            </td> --}}
-                                            <td>
+                            
+                                            <td title="{{orderlength}} items" class="ttooltip text-capitalize">
+                                                {{ordercode}}
+                                            </td>
+                                            {{!-- <td>
                                                 <a href={{orderavatar}} class="p-0">
                                                     <img src={{orderavatar}} alt="" style="object-fit:contain;">
                                                 </a>
-
+                            
                                             </td>
                                             <td class="playw">
                                                 {{packagename}}
-
-
+                            
+                            
                                             </td>
-                                            <td class="text-center">{{quantity}}</td>
-                                            <td class="text-center tofix">{{priceperpackage}}</td>
-                                            <td class="text-center tofix">{{totalunitsprice}}</td>
+                                            <td>{{quantity}}</td>
+                                            <td> {{priceperpackage}} </td> --}}
+                                            <td class="ttooltip tofix" title="{{gross}} + {{ship }}">{{total}} </td>
+                                            {{#if cleared}}
+                            
+                                                <td class="ttooltip text-success" title="this order has been completed">Completed</td>
+                            
+                                            {{else}}
+                                                <td title="order is in process" class="ttooltip text-warning">...Processing</td>
+                            
+                                            {{/if}}
+                                            <td title="view order cart" class="ttooltip"><a href="/admin/vieworders/{{ordercode}}"><i class="fa fa-eye"></i></a></td>
                                             <td class="text-center ">
                                                 <div id="app-cover">
                                                     <div class="row text-center">
                                                         {{#if cleared}}
-                                                        <form action="/admin/updatepending" method="post">
-                                                        <label class="toggle">
-                                                            <input class="toggle-checkbox" type="checkbox"
-                                                                value={{ordercode}} name="pendings" checked onchange="this.form.submit()">
-
-
-                                                            <div class="toggle-switch"></div>
-                                                            
-
-                                                        </label>
-                                                        <input  type="hidden" name="myg" value={{ordercode}} >
-                                                        <input type="hidden" name="viewparentid" value={{parentid}}>
-                                                        </form>
-
-                                                        
-
-
-
-                                                        {{else}}
-                                                        <form action="/admin/updatepending" method="post">
+                                                        <form action="/admin/uupdatepending" method="post">
                                                             <label class="toggle">
-                                                                <input class="toggle-checkbox" type="checkbox"
-                                                                    value={{ordercode}} name="pendings"
+                                                                <input class="toggle-checkbox" type="checkbox" value={{ordercode}} name="pendings" checked
                                                                     onchange="this.form.submit()">
-
-
+                                            
+                                            
                                                                 <div class="toggle-switch"></div>
-
+                                            
+                                            
                                                             </label>
                                                             <input type="hidden" name="myg" value={{ordercode}}>
-                                                            <input type="hidden" name="viewparentid"
-                                                                 value={{parentid}}>
-
-                                                            
-
+                                                            <input type="hidden" name="viewparentid" value={{parentid}}>
                                                         </form>
-
-
+                                            
+                                            
+                                            
+                                            
+                                            
+                                                        {{else}}
+                                                        <form action="/admin/uupdatepending" method="post">
+                                                            <label class="toggle">
+                                                                <input class="toggle-checkbox" type="checkbox" value={{ordercode}} name="pendings"
+                                                                    onchange="this.form.submit()">
+                                            
+                                            
+                                                                <div class="toggle-switch"></div>
+                                            
+                                                            </label>
+                                                            <input type="hidden" name="myg" value={{ordercode}}>
+                                                            <input type="hidden" name="viewparentid" value={{parentid}}>
+                                            
+                                            
+                                            
+                                                        </form>
+                                            
+                                            
                                                         {{/if}}
-
+                                            
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td title="delete ?" class="ttooltip text-center"><a href="/admin/vpdeleteorder/{{ordercode}}" class="text-danger fa fa-trash"></a></td>
-
-
-
+                                            <td title="delete order ?" class="ttooltip"><a href="/admin/ddeleteorder/{{ordercode}}"><i
+                                                        class=" text-danger fa fa-trash"></i></a></td>
+                            
+                            
                                         </tr>
-
-
-
+                            
+                            
+                            
                                         {{/each}}
-
-
-
+                            
+                            
+                            
                                     </tbody>
                                 </table>
-
-
+                            
+                            
                             </div>
 
 
@@ -475,9 +474,9 @@ input:valid ~ label {
                             {{/if}}
                         </div>
 
-                        <div class="sedwe mt-5" style="display: flex;justify-content:end;width:100%;">
+                        <div class=" sedwe mt-5" style="display: flex;justify-content:end;width:100%;position:relative;">
                             <a style="font-family: cursive;color:red;" href="/admin/deleteparent/{{parent.userid}}"><i
-                                    class="fa fa-trash"></i><span class="text-capitalize">{{ parent.name}}'s</span>
+                                    class="fa fa-trash"></i><span class="text-capitalize"> </span>
                                 account</a>
 
                         </div>

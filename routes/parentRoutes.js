@@ -39,6 +39,11 @@ router.get(
   parentControllers.deleteclfromparent
 );
 router.get(
+  '/viewbookedorder/:ordercode',
+  checkUserp,
+  parentControllers.viewbookedorder
+);
+router.get(
   '/deletefromparent/:ordercode',
   checkUserp,
   parentControllers.deletefromparent

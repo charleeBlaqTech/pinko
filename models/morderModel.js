@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const OrderSchema = new mongoose.Schema([
+const MorderSchema = new mongoose.Schema([
   {
     packageid: Number,
     username: String,
@@ -20,7 +20,7 @@ const OrderSchema = new mongoose.Schema([
     momentago: String,
     moment: String,
     justdate: String,
-    ordercode: {
+    sordercode: {
       type: Number,
     },
     paid: Boolean,
@@ -28,8 +28,9 @@ const OrderSchema = new mongoose.Schema([
     schoolcode: String,
     total:Number,
     gross:Number,
-    ship:Number,
+    gross:Number,
+    vat:Number,
   },
 ]);
 
-module.exports = new mongoose.model('order', OrderSchema);
+module.exports = new mongoose.model('morder', MorderSchema);

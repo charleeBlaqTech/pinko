@@ -134,9 +134,9 @@ const checkUser = async (req, res, next) => {
       
 
       if (req.user) {
-        console.log(
-          'current user is an Admin whose name is ' + req.user.username
-        );
+        // console.log(
+        //   'current user is an Admin whose name is ' + req.user.username
+        // );
 
         await res.cookie('auth', auth, {
           secure: true,

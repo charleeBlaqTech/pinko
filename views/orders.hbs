@@ -120,24 +120,27 @@
 
 
                             {{#if orders }}
-                            <div class="table-responsive">
-                                <table class="table table-striped">
+                            <div class="table-responsive text-center">
+                                <table class="table table-striped text-center">
                                     <thead>
-                                        <tr class="align-items-center">
+                                        <tr class="align-items-center text-center">
                                             {{!-- <th>Orders</th> --}}
                                             <th>s/n</th>
                                             <th>Username</th>
 
                                             <th>Date</th>
-                                            <th>Ordercodes</th>
+                                            <th>Ordercode</th>
 
-                                            <th>Avatar</th>
+                                            {{!-- <th>Avatar</th>
                                             <th>Package</th>
-                                            <th>Quantity </th>
-                                            <th class="text-center">Unit Price <br><small
+                                            <th>Quantity </th> --}}
+                                            <th class="text-center" title="AED (gross + shipping)">Net <small
                                                     class="text-muted text-center">AED</small></th>
-                                            <th class="text-center">Gross <br><small
-                                                    class="text-muted text-center">AED</small></th>
+                                            <th title="order status" class="ttooltip">Status</th>
+                                            <th>View </th>
+                                            <th>Delete </th>
+                                            {{!-- <th class="text-center">Gross <br><small
+                                                    class="text-muted text-center">AED</small></th> --}}
 
 
                                         </tr>
@@ -147,22 +150,22 @@
                                         {{#each orders}}
 
 
-                                        <tr class="cele text-center tooltip-row" id="bella{{@index}}">
-                                            <td class="text-capitalize">
+                                        <tr  class="cele text-center" id="bella{{@index}}">
+                                            <td title="{{studentname}}'s pictures " class="ttooltip text-capitalize">
                                                 {{sne}}
                                             </td>
                                             <td title="visit {{username}}'s page" class="ttooltip text-capitalize">
                                                 <a href="/admin/viewparent/{{parentid}}">{{username}}</a>
                                             </td>
                                             
-                                            <td class="text-capitalize">
+                                            <td class="ttooltip text-capitalize" title="{{momentago}}">
                                                 {{justdate}}
                                             </td>
                                             
-                                            <td class="text-capitalize">
+                                            <td title="{{orderlength}} items" class="ttooltip text-capitalize">
                                                 {{ordercode}}
                                             </td>
-                                            <td>
+                                            {{!-- <td>
                                                 <a href={{orderavatar}} class="p-0">
                                                     <img src={{orderavatar}} alt="" style="object-fit:contain;">
                                                 </a>
@@ -174,10 +177,19 @@
 
                                             </td>
                                             <td>{{quantity}}</td>
-                                            <td> {{priceperpackage}} </td>
-                                            <td>{{totalunitsprice}} </td>
-                                            <input id="moment{{@index}}" type="hidden" value="{{momentago}}">
-                                            <input id="student{{@index}}" type="hidden" value="{{studentname}}">
+                                            <td> {{priceperpackage}} </td> --}}
+                                            <td class="ttooltip tofix" title="gross + shipping cost <br>{{gross}} + {{ship }}=  {{total}}">{{total}} </td>
+                                            {{#if cleared}}
+
+                                                <td class="text-success">Completed</td>
+                                                
+                                            {{else}}
+                                                <td class=" text-warning">...Processing</td>
+
+                                            {{/if}}
+                                            <td title="view cart" class="ttooltip"><a href="/admin/vieworders/{{ordercode}}"><i class="fa fa-eye"></i></a></td>
+                                            <td title="delete order ?" class="ttooltip"><a href="/admin/deleteorder/{{ordercode}}"><i class=" text-danger fa fa-trash"></i></a></td>
+                                            
 
                                         </tr>
 

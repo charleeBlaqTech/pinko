@@ -29,15 +29,17 @@
                                         <tr class="text-center">
                                             {{!-- <th>Orders</th> --}}
                                             <th>s/n</th>
-                                            <th>Dates</th>
-                                            <th>Ordercodes</th>
-                                            <th>Avatar</th>
-                                            <th>Package</th>
-                                            <th>Quantity</th>
-                                            <th>Unit Price <small class="text-muted">AED</small></th>
+                                            <th>Date</th>
+                                            <th>Ordercode</th>
+                                            {{!-- <th>Avatar</th>
+                                            <th>Package</th> --}}
+                                            <th>Items</th>
+                                            {{!-- <th>Unit Price <small class="text-muted">AED</small></th> --}}
                                             <th>Gross <small class="text-muted">AED</small></th>
+                                            <th>Total <small class="text-muted">AED</small></th>
                                             
                                             <th>Status</th>
+                                            <th>View</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
@@ -46,7 +48,7 @@
                                         {{#each orders}}
 
 
-                                        <tr class="text-center">
+                                        <tr class="text-center" data-bs-toggle="modal" data-bs-target="#exa{{@index}}">
                                             <td class="ttooltip text-capitalize" title="order no {{sne}}">
                                                 
                                                 {{ sne}}
@@ -59,25 +61,30 @@
                                                 
                                                 <label for="lov{{@index}}">{{ ordercode }}</label>
                                             </td>
-                                            <td class="ttooltip" title="click to view">
+                                            {{!-- <td class="ttooltip" title="click to view">
                                                 <a href={{orderavatar}} class="p-0">
                                                     <img src={{orderavatar}} alt="" style="object-fit:contain;">
                                                 </a>
 
-                                            </td>
-                                            <td title="package plan" class="ttooltip">
+                                            </td> --}}
+                                            {{!-- <td title="package plan" class="ttooltip">
                                                 {{packagename}}
 
 
-                                            </td>
-                                            <td class="ttooltip" title="no of units ordered">{{quantity}}</td>
-                                            <td><span class="tofix ttooltip" title="package price per item">{{priceperpackage}}</span></td>
-                                            <td><span class="tofix ttooltip" title="{{priceperpackage}} X {{quantity}} = {{totalunitsprice}}">{{totalunitsprice}}</span></td>
+                                            </td> --}}
+                                            <td class="ttooltip" title="no of items">{{orderlength}}</td>
+                                            {{!-- <td><span class="tofix ttooltip" title="package price per item">{{priceperpackage}}</span></td> --}}
+                                            <td><span class="tofix ttooltip" title="gross price">{{gross}}</span></td>
+                                            <td><span class="tofix ttooltip" title="gross price + shipping <br> {{gross}} + {{ship}}={{total}}">{{total}}</span></td>
                                             <td class="text-warning ttooltip" title="In process ! ">Processing</td>
+                                            <td title="view order ?" class="ttooltip"><a href="/parent/viewbookedorder/{{ordercode}}"><i class="text-info fa fa-eye"></i></a></td>
                                             <td title="delete order ?" class="ttooltip"><a href="/parent/deletefromparent/{{ordercode}}"><i class="text-danger fa fa-trash"></i></a></td>
                                             {{!-- <td>na</td> --}}
+                                            
 
                                         </tr>
+                                        
+                                        
 
 
 

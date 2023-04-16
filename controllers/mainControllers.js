@@ -31,6 +31,10 @@ module.exports = {
     res.render('adminloginpage', { layout: 'nothing' });
     // console.log(req.user + "req.user");
   },
+  fgw: async (req, res) => {
+    res.render('fgw',{layout:"nothing"});
+    // console.log(req.user + "req.user");
+  },
   loginpage: async (req, res) => {
     res.render('signuppage',{layout:"nothing"});
     // console.log(req.user + "req.user");

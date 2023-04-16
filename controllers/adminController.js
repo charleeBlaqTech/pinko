@@ -20,6 +20,7 @@ const { nodem, nodemh } = require('../models/nodemailer');
 const Package = require('../models/packageModel');
 const personalModel = require('../models/personalModel');
 const Orders = require('../models/orderModel');
+const MordersModel = require('../models/morderModel');
 const randomn = require('crypto').randomBytes(5).toString('hex');
 var moment = require('moment');
 const nodemailer = require('nodemailer');
@@ -35,9 +36,9 @@ var transporter = nodemailer.createTransport({
     pass: process.env.PASS,
   },
 });
-const dir = __dirname
-const maindir = dir.split('contr')[0]
-console.log(maindir + " is dirname")
+const dir = __dirname;
+const maindir = dir.split('contr')[0];
+console.log(maindir + ' is dirname');
 let options = {
   text: 'Codar Institute',
   textSize: 6,
@@ -79,7 +80,7 @@ const schoolz = async (req, res) => {
   const schools = await schoolModel.find().sort({ sn: 'desc' });
 
   const der = schools.map(async (el) => {
-    const nclass = await classModel.find({ schoolcode: el.schoolcode })
+    const nclass = await classModel.find({ schoolcode: el.schoolcode });
 
     const schoolcode = el.schoolcode;
     const parents = await Parents.find({ schoolcode: schoolcode });
@@ -170,29 +171,28 @@ async function resizeImagep(fileName) {
   }
   return;
 }
+
 // resizeImage("omahd.jpg");
-console.log(__dirname+ " is directory name ");
+console.log(__dirname + ' is directory name ');
 module.exports = {
   clearallpictures: async (req, res) => {
     await personalModel.deleteMany();
     await Orders.deleteMany();
     await Package.deleteMany();
     await pictureModel.deleteMany();
-    res.render("home",{
-      icon:"success",
-      alerte:"all picture related files have been cleared"
-    })
-  }
-  ,
+    res.render('home', {
+      icon: 'success',
+      alerte: 'all picture related files have been cleared',
+    });
+  },
   cleargallery: async (req, res) => {
     await personalModel.deleteMany();
-    
-    res.render("home",{
-      icon:"success",
-      alerte:"saved lightbox pictures have been cleared"
-    })
-  }
-  ,
+
+    res.render('home', {
+      icon: 'success',
+      alerte: 'saved lightbox pictures have been cleared',
+    });
+  },
   forcereset: async (req, res) => {
     await personalModel.deleteMany();
     await Orders.deleteMany();
@@ -200,15 +200,16 @@ module.exports = {
     await pictureModel.deleteMany();
     await schoolModel.deleteMany();
     await classModel.deleteMany();
-    await adminModel.deleteMany({slave:true})
+    await adminModel.deleteMany({ slave: true });
     await parentModel.deleteMany();
     await Students.deleteMany();
-    res.render("home",{
-      icon:"success",
-      alerte:"reset was  successfull"
-    })
-  }
-  ,
+    await MordersModel.deleteMany();
+
+    res.render('home', {
+      icon: 'success',
+      alerte: 'reset was  successfull',
+    });
+  },
   personalpictures: async (req, res) => {
     try {
       let fileDir = './public/personals/';
@@ -405,8 +406,11 @@ module.exports = {
         try {
           for (let i = 0; i < files.length; i++) {
             console.log('here line 123');
-            const extt = files[i].name.split('.')[1]
-            const fileName = randomn+"." + extt 
+            const fileName = files[i].name
+              .split('-')
+              .join('')
+              .split(' ')
+              .join('');
             // await pictureModel.deleteOne({ pixname: fileName });
             const pixo = await pictureModel.findOne({ pixname: fileName });
             if (!pixo) {
@@ -437,7 +441,7 @@ module.exports = {
                 schoolcode: student.schoolcode,
                 class: student.classs,
                 uploaddate: justDate(),
-                imgdir:'/sharp/' + fileName,
+                imgdir: '/sharp/' + fileName,
                 downloadtimes: 0,
                 studentuserid: student.userid,
                 classid: student.classid,
@@ -502,27 +506,32 @@ module.exports = {
   },
 
   editship: async (req, res) => {
-    try {
-      schoolz();
-      const shiprate =req.body.shiprate
-      const admini = await adminModel.find();
-      for(let i = 0; i < admini.length; i++){
-        admini[i].adminshiprate = shiprate
-        await admini[i].save();
-      }
-      req.user.adminshiprate=shiprate;
-      await req.user.save()
-      const admins = await adminModel.find({ slave: true });
-      
-      res.render('settings', {
-        layout: 'admin',
-        admin: req.user,
-        admins: admins,
-        
-      });
-    } catch (err) {
-      res.redirect('/admin/wrong');
+    // try {
+    const shiprate = req.body.shiprate;
+    const admini = await adminModel.find();
+    for (let i = 0; i < admini.length; i++) {
+      admini[i].adminshiprate = shiprate;
+      await admini[i].save();
     }
+    const parents = await parentModel.find();
+    for (let i = 0; i < parents.length; i++) {
+      parents[i].shiprate = shiprate;
+      await parents[i].save();
+    }
+    req.user.adminshiprate = shiprate;
+    await req.user.save();
+    const admins = await adminModel.find({ slave: true });
+    schoolz();
+
+    res.render('settings', {
+      layout: 'admin',
+      admin: req.user,
+      admins: admins,
+    });
+    // } catch (err) {
+    //   console.log(err+ ' is error')
+    //   res.redirect('/admin/wrong');
+    // }
   },
   addadmin: async (req, res) => {
     try {
@@ -1142,19 +1151,19 @@ module.exports = {
     try {
       schoolz();
 
-      const {name,email} = req.body
+      const { name, email } = req.body;
 
       const ifname = await adminModel.findOne({ name: name });
       // if (!ifname) {
-        req.user.name = name;
-        req.user.email = email;
+      req.user.name = name;
+      req.user.email = email;
 
-        await req.user.save();
+      await req.user.save();
 
-        res.render('settings', {
-          layout: 'admin',
-          admin: req.user,
-        });
+      res.render('settings', {
+        layout: 'admin',
+        admin: req.user,
+      });
       // } else {
       //   const admins = await adminModel.find({ slave: true });
 
@@ -1365,41 +1374,75 @@ module.exports = {
       res.redirect('/admin/wrong');
     }
   },
+  uupdatepending: async (req, res) => {
+    // try {
+    let { myg } = req.body;
+    const viewparentid = parseInt(req.body.viewparentid);
+    console.log(viewparentid, myg + ' is viewpar');
+
+    const order = await Orders.findOne({ ordercode: parseInt(myg) });
+    order.cleared = !order.cleared;
+    await order.save();
+    const parent = await parentModel.findOne({
+      userid: viewparentid,
+    });
+    schoolz();
+
+    let parentorders = await Orders.find({
+      parentid: parent.userid,
+    }).sort({ sn: 'desc' });
+
+    const torders = [...parentorders];
+    torders.map((order, index) => (order.sne = torders.length - index));
+
+    res.render('viewparent', {
+      layout: 'admin',
+      admin: req.user,
+      parent: parent,
+      orders: torders,
+      viewparentid: viewparentid,
+    });
+    // } catch (err) {
+    //   res.redirect('/admin/wrong');
+    // }
+  },
   updatepending: async (req, res) => {
-    try {
-      let { myg } = req.body;
-      const viewparentid = parseInt(req.body.viewparentid);
-      console.log(viewparentid, myg + ' is viewpar');
+    // try {
+    let { myg } = req.body;
+    const viewparentid = parseInt(req.body.viewparentid);
+    console.log(viewparentid, myg + ' is viewpar');
 
-      const order = await Orders.findOne({ ordercode: parseInt(myg) });
-      order.cleared = !order.cleared;
-      await order.save();
-      const parent = await parentModel.findOne({
-        userid: viewparentid,
-      });
-      schoolz();
+    const order = await Orders.findOne({ ordercode: parseInt(myg) });
+    order.cleared = !order.cleared;
+    await order.save();
+    const parent = await parentModel.findOne({
+      userid: viewparentid,
+    });
+    schoolz();
 
-      const parentorders = await Orders.find({
-        parentid: viewparentid,
-      });
-      const torders = [...parentorders];
-      torders.map((order, index) => (order.sne = torders.length - index));
+    const parentorders = await Orders.find({
+      parentid: viewparentid,
+    });
+    const torders = [...parentorders];
+    torders.map((order, index) => (order.sne = torders.length - index));
 
-      res.render('viewparent', {
-        layout: 'admin',
-        admin: req.user,
-        parent: parent,
-        orders: torders,
+    const mainorder = await Orders.findOne({
+      ordercode: myg,
+    });
 
-        // gross: gross,
-        // vat: vat,
-        // total: total,
-
-        // alert: 'Student with username  ' + username + ' doesnt exist',
-      });
-    } catch (err) {
-      res.redirect('/admin/wrong');
-    }
+    const orders = await MordersModel.find({
+      sordercode: myg,
+    });
+    res.render('avieworders', {
+      layout: 'admin',
+      admin: req.user,
+      orders: orders,
+      mainorder: mainorder,
+      parent: parent,
+    });
+    // } catch (err) {
+    //   res.redirect('/admin/wrong');
+    // }
   },
   vpdeleteorder: async (req, res) => {
     try {
@@ -1414,7 +1457,7 @@ module.exports = {
       await Orders.deleteOne({ ordercode });
       let parentorders = await Orders.find({
         parentid: parent.userid,
-      }).sort({ sn: 'desc' })
+      }).sort({ sn: 'desc' });
       const torders = [...parentorders];
       torders.map((order, index) => (order.sne = torders.length - index));
 
@@ -1447,11 +1490,6 @@ module.exports = {
       parent: parent,
       orders: torders,
       viewparentid: viewparentid,
-      // gross: gross,
-      // vat: vat,
-      // total: total,
-
-      // alert: 'Student with username  ' + username + ' doesnt exist',
     });
   },
   editparentfromadmin: async (req, res) => {
@@ -1737,7 +1775,7 @@ module.exports = {
     // lets proceed with the next step which is encrypting our password before saving
   },
   searchstudent: async (req, res) => {
-    schoolz()
+    schoolz();
     const searchstudent = req.body.search.toLowerCase();
     const pico = await studentModel.find({ name: { $regex: searchstudent } });
     if (pico.length > 0) {
@@ -2023,12 +2061,16 @@ module.exports = {
     //     el.save();
     //   });
     // }
-    const studento = await Students.findOne({ userid });
+    const studento = await Students.findOne({ userid:userid });
+    const pictures = await pictureModel
+      .find({ studentuserid: userid })
+      .sort({ sn: -1 });
 
     res.render('uplstd', {
       layout: 'upl',
       admin: req.user,
       student: studento,
+      pictures:pictures
     });
 
     // lets proceed with the next step which is encrypting our password before saving
@@ -2051,7 +2093,7 @@ module.exports = {
     const package = await Package.findOne({ packageid: packageid });
     try {
       if (files) {
-        fileName = files.name.name.split('-').join('').split(' ').join('');
+        fileName = files.name.split('-').join('').split(' ').join('');
         try {
           fs.unlinkSync('./public' + package.packimg);
           console.log('file deleted successfully');
@@ -2277,7 +2319,7 @@ module.exports = {
     // lets proceed with the next step which is encrypting our password before saving
   },
   orders: async (req, res) => {
-    let orders = await Orders.find();
+    let orders = await Orders.find().sort({ gsn: 'desc' });
     const torders = [...orders];
     torders.map((order, index) => (order.sne = torders.length - index));
     res.render('orders', {
@@ -2592,11 +2634,109 @@ module.exports = {
       photog: photos.length,
       ordersl: orders.length,
       pictures: photos,
-      maindir:maindir,
+      maindir: maindir,
 
       // photog: photos.length,
       icon: 'success',
     });
+  },
+  vieworders: async (req, res) => {
+    try {
+      const ordercode = req.params.ordercode;
+      const mainorder = await Orders.findOne({
+        ordercode: ordercode,
+      });
+      const parent = await parentModel.findOne({
+        userid: mainorder.parentid,
+      });
+      const orders = await MordersModel.find({
+        sordercode: ordercode,
+      });
+      res.render('avieworders', {
+        layout: 'admin',
+        admin: req.user,
+        orders: orders,
+        mainorder: mainorder,
+        parent: parent,
+      });
+    } catch (err) {
+      console.log(err.message);
+      res.redirect('/admin/wrong');
+    }
+  },
+
+  // deleteorder: async (req, res) => {
+  //   try {
+  //     const ordercode = req.params.ordercode;
+  //     await Orders.deleteOne({
+  //       ordercode: ordercode,
+  //     });
+  //     await MordersModel.deleteMany({
+  //       sordercode: ordercode,
+  //     });
+  //     res.redirect('/admin/orders');
+  //   } catch (err) {
+  //     console.log(err.message);
+  //     res.redirect('/admin/wrong');
+  //   }
+
+  //   console.log(ordercode);
+  // },
+  deleteorder: async (req, res) => {
+    console.log('im at deleteorder');
+
+    try {
+      const ordercode = req.params.ordercode;
+
+      await MordersModel.deleteMany({
+        sordercode: ordercode,
+      });
+      await Orders.deleteOne({
+        ordercode: ordercode,
+      });
+      res.redirect('/admin/orders');
+    } catch (err) {
+      console.log(err.message);
+      res.redirect('/admin/wrong');
+    }
+  },
+  ddeleteorder: async (req, res) => {
+    try {
+      console.log('im at ddeleteorder');
+
+      const ordercode = req.params.ordercode;
+
+      const order = await Orders.findOne({
+        ordercode: ordercode,
+      });
+
+      await MordersModel.deleteMany({
+        sordercode: ordercode,
+      });
+      await Orders.deleteOne({
+        ordercode: ordercode,
+      });
+      const parent = await parentModel.findOne({
+        userid: order.parentid,
+      });
+      let parentorders = await Orders.find({
+        parentid: parent.userid,
+      }).sort({ sn: 'desc' });
+
+      const torders = [...parentorders];
+      torders.map((order, index) => (order.sne = torders.length - index));
+
+      res.render('viewparent', {
+        layout: 'admin',
+        admin: req.user,
+        parent: parent,
+        orders: torders,
+        viewparentid: parent.userid,
+      });
+    } catch (err) {
+      console.log(err.message);
+      res.redirect('/admin/wrong');
+    }
   },
   registerchool: async (req, res) => {
     console.log('im signing up school');
@@ -2631,7 +2771,7 @@ module.exports = {
     }
   },
   login: async (req, res) => {
-              schoolz();
+    schoolz();
 
     console.log('im at administrator');
 
@@ -2701,7 +2841,7 @@ module.exports = {
                 photog: photos.length,
                 pictures: photos,
                 icon: 'success',
-                maindir:maindir,
+                maindir: maindir,
                 ordersl: orders.length,
                 alerte: process.env.loginwelcome + ifusername.username,
               });
@@ -2862,7 +3002,7 @@ module.exports = {
       parents: req.parents,
       admin: req.user,
       student: student,
-      pictures:pictures
+      pictures: pictures,
     });
   },
   allstudents: async (req, res) => {

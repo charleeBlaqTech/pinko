@@ -28,6 +28,7 @@ router.post('/editship', checkUser, adminControllers.editship);
 router.post('/addstudent', checkUser, adminControllers.addstudent);
 router.post('/addstudent', checkUser, adminControllers.addstudent);
 router.post('/personalpictures', checkUser, adminControllers.personalpictures);
+router.post('/uupdatepending', checkUser, adminControllers.uupdatepending);
 router.post('/updatepending', checkUser, adminControllers.updatepending);
 router.post('/changeparentshipping', checkUser, adminControllers.changeparentshipping);
 router.post('/editslave', checkUser, adminControllers.editslave);
@@ -37,7 +38,10 @@ router.get('/getstudents/:class', checkUser, adminControllers.getstudents);
 router.get('/vpdeleteorder/:ordercode', checkUser, adminControllers.vpdeleteorder);
 router.get('/resendmail/:adminid', checkUser, adminControllers.resendmail);
 router.get('/users', checkUser, adminControllers.users);
+router.get('/vieworders/:ordercode', checkUser, adminControllers.vieworders);
 router.get('/cleargallery', adminControllers.cleargallery)
+router.get('/deleteorder/:ordercode', adminControllers.deleteorder)
+router.get('/ddeleteorder/:ordercode', adminControllers.ddeleteorder)
 router.get('/clearallpictures', adminControllers.clearallpictures);
 router.get('/forcereset',adminControllers.forcereset);
 router.get('/wrong', (req,res) => {

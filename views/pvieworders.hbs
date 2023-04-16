@@ -1,0 +1,165 @@
+<style>
+    .statuss{
+        animation: stats 2s linear infinite;
+        position: relative;
+        font-size: 15px;
+    }
+    .gbak{
+        position: relative;
+    }
+    .arr{
+        animation: garrow 2s linear infinite;
+        position: absolute;
+    }
+    @keyframes garrow {
+        from{
+            .arr{
+                margin-left: 10%;
+            }
+        }
+        to{
+            .arr{
+                margin-left: -10%;
+            }
+        }
+    }
+</style>
+
+<div class="container-fluid pt-1 ">
+    <div class="card-body">
+        <div class="col-12 col-xl-8 mb-xl-0">
+            {{!-- <h3 class="font-weight-bold text-capitalize ">{{school.schoolname}}</h3> --}}
+            <h6 class="font-weight-bold text-capitalize text-muted">...Viewing order cart.</h6>
+
+
+        </div>
+    </div>
+    <div class="text-center mb-4">
+        <h2 class="section-title px-5"><span class="px-2 text-capitalize">{{mainorder.studentname}}</span></h2>
+    </div>
+
+
+    <div class="row ml-0">
+        <div class="col-lg-8 table-responsive">
+
+            {{#if orders}}
+            <div class="table-responsive" style="position: relative;height:75vh;overflow:auto;">
+                <table class="text-center table awele table-bordered text-center mb-0" id="myhtable">
+                    <thead class=" text-dark" style="background-color: #6eb3e7;">
+                        <tr>
+                            <th>Products</th>
+                            <th>Package</th>
+                            <th>Price <span class="text-muted">AED</span></th>
+                            <th>Quantity</th>
+                            <th>Unit total <span class="text-muted">AED</span></th>
+
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle" style="overflow: auto;height:20vh;">
+                        {{#each orders}}
+                        <tr class="trows{{@index}} ">
+                            <td class="align-middle">
+                                <a href={{orderavatar}}><img src={{orderavatar}} style="width: 57px;height:57px;"></a>
+                            
+                            
+                            </td>
+
+
+
+                            <td class="align-middle text-capitalize">
+                                {{packagename}}
+                            </td>
+                            <td class="align-middle"> <span class="prices fgh tofix">{{priceperpackage}}</span>
+                            </td>
+                            <td class="sdf align-mid px-1">
+                                {{quantity}}
+                            </td>
+
+                            <td class="align-middle  xtrows" style="background-color:#7CB9E8;">
+                                <span class="tofix fs-30">{{totalunitsprice}}</span>
+                            </td>
+
+                        </tr>
+                        {{/each}}
+                        <input type="hidden" name="studentuserid" value={{child.userid}} id="">
+
+
+                    </tbody>
+                </table>
+                <br>
+                <div class="d-flex justify-content-center my-2">
+                    {{#if mainorder.cleared}}
+                
+                    <span class="rewsa text-success text-center fs-30">Completed</span>
+                    {{else}}
+                    <span class="rewsa text-warning text-center fs-30">...Processing</span>
+                    {{/if}}
+                </div>
+
+
+            </div>
+
+
+            {{else}}
+            <h4 class="m-auto text-center text-muted">This order is no longer available !</h4>
+            {{/if}}
+        </div>
+        <div class="col-lg-4">
+
+            <div class="card border-secondary ">
+                <div class="card-header" style="background-color: #6eb3e7;border:0;">
+                    <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex justify-content-between mb-3 pt-1">
+                        <h6 class="font-weight-medium">Gross</h6>
+                        <h6 class=" font-weight-medium"><span class="text-muted">AED </span> <span
+                                class="tofix">{{mainorder.gross}}</span> </h6>
+                        
+                    </div>
+                    <div class="d-flex justify-content-between">
+                        <h6 class=" font-weight-medium">Shipping</h6>
+                        <h6 class="font-weight-medium"><span class="text-muted">AED </span><span
+                                class="tofix">{{mainorder.ship}}</span>
+                        </h6>
+
+                    </div>
+                </div>
+
+                <div class="awele card-footer border-secondary bg-transparent">
+                    <div class="d-flex justify-content-between mt-2">
+                        <h5 class="font-weight-bold">Total</h5>
+                        <h5 class="font-weight-bold"><span class="text-muted">AED </span> <span
+                                class="tofix">{{mainorder.total}}</span>
+                        </h5>
+                    </div>
+                    {{!-- <div class="statusss mt-5 fs-30 mx-auto text-center w-100">
+                        {{#if mainorder.cleared}}
+                        <span class="rewsa bg-success">Completed</span>
+                        {{else}}
+                        <span class="rewsa bg-warning">...Processing</span>
+                        {{/if}}
+                    </div> --}}
+
+                    <div class="d-flex mx-auto my-4 align-items-center gbak">
+                        {{!-- <i class=" arrr fa fa-arrow-left"></i> --}}
+                        <div class="m-1 ttooltip" title="go to booked orders">
+                            <a href="/parent/myorders" class="align-items-center awelee btn btn-block proceed my-3 py-3 text-light"
+                                style="background-color:#0964aa;">Booked orders</a>
+                        </div>
+                        <div class="m-1 ttooltip" title="go to cleared orders">
+                            <a href="/parent/parentpendingorders" class="align-items-center awelee btn btn-block proceed my-3 py-3 text-light"
+                                style="background-color:#0964aa;"> Cleared orders</a>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+    </div>
+</div>
