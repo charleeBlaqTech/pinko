@@ -8,6 +8,8 @@ const classModel = require('../models/classModel');
 const Parents = require('../models/parentModel');
 const Students = require('../models/studentModel');
 const adminModel = require('../models/adminModel');
+const Orders = require('../models/orderModel');
+
 
 
 var moment = require('moment');
@@ -69,6 +71,12 @@ const checkUserp = async (req, res, next) => {
     lastuser = 'parent';
     req.user = await Parent.findOne({ userid:userid });
     const papa = await Parent.findOne({ userid:userid });
+    const orders = await Orders.find();
+    orders.map(async (el) => {
+      el.momentago = getTime(el.moment);
+      await el.save();
+      // console.log(el.momentago + " parents from checkuser")
+    });
 
     if(papa ){
       // console.log(
@@ -157,6 +165,12 @@ const checkUser = async (req, res, next) => {
         });
         const pictures = await pictureModel.find();
         const personals = await personalModel.find();
+        const orders = await Orders.find();
+        orders.map(async (el) => {
+          el.momentago = getTime(el.moment);
+          await el.save();
+          // console.log(el.momentago + " parents from checkuser")
+        });
         pictures.map(async (el) => {
           el.momentago = getTime(el.moment);
           await el.save();

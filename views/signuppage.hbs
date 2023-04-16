@@ -346,57 +346,6 @@ Basic input element using psuedo classes
       opacity: 1;
     }
   }
-
-  .iibody {
-  font-family: "Roboto", sans-serif;
-  padding: 0;
-  margin: 0;
-  background-color: #f5f5f5;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-}
-
-.cookiesContent {
-  width: 320px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #fff;
-  color: #000;
-  text-align: center;
-  border-radius: 20px;
-  padding: 30px 30px 70px;
-  button.close {
-    width: 30px;
-    font-size: 20px;
-    color: #c0c5cb;
-    align-self: flex-end;
-    background-color: transparent;
-    border: none;
-    margin-bottom: 10px;
-  }
-  img {
-    width: 82px;
-    margin-bottom: 15px;
-  }
-  p {
-    margin-bottom: 40px;
-    font-size: 18px;
-  }
-  button.accept {
-    background-color: #ed6755;
-    border: none;
-    border-radius: 5px;
-    width: 200px;
-    padding: 14px;
-    font-size: 16px;
-    color: white;
-    box-shadow: 0px 6px 18px -5px rgba(237, 103, 85, 1);
-  }
-}
-
 </style>
 
 
@@ -436,50 +385,33 @@ Basic input element using psuedo classes
             </div>
             
             <div class="hr"></div>
-            <div class="foot-lnk" >
-              <a href="/fgw" id="fg">Forgot Password?</a>
-
-
-              
+            <div class="foot-lnk">
+              <a href="/fgw" id="fge">Forgot Password?</a>
 
 
 
 
-            </div>
-            
-            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-              <div class="modal-dialog">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Password reset</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                  </div>
-                  <div class="modal-body">
-                    <div id="fn" class="mt-5 text-center">
-                      <form method="post" action="/parent/verifymailforgotpwrd">
-                        <h4 class="text-info">I forgot my password </h4>
-                        <br>
-                        <br>
-                        <br>
-                        <input type="datetime" name="" id="">
-                        <input type="email" name="email" class="question text-light text-center" style="font-size: 15px;" id="nme" required
-                          autocomplete="off" />
-                        <label for="nme"><span class="text-light">Enter your email?</span></label>
-                    
-                        <div class="group">
-                          <input type="submit" class="button col-sm-10 col-lg-6 mx-auto " value="Verify Email">
-                        </div>
-                    
-                      </form>
-                    </div>
-                  </div>
-            
-                </div>
-              </div>
+
+
+
             </div>
           </div>
         </form>
-        {{!-- `wsqa  --}}
+        {{!-- <div id="fgf" class="mt-5 text-center">
+          <form method="post" action="/parent/verifymailforgotpwrd">
+            <h4 class="text-info">I forgot my password </h4>
+            <br>
+            <br>
+            <br>
+            <input type="email" name="email" class="question text-light text-center" style="font-size: 15px;" id="nme" required autocomplete="off" />
+            <label for="nme"><span class="text-light">Enter your email?</span></label>
+        
+            <div class="group">
+              <input type="submit" class="button col-sm-10 col-lg-6 mx-auto " value="Verify Email">
+            </div>
+        
+          </form>
+        </div> --}}
         <div class="sign-up-htm">
           <form action="/parent/parentsignup" id="loginAccount" method="post">
 

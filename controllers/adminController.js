@@ -123,10 +123,11 @@ async function resizeImage(fileName) {
       .toFormat('jpeg', { mozjpeg: true })
       .composite([
         {
-          input: maindir + '/public/images/overlay.png',
+          input: maindir + '/public/images/overlayc.png',
           top: 250,
           left: 250,
-        },
+          // gravity: 'southeast',
+        }
       ])
 
       .toFile('./public/sharp/' + fileName);
@@ -2319,6 +2320,7 @@ module.exports = {
     // lets proceed with the next step which is encrypting our password before saving
   },
   orders: async (req, res) => {
+    schoolz()
     let orders = await Orders.find().sort({ gsn: 'desc' });
     const torders = [...orders];
     torders.map((order, index) => (order.sne = torders.length - index));

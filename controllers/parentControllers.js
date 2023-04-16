@@ -280,6 +280,7 @@ module.exports = {
       studentid: arrayofobj[0].studentid,
       paid: true,
       cleared: false,
+      moment: moment().format('YYYY-MM-DD HH:mm:ss'),
       schoolcode: arrayofobj[0].schoolcode,
       gross: Number(arrayofobj[0].gross.split(',').join('')),
       ship: Number(arrayofobj[0].vat),

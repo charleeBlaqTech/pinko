@@ -131,7 +131,12 @@
                 </div>
             </div>
         </div>
-        <h2 class="section-title px-5"><span class=" text-capitalize">{{child.name}}</span></h2>
+        <div>
+            <small class="text-center">student in view</small>
+            <br>
+
+            <h2 class="section-title px-5"><span class="ttooltip text-capitalize" title="student:{{child.name}}<br>school:{{child.schoolname}}<br>student code :{{child.signparent}}">{{child.name}}</span></h2>
+        </div>
         <div class="">
             <button class="btn btn-block w-100 mx-auto px-4" style="width:fit-content;background:rgb(255, 0, 0);color:white"
                 data-bs-toggle="modal" data-bs-target="#exampleModald">Packages</button>

@@ -26,7 +26,10 @@ const htmlToSend = template({ message: 'Hello!' });
 const mailgun = {
   mail: (email,subject,m1,m2) => {
     const mailOptions = {
-      from: 'pinkpepper@gmail.com',
+      from: {
+        name: 'PPSE',
+        address: 'codarhq@gmail.com',
+      },
       to: email,
       subject: subject,
       html: `<!DOCTYPE html>
@@ -87,10 +90,13 @@ const mailgun = {
 const mailgunh = {
   mail: (html, email, subject) => {
     const mailOptions = {
-      from: 'pinkpepper@gmail.com',
+      from: {
+        name: 'PPSE',
+        address: 'codarhq@gmail.com',
+      },
       to: email,
       subject: subject,
-      html:html
+      html: html,
       // text:"hi dear"
     };
 
@@ -210,7 +216,10 @@ const nodemh = {
 const verificationmail = {
   mail: (username, email, testran) => {
     var mailOptions = {
-      from: `pinkpepper@gmail.com`,
+      from: {
+        name: 'PPSE',
+        address: 'codarhq@gmail.com',
+      },
       to: email,
       subject: 'Account verification',
       // text: `Hi ${username} , verify account below ${testran}`,
@@ -267,7 +276,10 @@ const verificationmail = {
 const addadmin = {
   mail: (email, testran) => {
     var mailOptions = {
-      from: `pinkpepper@gmail.com`,
+      from: {
+        name: 'PPSE',
+        address: 'codarhq@gmail.com',
+      },
       to: email,
       subject: 'Admin verification',
       // text: `Hi ${username} , verify account below ${testran}`,

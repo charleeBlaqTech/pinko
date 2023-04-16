@@ -429,7 +429,7 @@
                     {{#if pictures}}
                     <div class="fesi mt-0 text-center">
                         <div class="ifesi boxa ">
-                            <h1 title="gallery layout" class="mt-3 ttooltip letters text-center"
+                            <h1 class="mt-3 letters text-center"
                                 style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); ;color:aliceblue;cursor:pointer;">
                                 ~<span style="text-transform:capitalize;">{{student.name}}</span>~</h1>
                             <div class="conc">
@@ -502,6 +502,7 @@
 
                                         </ul>
                                     </nav>
+
                                     <nav aria-label="Page navigation examplen d-flex justify-contents-end ">
 
                                         <ul class="pagination d-flex justify-content-end">
@@ -612,8 +613,8 @@
 
                         </div>
                         <div class="ifesi boxb">
-                            <h1 title="click to change name" class="mt-3 ttooltip letters text-center"
-                                style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); ;color:aliceblue;cursor:pointer;">
+                            <h1 class="mt-3 letters text-center"
+                                style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); ;color:aliceblue;">
                                 ~<span style="text-transform:capitalize;" data-bs-toggle="modal"
                                     data-bs-target="#exampleModal">{{student.name}}</span>~
                             </h1>
@@ -628,7 +629,7 @@
                                             <i class="fa fa-edit"></i>
                                         </h1> --}}
 
-                                        <div class="modal fade" id="exampleModal" tabindex="-1"
+                                        <div class="modal fade" id="exampleModalop" tabindex="-1"
                                             aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
@@ -701,9 +702,21 @@
 
                                                 <ul class="pagination d-flex ">
 
-                                                    <li title="switch to gallery-layout" class="ttooltip page-item relad"><a
-                                                            class="page-link" href="#"><i
-                                                                class="fa fa-toggle-off"></i></a></li>
+                                                    <li title="switch to gallery-layout"
+                                                        class="ttooltip page-item relad"><a class="page-link"
+                                                            href="#"><i class="fa fa-toggle-off"></i></a></li>
+
+
+                                                </ul>
+                                            </nav>
+                                            <nav data-bs-toggle="modal" data-bs-target="#exampleModalop" class="lboxb"
+                                                aria-label="Page navigation example d-flex justify-contents-end mr-1 ">
+
+                                                <ul class="pagination d-flex ">
+
+                                                    <li title="edit student details"
+                                                        class="ttooltip page-item relad"><a class="page-link"
+                                                            href="#"><i class="fa fa-edit"></i></a></li>
 
 
                                                 </ul>
@@ -770,39 +783,42 @@
 
 
                     {{else}}
-                    <h1 title="click to change name" class="mt-3 mb-5 ttooltip letters text-center"
-                        style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); color:black;color:aliceblue;cursor:pointer;">
-                        <span style="text-transform:capitalize;color:black;" data-bs-toggle="modal"
-                            data-bs-target="#exampleModal">~{{student.name}}~</span>
+                    <h1 class="mt-3 mb-5 ttooltip letters text-center"
+                        style="text-shadow:text-shadow: 4px 5px 4px rgba(66, 68, 90, 1); color:black;color:aliceblue;">
+                        <span style="text-transform:capitalize;color:black;">~{{student.name}}~</span>
                     </h1>
-                    
+
                     <div class="card-body mb-0 p-1" style="height:max-content;">
-                    
-                        <div style="display: flex;justify-content:space-between;flex:0 1 auto;flex-wrap:wrap;" class="align-items-center">
+
+                        <div style="display: flex;justify-content:space-between;flex:0 1 auto;flex-wrap:wrap;"
+                            class="align-items-center">
                             <div class="col-lg-6">
-                                {{!-- <h1 title="edit name" class="ttooltip card-title " style="cursor: pointer;">{{student.name}}
+                                {{!-- <h1 title="edit name" class="ttooltip card-title " style="cursor: pointer;">
+                                    {{student.name}}
                                     <i class="fa fa-edit"></i>
                                 </h1> --}}
-                    
-                                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                                    aria-hidden="true">
+
+                                <div class="modal fade" id="exampleModalop" tabindex="-1"
+                                    aria-labelledby="exampleModalLabel" aria-hidden="true">
                                     <div class="modal-dialog">
                                         <div class="modal-content">
                                             <div class="modal-header">
                                                 <h5 class="modal-title" id="exampleModalLabel">Edit Name</h5>
-                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    aria-label="Close"></button>
                                             </div>
                                             <div class="modal-body">
                                                 <form action="/admin/changename/{{student.userid}}" class="forms-sample"
                                                     enctype="multipart/form-data" method="post">
-                    
+
                                                     <div class="form-group">
                                                         <label for="exampleInputName1" class="text-capitalize">Change
                                                             {{student.name}}'s Name to:</label>
-                                                        <input type="text" class="form-control" name="names" id="exampleInputName1"
-                                                            placeholder=" Enter new name here" value="{{student.name}}" required />
+                                                        <input type="text" class="form-control" name="names"
+                                                            id="exampleInputName1" placeholder=" Enter new name here"
+                                                            value="{{student.name}}" required />
                                                     </div>
-                    
+
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
                                                             data-bs-dismiss="modal">Close</button>
@@ -811,71 +827,86 @@
                                                     </div>
                                                 </form>
                                             </div>
-                    
+
                                         </div>
                                     </div>
                                 </div>
                                 <h4 title="{{student.name}}'s class" class="ttooltip card-title text-info">
                                     {{student.classs}}</h4>
-                    
+
                                 <h4 title="{{student.name}}'s school" class="ttooltip text-capitalize">
                                     {{student.schoolname}}</h4>
-                    
-                    
-                    
+
+
+
                             </div>
                             <div class="col-lg-6 col-4 w-sm-45 justify-content-center mb-0 d-flex">
                                 {{!-- <p>Student code</p> --}}
                                 <h6 class="text-success" id="clipr">copied to clipboard </h6>
-                    
+
                                 <div class=" col-12 mb-0 diva" style="display: flex;flex-wrap:wrap;">
                                     <span title="click to copy student code"
                                         class=" ttooltip btn btn-primary px-3 py-2 text-capitalize ccopy w-70 w-col-lg-50"
                                         onclick="clickpar()">
                                         sCode: <span id="clickpar">{{student.signparent}}</span>
                                     </span>
-                    
+
                                     <a title="regenerate new student code" href="/admin/schoolcode/{{student.userid}}"
                                         class="ttooltip btn fs-30 px-3 py-2 text-capitalize text-light w-70 lg-w-50"
                                         style="background-color: rgb(80, 226, 207);">
                                         Regenerate
                                     </a>
                                 </div>
-                    
+
                                 {{!-- <p class="card-description">Upload page</p> --}}
                             </div>
                             <div class="col-lg-4 conc">
                                 <div class="concubine col-12 d-flex justify-contents-between px-3">
-                                    <nav class="lboxb" aria-label="Page navigation example d-flex justify-contents-end mr-1 ">
-                    
+                                    <nav class="lboxb"
+                                        aria-label="Page navigation example d-flex justify-contents-end mr-1 ">
+
                                         <ul class="pagination d-flex ">
-                    
-                                            <li title="switch to gallery-layout" class="ttooltip page-item relad"><a class="page-link"
-                                                    href="#"><i class="fa fa-toggle-off"></i></a></li>
-                    
-                    
+
+                                            <li title="switch to gallery-layout" class="ttooltip page-item relad"><a
+                                                    class="page-link" href="#"><i class="fa fa-toggle-off"></i></a></li>
+
+
                                         </ul>
                                     </nav>
-                    
+                                    <nav class="ttooltip" title="edit student name"
+                                        aria-label="Page navigation example d-flex justify-contents-end "
+                                        data-bs-toggle="modal" data-bs-target="#exampleModalop">
+
+                                        <ul class="pagination d-flex justify-content-end">
+
+                                            <li class="page-item relad"><a class="page-link" href="#"> <i
+                                                        class="fa fa-edit"></i> </a>
+                                            </li>
+
+
+                                        </ul>
+                                    </nav>
+
                                     <nav title="delete all pictures" class="ttooltip"
                                         aria-label="Page navigation examplen d-flex justify-contents-end ">
-                    
+
                                         <ul class="pagination d-flex justify-content-end">
-                    
-                                            <li class="page-item relad"><a class="page-link" href="/admin/deleteall/{{student.userid}}"> <i
+
+                                            <li class="page-item relad"><a class="page-link"
+                                                    href="/admin/deleteall/{{student.userid}}"> <i
                                                         class="fa fa-trash"></i> all</a></li>
-                    
-                    
+
+
                                         </ul>
                                     </nav>
                                 </div>
                             </div>
                         </div>
-                    
-                    
-                    
-                    
-                    
+
+
+
+
+
                     </div>
                     <div class="mt-5 px-lg-1">
                         <div class="mother">
