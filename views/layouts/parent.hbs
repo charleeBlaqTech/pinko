@@ -304,7 +304,7 @@
 <body>
   <div class="container-scroller mb-0" style="height:fit-content;">
     <!-- partial:partials/_navbar.html -->
-    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row align-items-center">
 
       <div class="navbar-menu-wrapper d-flex align-items-center justify-content-between" style="width:100%;margin:0;">
 
@@ -320,10 +320,24 @@
 
 
             <li><a href="mailto:testing@yahoo.com" class=" text-dark">Support</a></li>
+            
           </ul>
         </div>
+        <ul class="navbar-nav-right align-items-center">
+
+          
+          
+          <li class="fs-30  d-flex py-2 mt-2">
+
+            <p class="text-success fs-30 mt-3" id="cartlength">{{parent.cartlength}}</p>
+            <i class="fas fa-shopping-cart mt-2"></i>
+            
+          </li>
+        </ul>
         <ul class="navbar-nav navbar-nav-right">
 
+          
+          
           <li class="nav-item nav-profile dropdown">
 
             <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
@@ -355,8 +369,8 @@
 
           <li class="nav-item">
             <a class="nav-link" href="/parent/carts">
-              <i class=" menu-icon"></i>
-              <span class="menu-title">Carts &nbsp; &nbsp; <span text-primary><span class="text-success " style="font-size:20px;" id="cartlength" data-totalitems={{parent.cartlength}}>{{parent.cartlength}} </span><i class="fas fa-shopping-cart"></i></span></span>
+              <i class="fas fa-shopping-cart menu-icon"></i>
+              <span class=" menu-title">Carts &nbsp; &nbsp; <span text-primary><span class="text-success "  id="cartlengthh">{{parent.cartlength}} </span></span></span>
             </a>
           </li>
           <li class="nav-item">

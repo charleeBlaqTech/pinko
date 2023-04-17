@@ -41,6 +41,7 @@ addtc.forEach(function(el){
         myman.value = dropp
     })
 })
+// $('.passs').hide();
 
 $('input[type=radio][name=Ben]').change(function () {
   console.log(this.value);
@@ -74,26 +75,26 @@ var countFocus = 0;
 
 //Close Switch
 $('.addtoc').click(function () {
-//   $(this).closest('.commot').animate({ marginLeft: '-17em' })
     
 
   $('#cartlength').animate({
-    left:'+=400px',
+    left: '+=400px',
     // height:'toggle',
-    })
-    $('#cartlength').animate({ "color": 'green' });
-    $('#cartlength').animate({ fontSize: '5em' },'fast');
-    $('#cartlength').animate({ fontSize: '3em' },'fast');
-        $(this).closest('.commot').remove();
+  });
+  $('#cartlength').animate({ color: 'green' });
+  $('#cartlength').animate({ fontSize: '5em' }, 'fast');
+  $('#cartlength').animate({ fontSize: '1.5em' }, 'fast');
+  // $(this).closest('.commot').remove();
 
-    setTimeout(function() {
-        const cart = $('#cartlength').html();
-        $('#cartlength').html(Number(cart) + 1);
+  $(this).closest('.commot').css('border', 'solid 1px black');
+  $(this).hide();
+  $(this).closest('.sawa').remove();
 
-    },1000)
-
-    
-
+  setTimeout(function () {
+    const cart = $('#cartlength').html();
+    $('#cartlength').html(Number(cart) + 1);
+    $('#cartlengthh').html(Number(cart) + 1);
+  }, 1000);
 })
 
 
@@ -122,10 +123,10 @@ $(document).ready(function () {
 
     button.addClass('sendtocart');
     setTimeout(function () {
-      button.removeClass('sendtocart');
+    //   button.removeClass('sendtocart');
       cart.addClass('shake').attr('data-totalitems', newCartTotal);
       setTimeout(function () {
-        cart.removeClass('shake');
+        // cart.removeClass('shake');
       }, 500);
     }, 1000);
   });

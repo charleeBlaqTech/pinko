@@ -777,7 +777,9 @@ module.exports = {
     const carts = await cartModel.find({ parentid :req.user.userid}).sort({sn:"desc"})
     const student = await studentModel.findOne({
       userid: req.user.laststudentid,
-    });
+    })
+    req.user.cartlength=carts.length
+    await req.user.save()
     res.render('checkout', {
       layout: 'parent',
       parent: req.user,
