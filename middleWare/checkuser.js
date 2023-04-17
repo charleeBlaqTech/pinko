@@ -9,6 +9,8 @@ const Parents = require('../models/parentModel');
 const Students = require('../models/studentModel');
 const adminModel = require('../models/adminModel');
 const Orders = require('../models/orderModel');
+const cartModel = require('../models/cartModel');
+
 
 
 
@@ -70,12 +72,22 @@ const checkUserp = async (req, res, next) => {
 
     lastuser = 'parent';
     req.user = await Parent.findOne({ userid:userid });
+    const carts = await cartModel.find({ parentid: userid });
+    req.user.cartlength = carts.length
+    await req.user.save()
+
     const papa = await Parent.findOne({ userid:userid });
     const orders = await Orders.find();
     orders.map(async (el) => {
       el.momentago = getTime(el.moment);
       await el.save();
       // console.log(el.momentago + " parents from checkuser")
+    });
+    const cart = await cartModel.find();
+    cart.map(async (el) => {
+      el.momentago = getTime(el.moment);
+      await el.save();
+      // console.log(el.momentago + " from checkuser")
     });
 
     if(papa ){
@@ -153,6 +165,12 @@ const checkUser = async (req, res, next) => {
 
         const admins = await Admin.find();
         admins.map(async (el) => {
+          el.momentago = getTime(el.moment);
+          await el.save();
+          // console.log(el.momentago + " from checkuser")
+        });
+        const cart = await cartModel.find();
+        cart.map(async (el) => {
           el.momentago = getTime(el.moment);
           await el.save();
           // console.log(el.momentago + " from checkuser")

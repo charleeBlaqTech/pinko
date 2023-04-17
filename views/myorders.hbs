@@ -40,7 +40,7 @@
                                             
                                             <th>Status</th>
                                             <th>View</th>
-                                            <th>Action</th>
+                                            {{!-- <th>Action</th> --}}
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -51,7 +51,7 @@
                                         <tr class="text-center" data-bs-toggle="modal" data-bs-target="#exa{{@index}}">
                                             <td class="ttooltip text-capitalize" title="order no {{sne}}">
                                                 
-                                                {{ sne}}
+                                                {{sne}}
                                             </td>
                                             <td class="ttooltip text-capitalize" title="{{momentago}}">
                                                 
@@ -75,11 +75,10 @@
                                             <td class="ttooltip" title="no of items">{{orderlength}}</td>
                                             {{!-- <td><span class="tofix ttooltip" title="package price per item">{{priceperpackage}}</span></td> --}}
                                             <td><span class="tofix ttooltip" title="gross price">{{gross}}</span></td>
-                                            <td><span class="tofix ttooltip" title="gross price + shipping <br> {{gross}} + {{ship}}={{total}}">{{total}}</span></td>
+                                            <td><span class="tofix ttooltip" title="gross price + shipping <br> {{gross}} + {{ship}} = {{total}}">{{total}}</span></td>
                                             <td class="text-warning ttooltip" title="In process ! ">Processing</td>
                                             <td title="view order ?" class="ttooltip"><a href="/parent/viewbookedorder/{{ordercode}}"><i class="text-info fa fa-eye"></i></a></td>
-                                            <td title="delete order ?" class="ttooltip"><a href="/parent/deletefromparent/{{ordercode}}"><i class="text-danger fa fa-trash"></i></a></td>
-                                            {{!-- <td>na</td> --}}
+                                            {{!-- <td title="delete order ?" class="ttooltip"><a href="/parent/deletefromparent/{{ordercode}}"><i class="text-danger fa fa-trash"></i></a></td> --}}
                                             
 
                                         </tr>

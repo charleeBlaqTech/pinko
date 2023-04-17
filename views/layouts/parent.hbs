@@ -354,6 +354,12 @@
 
 
           <li class="nav-item">
+            <a class="nav-link" href="/parent/carts">
+              <i class=" menu-icon"></i>
+              <span class="menu-title">Carts &nbsp; &nbsp; <span text-primary><span class="text-success " style="font-size:20px;" id="cartlength" data-totalitems={{parent.cartlength}}>{{parent.cartlength}} </span><i class="fas fa-shopping-cart"></i></span></span>
+            </a>
+          </li>
+          <li class="nav-item">
             <a class="nav-link" href="/parent/packages">
               <i class="icon-shopping-bag menu-icon"></i>
               <span class="menu-title">Packages</span>
@@ -579,7 +585,7 @@
   </script>
   
   <script src="/parent/js/main.js"></script>
-  <script>
+  {{!-- <script>
     tinymce.init({
       selector: 'textarea',
       plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
@@ -592,7 +598,7 @@
       ],
       forced_root_block: false, // Start tinyMCE without any paragraph tag
     });
-  </script>
+  </script> --}}
 
   <script>
     let mybutton = document.getElementById("myBtn");
@@ -625,6 +631,7 @@
   <script src="/js/jbox.js"></script>
 
   <script src="/js/main.js"></script>
+  <script src="/js/sgallery.js"></script>
 
 </body>
 

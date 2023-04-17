@@ -100,49 +100,53 @@
 </style>
 
 
-<form action="/parent/proceedtopayment" method="post" class="leaver">
-
-    <div class="container-fluid pt-1 ">
-
-        <div class="row ml-0">
-            <div class="col-lg-8 table-responsive mb-5">
-                <div class="text-center mb-4">
-                    <h2 class="section-title px-5"><span class="px-2 text-capitalize">{{child.name}}</span></h2>
-                </div>
-
-                <table class="table awele table-bordered text-center mb-0" id="myhtable">
-                    <thead class=" text-dark" style="background-color: #6eb3e7;">
-                        <tr>
-                            <th>Products</th>
-                            <th>Package</th>
-                            <th>Price <span class="text-muted">AED</span></th>
-                            <th>Quantity</th>
-                            <th>Remove</th>
-                        </tr>
-                    </thead>
-                    <tbody class="align-middle" style="overflow-y: scroll;height:10vh;">
-                        <input type="hidden" id="cartlength" name="length" value={{cart.length}}>
-                        {{#each cart}}
+{{#if carts }}
+    <form action="/parent/proceedtopayment" method="post" class="leaver">
+    
+        <div class="container-fluid pt-1 ">
+    
+            <div class="row ml-0">
+                <div class="col-lg-8 table-responsive mb-5">
+                    <div class="text-center mb-4">
+                        <h2 class="section-title px-5"><span class="px-2 text-capitalize">{{child.name}}</span></h2>
+                    </div>
+    
+                    <table style="overflow-y: auto;height:50vh;" class="table awele table-bordered text-center mb-0"
+                        id="myhtable">
+                        <thead class=" text-dark" style="background-color: #6eb3e7;">
+                            <tr>
+                                <th>Products</th>
+                                <th>Package</th>
+                                <th>Price <span class="text-muted">AED</span></th>
+                                <th>Quantity</th>
+                                <th>Remove</th>
+                            </tr>
+                        </thead>
+                        <tbody class="align-middle">
+                            <input type="hidden" id="cartlength" name="length" value={{cart.length}}>
+                            {{#each carts}}
                             <tr class="trows{{@index}} trows">
                                 <td class="align-middle">
-                                    <img src={{wm}}  style="width: 55px;">
-                                    <input type="hidden" name="imgdir" value={{wm}}>
-
+                                    {{!-- <img src={{avatar}} style="width: 55px;"> --}}
+                                    <a href={{avatar}} title={{for}} data-jbox-image="gallery1"><img
+                                            style="object-fit:contain;text-align:center;margin:0 auto" src={{avatar}}
+                                            alt=""></a>
+                                    <input type="hidden" name="imgdir" value={{avatar}}>
+    
                                     <div class="d-flex justify-content-center align-items-center w-30">
                                         <div class="mt-2">{{name}}</div>
                                         <input type="hidden" name="pixname" value={{pixname}} id="">
-
-
+    
+    
                                     </div>
                                 </td>
-
-
-
+    
+    
+    
                                 <td class="align-middle text-capitalize">{{packagename}}
                                     <input type="hidden" name="packageid" value={{packageid}}>
                                 </td>
-                                <td class="align-middle"> <span
-                                        class="prices fgh tofix">{{price}}</span>
+                                <td class="align-middle"> <span class="prices fgh tofix">{{packageprice}}</span>
                                 </td>
                                 <td class="sdf align-mid px-1">
                                     <div class="d-flex align-items-center  pt-2">
@@ -165,67 +169,75 @@
                                                 </button>
                                             </div>
                                         </div>
-
+    
                                     </div>
                                 </td>
-                                <td title="delete item" class="ttooltip align-middle  xtrows" style="background-color:#7CB9E8;" onClick="runthis()" id="del{{@index}}"
-                                    >
-                                    <button type="button" class=" btn btn-sm"><i
-                                            class="fa fa-trash"></i></button>
+                                <td title="delete item" class="ttooltip align-middle  xtrows"
+                                    style="background-color:#7CB9E8;" onClick="runthis()" id="del{{@index}}">
+                                    <button type="button" class=" btn btn-sm"><i class="fa fa-trash"></i></button>
                                 </td>
-                                {{!-- <td class="align-middle  xtrows" style="background-color:#7CB9E8;" onClick="this.parentNode.parentNode.removeChild(this.parentNode)" id="del{{@index}}"
-                                    >
-                                    <button class=" btn btn-sm"><i
-                                            class="fa fa-trash"></i></button>
+                                {{!-- <td class="align-middle  xtrows" style="background-color:#7CB9E8;"
+                                    onClick="this.parentNode.parentNode.removeChild(this.parentNode)" id="del{{@index}}">
+                                    <button class=" btn btn-sm"><i class="fa fa-trash"></i></button>
                                 </td> --}}
-
+    
                             </tr>
-                        {{/each}}
-                        <input type="hidden" name="studentuserid" value={{child.userid}} id="">
-
-
-                    </tbody>
-                </table>
-            </div>
-            <div class="col-lg-4">
-
-                <div class="card border-secondary mb-5">
-                    <div class="card-header" style="background-color: #6eb3e7;border:0;">
-                        <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between mb-3 pt-1">
-                            <h6 class="font-weight-medium">Gross</h6>
-                            <h6 class=" font-weight-medium"><span class="text-muted">AED </span> <span class="totals ">0</span> </h6>
-                            <input type="hidden" name="gross" class="gross">
-                            <input type="hidden" name="vat" class="vati">
-                            <input type="hidden" name="total" class="ftotal">
-                            <input type="hidden" name="vato" class="vato" value={{vat}}>
+                            {{/each}}
+                            <input type="hidden" name="studentuserid" value={{child.userid}} id="">
+    
+    
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col-lg-4">
+    
+                    <div class="card border-secondary mb-5">
+                        <div class="card-header" style="background-color: #6eb3e7;border:0;">
+                            <h4 class="font-weight-semi-bold m-0">Cart Summary</h4>
                         </div>
-                        <div class="d-flex justify-content-between">
-                            <h6 class=" font-weight-medium">Shipping</h6>
-                            <h6 class="font-weight-medium"><span class="text-muted">AED </span><span class="vat">1000</span></h6>
-                            
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-3 pt-1">
+                                <h6 class="font-weight-medium">Gross</h6>
+                                <h6 class=" font-weight-medium"><span class="text-muted">AED </span> <span
+                                        class="totals ">0</span> </h6>
+                                <input type="hidden" name="gross" class="gross">
+                                <input type="hidden" name="vat" class="vati">
+                                <input type="hidden" name="total" class="ftotal">
+                                <input type="hidden" name="vato" class="vato" value={{vat}}>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <h6 class=" font-weight-medium">Shipping</h6>
+                                <h6 class="font-weight-medium"><span class="text-muted">AED </span><span
+                                        class="vat">1000</span></h6>
+    
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="awele card-footer border-secondary bg-transparent">
-                        <div class="d-flex justify-content-between mt-2">
-                            <h5 class="font-weight-bold">Total</h5>
-                            <h5 class="font-weight-bold"><span class="text-muted">AED </span> <span class="rtotal"></span></h5>
+    
+                        <div class="awele card-footer border-secondary bg-transparent">
+                            <div class="d-flex justify-content-between mt-2">
+                                <h5 class="font-weight-bold">Total</h5>
+                                <h5 class="font-weight-bold"><span class="text-muted">AED </span> <span
+                                        class="rtotal"></span></h5>
+                            </div>
+                            <button class=" awelee btn btn-block proceed my-3 py-3 text-light"
+                                style="background-color:#0964aa;" type="submit">Proceed to Shipping Details</button>
+    
                         </div>
-                        <button class=" awelee btn btn-block proceed my-3 py-3 text-light" style="background-color:#0964aa;"
-                            type="submit">Proceed to Shipping Details</button>
-
-                    </div>
-                    <div class="col-md-12 px-xl-0 text-center h-70">
-                        <img class="img-fluid" src="img/payments.png" style="height: 40px;" alt="">
+                        <div class="col-md-12 px-xl-0 text-center h-70">
+                            <img class="img-fluid" src="img/payments.png" style="height: 40px;" alt="">
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</form>
+    </form>
+
+{{else}}
+<div class="align-items-center h-100">
+    <h4 class="mx-auto text-center mt-5 text-muted"> Empty cart !</h4>
+
+</div>
+{{/if}}
 
 
 {{!-- <div class="bringit d-none">

@@ -1,0 +1,19 @@
+const mongoose = require('mongoose');
+const CartSchema = new mongoose.Schema([
+  {
+    packageid: Number,
+    picturecode: Number,
+    parentid: Number,
+    quantity: Number,
+    packagename: String,
+    avatar: String,
+    packageprice: Number,
+    gross: Number,
+    cartcode: Number,
+    sn: Number,
+    moment: String,
+    cartdate: String,
+  },
+]);
+
+module.exports = new mongoose.model('cart', CartSchema);

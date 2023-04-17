@@ -113,7 +113,15 @@ async function resizeImage(fileName) {
   try {
     console.log(fileName + ' from sharp');
     await sharp(maindir + '/public/uploads/' + fileName)
-      .resize(800, 800, {
+      // .resize(400, 500, {
+      //   fit: sharp.fit.inside,
+      //   withoutEnlargement: true,
+      // })
+      // .extract({ left: left, top: top, width: width, height: height })
+      .resize({
+        width: 600,
+        height: 600,
+
         fit: 'contain',
         background: { r: 255, g: 255, b: 255, alpha: 1 },
       })
@@ -121,13 +129,13 @@ async function resizeImage(fileName) {
       .composite([
         {
           input: maindir + '/public/images/overlayc.png',
-          top: 250,
-          left: 250,
-          // gravity: 'southeast',
+          // top: 250,
+          // left: 250,
+          gravity: 'center',
         },
       ])
 
-      .toFile(maindir +  '/public/sharp/' + fileName);
+      .toFile(maindir + '/public/sharp/' + fileName);
   } catch (error) {
     console.log(error);
   }
@@ -154,11 +162,13 @@ async function resizeImagep(fileName) {
   try {
     console.log(fileName + ' from sharp');
     await sharp(maindir + '/public/personals/' + fileName)
-      .resize({
-        width: 650,
-        height: 750,
-        fit: 'contain',
-        background: { r: 255, g: 255, b: 255, alpha: 1 },
+      .resize(400, {
+        fit: sharp.fit.inside,
+        withoutEnlargement: true,
+
+        // fit: sharp.fit.cover,
+        // position: sharp.strategy.entropy,
+        // background: { r: 255, g: 255, b: 255, alpha: 1 },
       })
       .toFormat('jpeg', { mozjpeg: true })
 

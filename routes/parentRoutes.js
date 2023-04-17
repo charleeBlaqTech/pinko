@@ -32,6 +32,7 @@ router.get('/db', checkUserp, parentControllers.home);
 router.get('/psettings', checkUserp, parentControllers.psettings);
 router.get('/packages', checkUserp, parentControllers.packages);
 router.get('/myorders', checkUserp, parentControllers.myorders);
+router.get('/carts', checkUserp, parentControllers.carts);
 router.get('/shippingdetails', checkUserp, parentControllers.shippingdetails);
 router.get(
   '/deleteclfromparent/:ordercode',
@@ -42,6 +43,11 @@ router.get(
   '/viewbookedorder/:ordercode',
   checkUserp,
   parentControllers.viewbookedorder
+);
+router.get(
+  '/firstcart/:picodee',
+  checkUserp,
+  parentControllers.firstcart
 );
 router.get(
   '/deletefromparent/:ordercode',
@@ -60,6 +66,6 @@ router.post(
   checkUserp,
   parentControllers.proceedtopayment
 );
-router.get('/*', adminControllers.errorpagea);
+// router.get('/*', adminControllers.errorpagea);
 
 module.exports = router;

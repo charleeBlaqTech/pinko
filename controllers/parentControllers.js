@@ -10,10 +10,12 @@ const { nodem, nodemh } = require('../models/nodemailer');
 var moment = require('moment');
 const boughtModel = require('../models/boughtModel');
 const OrdersModel = require('../models/orderModel');
+const cartModel = require('../models/cartModel');
 const MordersModel = require('../models/morderModel');
 const Package = require('../models/packageModel');
 const jwt = require('jsonwebtoken');
 const adminModel = require('../models/adminModel');
+const packageModel = require('../models/packageModel');
 const optionn = {
   minimumFractionDigits: 2,
   maximumFractionDigits: 2,
@@ -583,6 +585,10 @@ module.exports = {
       .sort({ sn: 'desc' });
     const torders = [...myorders];
     torders.map((order, index) => (order.sne = torders.length - index));
+    await cartModel.deleteMany({ parentid: req.user.userid });
+    req.user.cartlength = 0;
+    await req.user.save()
+
     res.render('myorders', {
       layout: 'parent',
       parent: req.user,
@@ -722,66 +728,116 @@ module.exports = {
       });
     }
   },
-  tocart: async (req, res) => {
-    const tocart = req.body.pics;
+  carts: async (req, res) => {
+    const carts = await cartModel
+      .find({ parentid: req.user.userid })
+      .sort({ sn: 'desc' });
     const student = await studentModel.findOne({
-      userId: req.body.studentuserid,
+      userid: req.user.laststudentid,
     });
+    // console.log(carts[0].avatar + " is avatar")
+    res.render('checkout', {
+      layout: 'parent',
+      parent: req.user,
+      child: student,
+      carts: carts,
+      cartlength: carts.length,
+      vat: parseInt(req.user.shiprate),
+    });
+  },
+  tocart: async (req, res) => {
+    const tocart = req.body.myman;
 
-    let withpackages = req.body.opt;
-    console.log(withpackages + ' is with packages');
+    const obj = JSON.parse(tocart)
+    // const picture = await pictureModel.findOne({ picode: obj[0].picode });
 
-    try {
-      if (!Array.isArray(withpackages)) {
-        withpackages = [withpackages];
-      }
-      let indee = 1;
-      const objarray = [];
-      withpackages.map(async (el) => {
-        console.log(el + ' is el');
-        const packagecode = el.split('/')[0];
-        const imagename = el.split('/')[1];
-        const package = await Package.findOne({ packageid: packagecode });
-        const img = await pictureModel.findOne({ pixname: imagename });
-        console.log(' is eachobj ', img, package);
-
-        const eachobj = {
-          wm: img.imgdir,
-          name: 'Item' + indee,
-          price: package.price,
-          packagename: package.name,
-          packageid: package.packageid,
-        };
-        indee++;
-        objarray.push(eachobj);
+    console.log(obj + ' is parsed data');
+    for(let i = 0 ; i < obj.length ; i++) {
+      const picture= await pictureModel.findOne({picode: obj[i].picode})
+      console.log(picture + " from line 753")
+      const package = await packageModel.findOne({
+        packageid: obj[i].packagecode,
       });
-      console.log(objarray + ' is objarray');
-      const stdntpictures = await pictureModel
-        .find({ studentuserid: student.userid })
-        .sort({ sn: 'desc' });
-      const packages = await Package.find();
-
-      // console.log(cba + ' is wms')
-
-      res.render('checkout', {
-        layout: 'parent',
-        parent: req.user,
-        child: student,
-        cart: objarray,
-        wm: stdntpictures,
-        packages: packages,
-        vat: parseInt(req.user.shiprate),
-      });
-    } catch (e) {
-      console.log(e).message;
-      const user = req.user;
-      // cont orderss = await Booked.find({for:req.user.username})
-      res.render('pdb', {
-        layout: 'parent',
-        parent: req.user,
-        // order: orders,
+      const sn = await cartModel.find({ parentid: req.user.userid });
+      await cartModel.create({
+        packageid: obj[i].packagecode,
+        avatar: picture.imgdir,
+        picturecode: obj[i].picturecode,
+        parentid: req.user.userid,
+        quantity: 1,
+        sn: sn.length + 1,
+        packagename: package.name,
+        packageprice: package.price,
+        gross: package.price,
+        cartcode: getserialnum(100000),
+        moment: moment().format('YYYY-MM-DD HH:mm:ss'),
+        cartdate: justDate(),
       });
     }
+    const carts = await cartModel.find({ parentid :req.user.userid}).sort({sn:"desc"})
+    const student = await studentModel.findOne({
+      userid: req.user.laststudentid,
+    });
+    res.render('checkout', {
+      layout: 'parent',
+      parent: req.user,
+      child: student,
+      carts: carts,
+      cartlength:carts.length,
+      vat: parseInt(req.user.shiprate),
+    });
+
+
+    // const student = await studentModel.findOne({
+    //   userId: req.body.studentuserid,
+    // });
+
+    // let withpackages = req.body.opt;
+    // console.log(withpackages + ' is with packages');
+
+    // try {
+    //   if (!Array.isArray(withpackages)) {
+    //     withpackages = [withpackages];
+    //   }
+    //   let indee = 1;
+    //   const objarray = [];
+    //   withpackages.map(async (el) => {
+    //     console.log(el + ' is el');
+    //     const packagecode = el.split('/')[0];
+    //     const imagename = el.split('/')[1];
+    //     const package = await Package.findOne({ packageid: packagecode });
+    //     const img = await pictureModel.findOne({ pixname: imagename });
+    //     console.log(' is eachobj ', img, package);
+
+    //     const eachobj = {
+    //       wm: img.imgdir,
+    //       name: 'Item' + indee,
+    //       price: package.price,
+    //       packagename: package.name,
+    //       packageid: package.packageid,
+    //     };
+    //     indee++;
+    //     objarray.push(eachobj);
+    //   });
+    //   console.log(objarray + ' is objarray');
+    //   const stdntpictures = await pictureModel
+    //     .find({ studentuserid: student.userid })
+    //     .sort({ sn: 'desc' });
+    //   const packages = await Package.find();
+
+    //   // console.log(cba + ' is wms')
+
+      
+    // } catch (e) {
+    //   console.log(e).message;
+    //   const user = req.user;
+    //   // cont orderss = await Booked.find({for:req.user.username})
+    //   res.render('pdb', {
+    //     layout: 'parent',
+    //     parent: req.user,
+    //     // order: orders,
+    //   });
+    
   },
   viewbookedorder: async (req, res) => {
     try {
@@ -793,7 +849,7 @@ module.exports = {
       const mainorder = await OrdersModel.findOne({
         ordercode: ordercode,
       });
-      console.log(mainorder + " is mainorder");
+      console.log(mainorder + ' is mainorder');
 
       res.render('pvieworders', {
         layout: 'parent',
@@ -1176,6 +1232,26 @@ module.exports = {
       });
     }
   },
+  firstcart: async (req, res) => {
+    const picodee = req.params.picodee;
+    const picture = await pictureModel.findOne({ picode: picodee });
+    const student = await studentModel.findOne({
+      userid: picture.studentuserid,
+    });
+    const packages = await Package.find();
+    console.log(packages + " is packages available")
+    const stdntpictures = await pictureModel.findOne({ picode: picodee }).sort({sn:"desc"})
+    res.render('details', {
+      parent: req.user,
+      layout: 'parent',
+      student: student,
+      picture:picture,
+      pictures: stdntpictures,
+      packages: packages,
+      studentuserid: student.userid,
+      // alert: 'Student with username  ' + username + ' doesnt exist',
+    });
+  },
   findstudent: async (req, res) => {
     const find = req.body.find;
     const student = await studentModel.findOne({ signparent: find });
@@ -1243,6 +1319,10 @@ module.exports = {
       const stdntpictures = await pictureModel.find({
         studentuserid: student.userid,
       });
+      const cart = await cartModel.find({
+        studentid: student.userid,
+      });
+
 
       // req.wm = stdntpictures;
       const packages = await Package.find();
@@ -1255,6 +1335,7 @@ module.exports = {
           watermark: stdntpictures,
           packages: packages,
           studentuserid: student.userid,
+          cartlength: cart.length
           // alert: 'Student with username  ' + username + ' doesnt exist',
         });
       } else {
@@ -1269,6 +1350,8 @@ module.exports = {
           packages: packages,
           alerte: 'try again later',
           title: ' Pictures are unavailable at the moment',
+          cartlength: cart.length,
+
           // order: orders,
         });
       }

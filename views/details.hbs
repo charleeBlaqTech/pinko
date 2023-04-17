@@ -1,0 +1,271 @@
+<style>
+    .select-box {
+        position: relative;
+        display: block;
+        width: 100%;
+        margin: 0 auto;
+        font-size: 18px;
+        color: #60666d;
+    }
+
+    @media (min-width: 768px) {
+        .select-box {
+            width: 70%;
+        }
+    }
+
+    .select-box__current {
+        position: relative;
+        box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+        outline: none;
+    }
+
+    .select-box__current:focus+.select-box__list {
+        opacity: 1;
+        -webkit-animation-name: none;
+        animation-name: none;
+    }
+
+    .select-box__current:focus+.select-box__list .select-box__option {
+        cursor: pointer;
+    }
+
+    .select-box__current:focus .select-box__icon {
+        -webkit-transform: translateY(-50%) rotate(180deg);
+        transform: translateY(-50%) rotate(180deg);
+    }
+
+    .select-box__icon {
+        position: absolute;
+        top: 50%;
+        right: 15px;
+        -webkit-transform: translateY(-50%);
+        transform: translateY(-50%);
+        width: 20px;
+        opacity: 1;
+        transition: 0.2s ease;
+    }
+
+    .select-box__icon:nth-of-type(2) {
+        -webkit-transform: translateY(-50%) rotate(90deg);
+        transform: translateY(-50%) rotate(90deg);
+    }
+
+    .select-box__value {
+        display: flex;
+    }
+
+    .select-box__input {
+        display: none;
+    }
+
+    .select-box__input:checked+.select-box__input-text {
+        display: block;
+    }
+
+    .select-box__input-text {
+        display: none;
+        width: 100%;
+        margin: 0;
+        padding: 15px;
+        background-color: #fff;
+    }
+
+    .select-box__list {
+        position: absolute;
+        width: 100%;
+        padding: 0;
+        list-style: none;
+        opacity: 0;
+        -webkit-animation-name: HideList;
+        animation-name: HideList;
+        -webkit-animation-duration: 0.5s;
+        animation-duration: 0.5s;
+        -webkit-animation-delay: 0.5s;
+        animation-delay: 0.5s;
+        -webkit-animation-fill-mode: forwards;
+        animation-fill-mode: forwards;
+        -webkit-animation-timing-function: step-start;
+        animation-timing-function: step-start;
+        box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.1);
+    }
+
+    .select-box__option {
+        display: block;
+        padding: 15px;
+        background-color: #fff;
+    }
+
+    .select-box__option:hover,
+    .select-box__option:focus {
+        color: #546c84;
+        background-color: #fbfbfb;
+    }
+
+    @-webkit-keyframes HideList {
+        from {
+            -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+        }
+
+        to {
+            -webkit-transform: scaleY(0);
+            transform: scaleY(0);
+        }
+    }
+
+    @keyframes HideList {
+        from {
+            -webkit-transform: scaleY(1);
+            transform: scaleY(1);
+        }
+
+        to {
+            -webkit-transform: scaleY(0);
+            transform: scaleY(0);
+        }
+    }
+</style>
+
+<div class="container-fluid py-5">
+    <div class="row px-xl-5 align-items-center">
+        <div class="col-lg-5 pb-5">
+
+            <div id="product-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner border border-secondary" style="height: fit-content;">
+                    {{!-- {{#each packages}} --}}
+                    <div class="" style="">
+                        <img style="height: 20vh;" class="w-100 h-100" src={{picture.imgdir}} alt="iimage">
+                    </div>
+                    {{!-- {{/each}} --}}
+
+                </div>
+
+                
+                </a>
+            </div>
+        </div>
+
+        <div class="col-lg-7 pb-5">
+            <h3 class="font-weight-semi-bold text-capitalization" style="text-transform: capitalize;">{{student.name}}</h3>
+            <div class="d-flex mb-3">
+                <div class="text-primary mr-2">
+                    <small class="fas fa-star"></small>
+                    <small class="fas fa-star"></small>
+                    <small class="fas fa-star"></small>
+                    <small class="fas fa-star"></small>
+                    <small class="fas fa-star"></small>
+                </div>
+                {{!-- <small class="pt-1">(50 Reviews)</small> --}}
+            </div>
+            {{!-- <h3 class="font-weight-semi-bold mb-4">$150.00</h3> --}}
+            {{!-- <p class="mb-4">Volup erat ipsum diam elitr rebum et dolor. Est nonumy elitr erat diam stet sit clita
+                ea.
+                Sanc invidunt ipsum et, labore clita lorem magna lorem ut. Erat lorem duo dolor no sea nonumy. Accus
+                labore stet, est lorem sit diam sea et justo, amet at lorem et eirmod ipsum diam et rebum kasd rebum.
+            </p> --}}
+            <form action="" method="post">
+                <table class="table awele table-bordered text-center mb-0" id="myhtable">
+                    <thead class=" text-dark" style="background-color: #6eb3e7;">
+                        <tr>
+                            {{!-- <th>Package</th> --}}
+                            <th>Select package <span class="text-muted">AED price/item</span></th>
+                            <th>Quantity</th>
+                
+                            <th>Gross<span class="text-muted">AED</span></th>
+                            {{!-- <th>Remove</th> --}}
+                        </tr>
+                    </thead>
+                    <tbody class="align-middle" style="overflow-y: scroll;height:10vh;">
+                        <input type="hidden" id="cartlength" name="length" value={{cart.length}}>
+                        {{!-- {{#each cart}} --}}
+                        <tr class="trows{{@index}} trows">
+                            <td class="align-middle">
+                
+                
+                                <select style="outline: none;width:100%;border:none;font-size:20px;text-transform:capitalize;" class="text-center px-1 w-100"
+                                    name="" id="">
+                                    {{#each packages}}
+                                    <option value={{packageid}} style="text-transform: capitalize;">{{name}} </option>
+                                    
+                                    {{!-- <span style="text-transform: capitalize;">{{name}}</span> : AED <span class="packprice tofix">{{price}}</span> --}}
+                                    {{/each}}
+                                </select>
+                            </td>
+                
+                
+                
+                            {{!-- <td class="align-middle text-capitalize">{{packagename}}
+                                <input type="hidden" name="packageid" value={{packageid}}>
+                            </td> --}}
+                
+                            <td class="sdf align-mid px-1">
+                                <div class="d-flex align-items-center  pt-2">
+                                    <div class="input-group quantity align-items-center justify-content-between "
+                                        style="width: 130px;display:flex;justify-content:space-between;">
+                                        <div class="align-items-center quantity">
+                                            <button type="button" class="align-items-center btn-danger btn-minus"
+                                                style="width:40px; text-align:center;">
+                                                <i class="fa fa-minus text-center"></i>
+                                            </button>
+                                        </div>
+                                        <input readonly type="number" name="quantity"
+                                            class="inps form-contmrol bg-secondary text-center bod" value=1 style="width:50px;">
+                                        <div class="align-items-center quantity">
+                                            <button type="button" class=" btn-plus align-items-center btn-success btn-plus"
+                                                style="width:40px; text-align:center;">
+                                                <i class="fa fa-plus text-center"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                
+                                </div>
+                            </td>
+                            <td class="align-middle"> <span class="prices fgh tofix">{{price}}</span>
+                            </td>
+                
+                            {{!-- <td class="align-middle  xtrows" style="background-color:#7CB9E8;"
+                                onClick="this.parentNode.parentNode.removeChild(this.parentNode)" id="del{{@index}}">
+                                <button class=" btn btn-sm"><i class="fa fa-trash"></i></button>
+                            </td> --}}
+                
+                        </tr>
+                        {{!-- {{/each}} --}}
+                        <input type="hidden" name="studentuserid" value={{child.userid}} id="">
+                
+                
+                    </tbody>
+                </table>
+                <br>
+                <br>
+                <div class="d-flex align-items-center mb-4 pt-2">
+                
+                    <button type="submit" class="mx-auto btn btn-primary px-3"><i class="fa fa-shopping-cart mr-1"></i> Add To
+                        Cart</button>
+                </div>
+            </form>
+            
+            <br>
+            
+            {{!-- <div class="d-flex pt-2">
+                <p class="text-dark font-weight-medium mb-0 mr-2">Share on:</p>
+                <div class="d-inline-flex">
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a class="text-dark px-2" href="">
+                        <i class="fab fa-pinterest"></i>
+                    </a>
+                </div>
+            </div> --}}
+        </div>
+    </div>
+    
+</div>

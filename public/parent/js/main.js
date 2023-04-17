@@ -15,9 +15,7 @@
   obosi.forEach((ell) => {
     ell.style.display = 'none';
   });
-  function runthis() {
-    alert('hi');
-  }
+  
   
   $(document).ready(function () {
     const supu = document.querySelectorAll('.checkboxx');
@@ -132,6 +130,9 @@
       // alert(allem)
       if (allem>1){
         $(this).closest('tr').remove()
+        const cartl = $("#cartlength").html()
+        $('#cartlength').html(Number(cartl) - 1)
+        $("#cartlength").html()
         tryr();
       }
       else{
