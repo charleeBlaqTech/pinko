@@ -113,10 +113,14 @@ const getTime = (date) => {
   }
   return result;
 };
+const cpath = path.join(maindir, '/public/uploads/');
+console.log(cpath + 'this is cpath');
 async function resizeImage(fileName) {
   try {
     console.log(fileName + ' from sharp');
-    await sharp(maindir + '/public/uploads/' + fileName)
+    const cpath = path.join(maindir,'/public/uploads/')
+    console.log(cpath + 'this is cpath');
+    await sharp(cpath + fileName)
       // .resize(400, 500, {
       //   fit: sharp.fit.inside,
       //   withoutEnlargement: true,
@@ -149,7 +153,7 @@ async function resizeImagepack(fileName) {
     console.log(fileName + ' from sharp');
     await sharp(maindir + '/public/packages/' + fileName)
       .resize({
-        width: 1050,
+        width: 850,
         height: 650,
         fit: 'contain',
         background: { r: 255, g: 255, b: 255, alpha: 1 },
@@ -180,16 +184,16 @@ async function resizeImagep(fileName) {
   return;
 }
 
-async function compmessage(ordercode){
-  const order= await Orders.findOne({ordercode:ordercode})
-  console.log(order + ' this is the order')
-  if(order){
+async function compmessage(ordercode) {
+  const order = await Orders.findOne({ ordercode: ordercode });
+  console.log(order + ' this is the order');
+  if (order) {
     const parent = await parentModel.findOne({ userid: order.parentid });
-    console.log(parent.email + " is parentooooooooo")
-    const cartorders = await MordersModel.find({ sordercode: ordercode }).sort({sn:"desc"})
-    console.log(cartorders + ' are cartorders ')
-
-
+    console.log(parent.email + ' is parentooooooooo');
+    const cartorders = await MordersModel.find({ sordercode: ordercode }).sort({
+      sn: 'desc',
+    });
+    console.log(cartorders + ' are cartorders ');
 
     const tablee = [...cartorders].map(
       (el, index) =>
@@ -331,8 +335,6 @@ async function compmessage(ordercode){
 
     // mailgunh.mail(html, email, subject);
     nodemh.mail(html, email, subject);
-    
-
   }
 }
 
@@ -389,62 +391,66 @@ module.exports = {
         try {
           for (let i = 0; i < files.length; i++) {
             console.log('here line 123');
-            // const fileName = files[i].name
-            //   .split('-')
-            //   .join('')
-            //   .split(' ')
-            //   .join('');
-            const ereName = files[i].name
-            
-            let uyui= ereName.split('.')[1]
 
+            const ereName = files[i].name;
 
-            const fileName = getserialnum(100000).toString() +"."+uyui
+            let uyui = ereName.split('.')[1];
+
+            const fileName = getserialnum(100000).toString() + '.' + uyui;
             // await pictureModel.deleteOne({ pixname: fileName });
             const pixo = await personalModel.findOne({ pixname: fileName });
             const pps = await personalModel.find();
             if (!pixo) {
-              await files[i].mv(
-                fileDir + fileName,
-                async (err) => {
-                  await resizeImagep(fileName);
-                },
-                (err) => {
-                  if (err) errorarray.push(err);
+              await files[i].mv(fileDir + fileName);
+              try {
+                const cpath = path.join(maindir, '/public/personals/');
+                console.log(cpath+ fileName + 'this is cpath');
+                await sharp(cpath+ fileName)
+                  .resize({
+                    width: 800,
+                    height: 650,
+                    fit: 'contain',
+                    background: { r: 255, g: 255, b: 255, alpha: 1 },
+                  })
+                  .toFormat('jpeg', { mozjpeg: true })
+
+                  .toFile(path.join(maindir ,'/public/sharpp/' , fileName));
+
+                await personalModel.deleteOne({ pixname: fileName });
+
+                let personal = await personalModel.find();
+
+                if (!Array.isArray(personal)) {
+                  personal = [personal];
                 }
-              );
 
-              await personalModel.deleteOne({ pixname: fileName });
+                // addTextOnImage(`public/uploads/${fileName}`, fileName);
+                const picode = getserialnum(100000);
+                await personalModel.create({
+                  pixname: fileName,
+                  for: 'admin',
+                  uploadedby: req.user.username,
+                  schoolname: '',
+                  schoolcode: '',
+                  class: '',
+                  order: personal.length + 1,
+                  uploaddate: justDate(),
+                  picode: picode,
+                  sn: pps.length + 1,
+                  downloadtimes: 0,
+                  imgdir: path.join('/sharpp/',fileName),
+                  moment: moment().format('YYYY-MM-DD HH:mm:ss'),
+                });
+                const uploads = await req.user.uploads;
+                req.user.uploads = uploads + 1;
+                console.log(req.user.uploads + ' user uploads');
+                await req.user.save();
 
-              let personal = await personalModel.find();
-
-              if (!Array.isArray(personal)) {
-                personal = [personal];
+                pala.push(fileName + ' saved succesfully.  ');
+              } catch (err) {
+                console.log(err.message);
+                res.redirect('/admin/manager');
               }
-
-              // addTextOnImage(`public/uploads/${fileName}`, fileName);
-              const picode = getserialnum(100000);
-              await personalModel.create({
-                pixname: fileName,
-                for: 'admin',
-                uploadedby: req.user.username,
-                schoolname: '',
-                schoolcode: '',
-                class: '',
-                order: personal.length + 1,
-                uploaddate: justDate(),
-                picode: picode,
-                sn: pps.length + 1,
-                downloadtimes: 0,
-                imgdir: `/sharpp/${fileName}`,
-                moment: moment().format('YYYY-MM-DD HH:mm:ss'),
-              });
-              const uploads = await req.user.uploads;
-              req.user.uploads = uploads + 1;
-              console.log(req.user.uploads + ' user uploads');
-              await req.user.save();
-
-              pala.push(fileName + ' saved succesfully.  ');
             } else {
               pala.push(fileName + ' already exists.   ');
               console.log(fileName + ' already exists,');
@@ -482,63 +488,6 @@ module.exports = {
             alerte: err.message,
           });
         }
-        // const array = files.map((el)=>{el})
-        // const fl = files.length;
-
-        // const errorarray = [];
-
-        // for(let i=0; i<file.length; i++){
-        //   file[i].mv('')
-        //   const fileName = file[i].name.split(" ").join('_')
-        //   await file.mv(fileDir + fileName, (err) => {
-        //     if (err) throw err;
-        //   });
-
-        //   await pictureModel.deleteOne({ pixname: fileName });
-        //   addTextOnImage(`public/uploads/${fileName}`, fileName);
-        //   try {
-        //     await pictureModel.create({
-        //       pixname: fileName,
-        //       for: student.username,
-        //       uploadedby: 'admin',
-        //       schoolname: student.schoolname,
-        //       schoolcode: student.schoolcode,
-        //       class: student.classs,
-        //       uploaddate: currentDate(),
-        //       wm:`/wm/${fileName}`,
-        //       // sn: pictureslength + 1,
-        //       downloadtimes: 0,
-        //       studentuserid: student.userid,
-        //       imgdir: `/uploads/${fileName}`,
-        //     });
-
-        //     // res.redirect('/photographer');
-
-        //   } catch (err) {
-        //     console.log(err);
-        //     // const studentss = await studentModel.find({
-        //     //   schoolcode: req.user.schoolcode,
-        //     // });
-
-        //     // res.render('dashboard', {
-        //     //   photographer: req.user,
-        //     //   students: studentss,
-        //     //   alert: 'Picture upload failed due to ' + err,
-        //     // });
-        //   }
-        // }
-        // const studentss = await studentModel.find({
-        //   schoolcode: req.user.schoolcode,
-        // });
-
-        // res.render('uplstd', {
-        //   layout: 'upl',
-        //   admin: req.user,
-        //   student: student,
-        //   icon: 'success',
-        //   title: 'File(s) uploaded successfully',
-        //   alerte: 'Success !',
-        // });
       } else {
         const personals = await personalModel.find().sort({ order: -1 });
         const pictures = await pictureModel.find().sort({ order: -1 });
@@ -576,57 +525,72 @@ module.exports = {
         try {
           for (let i = 0; i < files.length; i++) {
             console.log('here line 123');
-            const ereName = files[i].name
-            
-            let uyui= ereName.split('.')[1]
+            const ereName = files[i].name;
 
-            const fileName = getserialnum(100000).toString() +"."+uyui
+            let uyui = ereName.split('.')[1];
+
+            const fileName = getserialnum(100000).toString() + '.' + uyui;
             // await pictureModel.deleteOne({ pixname: fileName });
             const pixo = await pictureModel.findOne({ pixname: fileName });
             if (!pixo) {
-              await files[i].mv(
-                fileDir + fileName,
-                async (err) => {
-                  await resizeImage(fileName);
-                },
-                (err) => {
-                  if (err) errorarray.push(err);
-                }
-              );
-              let allpix = await pictureModel.find();
-              await pictureModel
-                .deleteOne({ pixname: fileName })
-                .where('studentuserid')
-                .equals(student.userid);
-              // addTextOnImage(`public/uploads/${fileName}`, fileName);
-              const picode = getserialnum(100000);
+              try {
+                await files[i].mv(fileDir + fileName);
+                const cpath = path.join(maindir,  '/public/uploads/');
+                
+                await sharp(cpath+ fileName)
+                  .resize({
+                    width: 500,
+                    height: 500,
+                    fit: 'contain',
+                    background: { r: 255, g: 255, b: 255, alpha: 1 },
+                  })
+                  .toFormat('jpeg', { mozjpeg: true })
+                  .composite([
+                    {
+                      input: path.join(maindir ,'/public/images/overlayc.png'),
 
-              await pictureModel.create({
-                pixname: fileName,
-                for: student.name,
-                picode: picode,
-                uploadedby: req.user.username,
-                order: allpix.length + 1,
-                schoolname: student.schoolname,
-                schoolcode: student.schoolcode,
-                class: student.classs,
-                uploaddate: justDate(),
-                imgdir: '/sharp/' + fileName,
-                downloadtimes: 0,
-                studentuserid: student.userid,
-                classid: student.classid,
-                moment: moment().format('YYYY-MM-DD HH:mm:ss'),
-                uploads: getserialnum(10000000),
-              });
+                      gravity: 'center',
+                    },
+                  ])
 
-              const uploads = await req.user.uploads;
+                  .toFile(path.join(maindir ,'/public/sharp/' , fileName));
 
-              req.user.uploads = uploads + 1;
-              await req.user.save();
+                let allpix = await pictureModel.find();
+                await pictureModel
+                  .deleteOne({ pixname: fileName })
+                  .where('studentuserid')
+                  .equals(student.userid);
+                // addTextOnImage(`public/uploads/${fileName}`, fileName);
+                const picode = getserialnum(100000);
 
-              pala.push(fileName + ' saved succesfully.  ');
-            }
-            else{
+                await pictureModel.create({
+                  pixname: fileName,
+                  for: student.name,
+                  picode: picode,
+                  uploadedby: req.user.username,
+                  order: allpix.length + 1,
+                  schoolname: student.schoolname,
+                  schoolcode: student.schoolcode,
+                  class: student.classs,
+                  uploaddate: justDate(),
+                  imgdir: path.join('/sharp/' , fileName),
+                  downloadtimes: 0,
+                  studentuserid: student.userid,
+                  classid: student.classid,
+                  moment: moment().format('YYYY-MM-DD HH:mm:ss'),
+                  uploads: getserialnum(10000000),
+                });
+
+                const uploads = await req.user.uploads;
+
+                req.user.uploads = uploads + 1;
+                await req.user.save();
+
+                pala.push(fileName + ' saved succesfully.  ');
+              } catch (err) {
+                res.redirect('/');
+              }
+            } else {
               pala.push(fileName + ' already exists.   ');
               console.log(fileName + ' already exists,');
             }
@@ -1579,21 +1543,19 @@ module.exports = {
   },
   updatependingorder: async (req, res) => {
     // try {
-    let myg  = req.body.fromo
+    let myg = req.body.fromo;
     // const viewparentid = parseInt(req.body.viewparentid);
 
     const order = await Orders.findOne({ ordercode: myg });
-    console.log(order,myg + " is my g and")
+    console.log(order, myg + ' is my g and');
     order.cleared = !order.cleared;
     await order.save();
     const ood = await Orders.findOne({ ordercode: myg });
 
-    if(ood.cleared){
-      compmessage(myg)
-
+    if (ood.cleared) {
+      compmessage(myg);
     }
 
-    
     schoolz();
 
     res.redirect('/admin/orders');
@@ -1615,9 +1577,8 @@ module.exports = {
     });
     const ood = await Orders.findOne({ ordercode: myg });
 
-    if(ood.cleared){
-      compmessage(myg)
-
+    if (ood.cleared) {
+      compmessage(myg);
     }
     schoolz();
 
@@ -1802,7 +1763,7 @@ module.exports = {
     let personal = await personalModel.findOne({ picode: picode });
     if (personal) {
       try {
-        fs.unlinkSync(maindir +'/public' + personal.imgdir);
+        fs.unlinkSync(path.join(maindir , '/public') + personal.imgdir);
         console.log(
           'wow i succesfully deleted ' +
             personal.imgdir +
@@ -1847,7 +1808,7 @@ module.exports = {
       await pictureModel.deleteOne({ picode: picode });
       // await wmModel.deleteOne({ picode: picode });
       try {
-        fs.unlinkSync(maindir +'/public' + personal.imgdir);
+        fs.unlinkSync(path.join(maindir ,'/public' , personal.imgdir));
         console.log(
           'wow i succesfully deleted ' +
             personal.imgdir +
@@ -1881,7 +1842,7 @@ module.exports = {
     const picos = await pictureModel.find({ studentuserid: userid });
     for (let i = 0; i < picos.length; i++) {
       try {
-        fs.unlinkSync(maindir + '/public' + picos[i].imgdir);
+        fs.unlinkSync(path.join(maindir , '/public' , picos[i].imgdir));
       } catch (err) {
         console.log(err);
       }
@@ -1910,7 +1871,7 @@ module.exports = {
     if (pico) {
       const student = await Students.findOne({ userid: pico.studentuserid });
       try {
-        fs.unlinkSync('./public' + pico.imgdir);
+        fs.unlinkSync(path.join(maindir,'/public') + pico.imgdir);
         // fs.unlinkSync('public/' + pico.wm);
       } catch (err) {
         console.log(err.message);
@@ -2295,13 +2256,13 @@ module.exports = {
     try {
       if (files) {
         // fileName = files.name.split('-').join('').split(' ').join('');
-        const ereName = files.name
-            
-        let uyui= ereName.split('.')[1]
+        const ereName = files.name;
 
-        fileName = getserialnum(100000).toString() +"."+uyui
+        let uyui = ereName.split('.')[1];
+
+        fileName = getserialnum(100000).toString() + '.' + uyui;
         try {
-          fs.unlinkSync(maindir +'/public' + package.packimg);
+          fs.unlinkSync(path.join(maindir , '/public') + package.packimg);
           console.log('file deleted successfully');
         } catch (err) {
           console.log(err + ' couldnt delete duplicate from folder');
@@ -2385,7 +2346,7 @@ module.exports = {
     const package = await Package.findOne({ packageid: packageid });
     try {
       try {
-        fs.unlinkSync('./public/' + package.packimg);
+        fs.unlinkSync(path.join(maindir , '/public') + package.packimg);
       } catch (err) {
         console.log(err.message);
       }
@@ -2425,12 +2386,12 @@ module.exports = {
     const files = req.files.pixo;
     let fileDir = './public/packages/';
     // const fileName = files.name.split('-').join('').split(' ').join('');
-    const ereName = files.name
-            
-    let uyui= ereName.split('.')[1]
+    const ereName = files.name;
 
-    const fileName = getserialnum(100000).toString() +"."+uyui
-    const ifp = await Package.findOne({ packimg: '/packages/' + fileName });
+    let uyui = ereName.split('.')[1];
+
+    const fileName = getserialnum(100000).toString() + '.' + uyui;
+    const ifp = await Package.findOne({ packimg: path.join('/packages/' , fileName) });
     if (!ifp) {
       const errorarray = [];
       await files.mv(
@@ -2449,7 +2410,7 @@ module.exports = {
           price: price,
           date: justDate(),
           packageid: getserialnum(100000),
-          packimg: '/sharpack/' + fileName,
+          packimg: path.join('/sharpack/' , fileName),
         });
 
         const packages = await Package.find();
