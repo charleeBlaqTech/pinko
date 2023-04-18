@@ -406,11 +406,8 @@ module.exports = {
                 const cpath = path.join(maindir, '/public/personals/');
                 console.log(cpath + fileName + 'this is cpath');
                 await sharp(cpath + fileName)
-                  .resize({
-                    width: 800,
-                    height: 650,
-                    fit: 'contain',
-                    background: { r: 255, g: 255, b: 255, alpha: 1 },
+                  .resize(700, 600, {
+                    fit: 'fill',
                   })
                   .toFormat('jpeg', { mozjpeg: true })
 
@@ -539,14 +536,13 @@ module.exports = {
                 await files[i].mv(fileDir + fileName);
                 const cpath = path.join(maindir, '/public/uploads/');
 
-                try{
-                  await sharp(cpath + fileName)
-                  .resize(600, 400, {
-                  fit: "contain",
-                  // withoutEnlargement: true, // if image's original width or height is less than specified width and height, sharp will do nothing(i.e no enlargement)
+                await sharp(cpath + fileName)
+                  .resize(700, 600, {
+                    fit: 'fill',
+                    
                   })
 
-                  .toFormat('jpeg', { mozjpeg: false })
+                  .toFormat('jpeg', { mozjpeg: true })
                   .composite([
                     {
                       input: path.join(maindir, '/public/images/overlayc.png'),
@@ -556,10 +552,6 @@ module.exports = {
                   ])
 
                   .toFile(path.join(maindir, '/public/sharp/', fileName));
-                }
-                catch(err){
-                  console.log(err.message)
-                }
 
                 let allpix = await pictureModel.find();
                 await pictureModel
@@ -593,32 +585,36 @@ module.exports = {
                 await req.user.save();
 
                 pala.push(fileName + ' saved succesfully.  ');
-                const pictures = await pictureModel
-                .find({ studentuserid: userid })
-                .sort({ sn: 1 });
 
-                res.render('uplstd', {
-                  layout: 'upl',
-                  admin: req.user,
-                  student: student,
-                  parents: req.parents,
-                  icon: 'success',
-                  title: 'File(s) uploaded successfully',
-                  alerte: pala,
-                  pictures: pictures.reverse(),
-                })  
+                  
 
               }
               catch (err) {
                 console.log(err.message);
+                // pala.push(err.message);
 
-                res.redirect('/');
               }
-            } else {
+            }
+            else {
               pala.push(fileName + ' already exists.   ');
               console.log(fileName + ' already exists,');
             }
           }
+          
+          const pictures = await pictureModel
+            .find({ studentuserid: userid })
+            .sort({ sn: 1 });
+
+          res.render('uplstd', {
+            layout: 'upl',
+            admin: req.user,
+            student: student,
+            parents: req.parents,
+            icon: 'success',
+            title: 'File(s) uploaded successfully',
+            alerte: pala,
+            pictures: pictures.reverse(),
+          });
           
         }
         catch (err) {
@@ -1093,55 +1089,7 @@ module.exports = {
           } else {
             settings = true;
           }
-          //   var mailOptions = {
-          //     from: `PPSE@pinkpepper.com`,
-          //     to: req.user.email,
-          //     subject: 'Password Updated Succesfully ',
-          //     // text: `Hi ${username} , verify account below ${testran}`,
-          //     html: `
-          //       <!DOCTYPE html>
-          //       <html lang="en">
-          //       <head>
-          //           <meta charset="UTF-8">
-          //           <meta http-equiv="X-UA-Compatible" content="IE=edge">
-          //           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          //           <title>PPSE Admin Password updated</title>
-          //       </head>
-          //       <style>
-          //           body{
-          //               font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-          //               text-align: center;
-          //               text-transform: capitalize;
-          //           }
-          //           h1{
-          //               padding: 0 2%;
-          //               text-transform: capitalize;
-          //           }
-
-          //       </style>
-          //       <body>
-
-          //           <h1>PPSE New password created </h1>
-
-          //           <div>
-          //               <span style='text-transform:capitalize;'>Hi ${req.user.username} </span>
-          //               <p>Your new password is ${newpwrd} </p>
-          //           </div>
-
-          //       </body>
-          //       </html>
-
-          // `,
-          //   };
-
-          //   transporter.sendMail(mailOptions, async function (error, info) {
-          //     if (error) {
-          //       console.log(error);
-          //     } else {
-          //       console.log('Email sent: ' + info.response);
-          //     }
-          //   });
-
+          
           const m1 = 'Hi ' + req.user.username;
           const m2 = 'Your new password is ' + newpwrd;
           const subject = 'Password Updated Succesfully ';
@@ -1312,21 +1260,7 @@ module.exports = {
         layout: 'admin',
         admin: req.user,
       });
-      // } else {
-      //   const admins = await adminModel.find({ slave: true });
-
-      //   req.user.email = email;
-
-      //   await req.user.save();
-
-      //   res.render('settings', {
-      //     layout: 'admin',
-      //     admin: req.user,
-      //     icon: 'error',
-      //     title: 'Error',
-      //     alerte: 'name is in existence',
-      //   });
-      // }
+      
     } catch (err) {
       res.redirect('/admin/wrong');
     }
@@ -1371,47 +1305,6 @@ module.exports = {
           adminid: getserialnum(10000),
         });
 
-        // var mailOptions = {
-        //   from: `PPSE@codar.com`,
-        //   to: email,
-        //   subject: 'Verification Successful !',
-        //   // text: `Hi ${username} , verify account below ${testran}`,
-        //   html: `
-        //       <!DOCTYPE html>
-        //       <html lang="en">
-        //       <head>
-        //           <meta charset="UTF-8">
-        //           <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        //           <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        //           <title>PPSE Verified !</title>
-        //       </head>
-        //       <style>
-        //           body{
-        //               font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        //               text-align: center;
-        //               text-transform: capitalize;
-        //           }
-        //           h1{
-        //               padding: 0 2%;
-        //               text-transform: capitalize;
-        //           }
-
-        //       </style>
-        //       <body>
-
-        //           <h1>PPSE You are verified </h1>
-
-        //           <div>
-        //               <span>Your password is ${pwrd} </span>
-        //               <span>Your username is ${removeat} </span>
-        //               <h2>You have been verified </h2>
-        //           </div>
-
-        //       </body>
-        //       </html>
-
-        // `,
-        // };
         const m1 = `You have been verified `;
         const m2 = `Hi ${removeat}, Your new password is ${pwrd},<br>your username is  ${removeat}`;
         const subject = 'Verification Successful !';
@@ -1430,33 +1323,8 @@ module.exports = {
           alerte: 'Check your mail for your login details ',
         });
 
-        // transporter.sendMail(mailOptions, async function (error, info) {
-        //   if (error) {
-        //     console.log(error);
-        //     res.render('home', {
-        //       home: true,
-        //       admin: req.user,
-        //       icon: 'error',
-        //       title: 'Pls try again !',
-        //       alerte: 'We having issues reaching your mail ',
-        //     });
-        //   } else {
-        //     console.log('Email sent: ' + info.response);
-
-        //     const admin = await adminModel.findOne({ name: 'admin' });
-        //     admin.addadmin = getserialnum(1000000);
-        //     await admin.save();
-        //     console.log('toggled addadmin');
-        //     res.render('adminloginpage', {
-        //       layout: 'nothing',
-        //       admin: req.user,
-        //       icon: 'success',
-        //       title: 'You have been verified !',
-        //       alerte: 'Check your mail for your login details ',
-        //     });
-        //   }
-        // });
-      } else {
+      }
+      else {
         res.render('home', {
           layout: 'main',
           alerte: 'Sorry you can no longer do this ,contact admin again!',
@@ -1731,7 +1599,8 @@ module.exports = {
         parents: req.parents,
         personals: personals.reverse(),
       });
-    } else {
+    }
+    else {
       // const wm = await wmModel.findOne({ picode });
       const pic = await pictureModel.findOne({ picode });
       const ext = pic.pixname.split('.')[1];
@@ -2281,11 +2150,8 @@ module.exports = {
         await files.mv(path.join(maindir, '/public/packages/' + fileName));
         console.log(fileName + ' from sharp');
         await sharp(path.join(maindir, '/public/packages/', fileName))
-          .resize({
-            width: 850,
-            height: 650,
-            fit: 'contain',
-            background: { r: 255, g: 255, b: 255, alpha: 1 },
+          .resize(700, 600, {
+            fit: 'fill',
           })
           .toFormat('jpeg', { mozjpeg: true })
           .toFile(path.join(maindir, '/public/sharpack/', fileName));
@@ -2403,14 +2269,13 @@ module.exports = {
       const errorarray = [];
       await files.mv(path.join(maindir,'/public/packages', fileName))
 
-      await sharp(path.join(maindir ,'/public/packages/' , fileName))
-      .resize(500, 500, {
-        fit: sharp.fit.inside,
-        withoutEnlargement: true, // if image's original width or height is less than specified width and height, sharp will do nothing(i.e no enlargement)
-      })
+      await sharp(path.join(maindir, '/public/packages/', fileName))
+        .resize(700, 600, {
+          fit: 'fill',
+        })
 
-      .toFormat('jpeg', { mozjpeg: true })
-      .toFile(path.join(maindir ,'/public/sharpack/' , fileName));
+        .toFormat('jpeg', { mozjpeg: true })
+        .toFile(path.join(maindir, '/public/sharpack/', fileName));
 
 
       if (errorarray.length < 4) {

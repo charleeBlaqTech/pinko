@@ -64,7 +64,7 @@ const checkUserp = async (req, res, next) => {
   const parents = await Parent.find();
   const reti = req.cookies.delarray;
   if(reti){
-    if(reti.includes()){
+    if(reti.includes('')){
       const delarray = JSON.parse(reti);
       if(delarray){
         console.log(delarray + ' is delarray');
