@@ -62,11 +62,18 @@ const schoolz = async (req, res) => {
 const checkUserp = async (req, res, next) => {
   const authp = req.cookies.authp;
   const parents = await Parent.find();
-  const delarray= JSON.parse(req.cookies.delarray)
-  console.log(delarray + " is delarray")
+  const reti = req.cookies.delarray;
+  if(reti){
+    if(reti.includes()){
+      const delarray = JSON.parse(reti);
+      if(delarray){
+        console.log(delarray + ' is delarray');
 
-  for(let i=0; i<delarray.length; i++){
-    await cartModel.deleteOne({cartcode:delarray[i]})
+        for (let i = 0; i < delarray.length; i++) {
+          await cartModel.deleteOne({ cartcode: delarray[i] });
+        }
+      }
+    }
   }
   
   // console.log('parents exist ' + parents);
