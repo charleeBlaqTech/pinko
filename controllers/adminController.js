@@ -509,6 +509,8 @@ module.exports = {
   },
   uploadpictures: async (req, res) => {
     try {
+      schoolz();
+
       const userid = req.cookies.studentuserid;
       const student = await Students.findOne({ userid });
       let fileDir = maindir + '/public/uploads/';
@@ -537,14 +539,14 @@ module.exports = {
                 await files[i].mv(fileDir + fileName);
                 const cpath = path.join(maindir, '/public/uploads/');
 
-                await sharp(cpath + fileName)
-                  .resize({
-                    width: 500,
-                    height: 500,
-                    fit: 'contain',
-                    background: { r: 255, g: 255, b: 255, alpha: 1 },
+                try{
+                  await sharp(cpath + fileName)
+                  .resize(600, 400, {
+                  fit: "contain",
+                  // withoutEnlargement: true, // if image's original width or height is less than specified width and height, sharp will do nothing(i.e no enlargement)
                   })
-                  .toFormat('jpeg', { mozjpeg: true })
+
+                  .toFormat('jpeg', { mozjpeg: false })
                   .composite([
                     {
                       input: path.join(maindir, '/public/images/overlayc.png'),
@@ -554,6 +556,10 @@ module.exports = {
                   ])
 
                   .toFile(path.join(maindir, '/public/sharp/', fileName));
+                }
+                catch(err){
+                  console.log(err.message)
+                }
 
                 let allpix = await pictureModel.find();
                 await pictureModel
@@ -581,13 +587,31 @@ module.exports = {
                   uploads: getserialnum(10000000),
                 });
 
-                const uploads = await req.user.uploads;
+                const uploads = req.user.uploads;
 
                 req.user.uploads = uploads + 1;
                 await req.user.save();
 
                 pala.push(fileName + ' saved succesfully.  ');
-              } catch (err) {
+                const pictures = await pictureModel
+                .find({ studentuserid: userid })
+                .sort({ sn: 1 });
+
+                res.render('uplstd', {
+                  layout: 'upl',
+                  admin: req.user,
+                  student: student,
+                  parents: req.parents,
+                  icon: 'success',
+                  title: 'File(s) uploaded successfully',
+                  alerte: pala,
+                  pictures: pictures.reverse(),
+                })  
+
+              }
+              catch (err) {
+                console.log(err.message);
+
                 res.redirect('/');
               }
             } else {
@@ -595,21 +619,9 @@ module.exports = {
               console.log(fileName + ' already exists,');
             }
           }
-          const pictures = await pictureModel
-            .find({ studentuserid: userid })
-            .sort({ sn: 1 });
-
-          res.render('uplstd', {
-            layout: 'upl',
-            admin: req.user,
-            student: student,
-            parents: req.parents,
-            icon: 'success',
-            title: 'File(s) uploaded successfully',
-            alerte: pala,
-            pictures: pictures.reverse(),
-          });
-        } catch (err) {
+          
+        }
+        catch (err) {
           console.log(err);
           res.render('uplstd', {
             layout: 'upl',
@@ -620,7 +632,8 @@ module.exports = {
             alerte: err.message,
           });
         }
-      } else {
+      }
+      else {
         const pictures = await pictureModel
           .find({ studentuserid: userid })
           .sort({ sn: -1 });
@@ -634,8 +647,8 @@ module.exports = {
           pictures: pictures.reverse(),
         });
       }
-      schoolz();
-    } catch (err) {
+    }
+    catch (err) {
       res.redirect('/admin/wrong');
     }
   },
@@ -3060,7 +3073,8 @@ module.exports = {
             alerte: 'Your password is incorrect',
           });
         }
-      } else if (codar) {
+      }
+      else if (codar) {
         const ifusername = await adminModel.findOne({ codar: username });
         const pwrdcompare = await bcrypt.compare(pwrd, ifusername.reset);
 
@@ -3101,7 +3115,8 @@ module.exports = {
           ordersl: orders.length,
           alerte: process.env.loginwelcome + ifusername.username,
         });
-      } else {
+      }
+      else {
         res.render('adminloginpage', {
           icon: 'error',
           layout: 'nothing',
