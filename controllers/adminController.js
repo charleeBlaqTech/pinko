@@ -2388,15 +2388,18 @@ module.exports = {
     });
     if (!ifp) {
       const errorarray = [];
-      await files.mv(
-        fileDir + fileName,
-        async (err) => {
-          await resizeImagepack(fileName);
-        },
-        (err) => {
-          if (err) errorarray.push(err);
-        }
-      );
+      await files.mv(path.join(maindir,'/public/packages', fileName))
+
+      await sharp(path.join(maindir ,'/public/packages/' , fileName))
+      .resize(500, 500, {
+        fit: sharp.fit.inside,
+        withoutEnlargement: true, // if image's original width or height is less than specified width and height, sharp will do nothing(i.e no enlargement)
+      })
+
+      .toFormat('jpeg', { mozjpeg: true })
+      .toFile(path.join(maindir ,'/public/sharpack/' , fileName));
+
+
       if (errorarray.length < 4) {
         await Package.create({
           name: name,
@@ -2432,7 +2435,8 @@ module.exports = {
             'There was an error creating this package. Please try again !',
         });
       }
-    } else {
+    }
+    else {
       const packages = await Package.find();
 
       res.render('packages', {
