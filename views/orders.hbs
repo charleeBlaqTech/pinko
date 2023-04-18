@@ -184,7 +184,23 @@
                                                 <td class="text-success">Completed</td>
                                                 
                                             {{else}}
-                                                <td class=" text-warning">...Processing</td>
+                                                {{!-- <td class=" text-warning">...Processing</td> --}}
+                                                <td>
+
+                                                    <form  action="/admin/updatependingorder" method="post">
+                                                        <label class="toggle">
+                                                            
+                                                            <input value={{ordercode}} type="hidden" name="fromo">
+                                                            <input class="toggle-checkbox" type="checkbox" value="{{ordercode}}" name="pendings" onchange="this.form.submit()">
+                                                        
+                                                        
+                                                            <div class="toggle-switch"></div>
+                                                        
+                                                        </label>
+                                                    
+                                                    </form>
+                                                    
+                                                </td>
 
                                             {{/if}}
                                             <td title="view cart" class="ttooltip"><a href="/admin/vieworders/{{ordercode}}"><i class="fa fa-eye"></i></a></td>

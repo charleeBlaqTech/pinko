@@ -76,6 +76,10 @@ function getserialnum(bh) {
   var num = Math.floor(oboi * bh);
   return num;
 }
+const optionn = {
+  minimumFractionDigits: 2,
+  maximumFractionDigits: 2,
+};
 const schoolz = async (req, res) => {
   const schools = await schoolModel.find().sort({ sn: 'desc' });
 
@@ -177,6 +181,162 @@ async function resizeImagep(fileName) {
     console.log(error);
   }
   return;
+}
+
+async function compmessage(ordercode){
+  const order= await Orders.findOne({ordercode:ordercode})
+  console.log(order + ' this is the order')
+  if(order){
+    const parent = await parentModel.findOne({ userid: order.parentid });
+    console.log(parent.email + " is parentooooooooo")
+    const cartorders = await MordersModel.find({ sordercode: ordercode }).sort({sn:"desc"})
+    console.log(cartorders + ' are cartorders ')
+
+
+
+    const tablee = [...cartorders].map(
+      (el, index) =>
+        `
+                <tr>
+                    <td>Item ${index + 1}</td>
+                    <td>${el.packagename}</td>
+                    <td>${el.priceperpackage}</td>
+                    <td>${el.quantity}</td>
+                    <td>${el.totalunitsprice.toLocaleString('en', optionn)}</td>
+                </tr>
+            `
+    );
+
+    const html = `
+            <!DOCTYPE html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>PPSE Order Delivered Successfully</title>
+            </head>
+            <style>
+                body{
+                    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                    text-align: center;
+                    text-transform: capitalize;
+
+                }
+                h1{
+                    padding: 0 2%;
+                    text-align: center;
+                    text-transform: capitalize;
+                }
+                .cocobody {
+                  margin-top: 20px;
+                  text-align: center;
+                  align-items: center;
+                  padding: 30px 0;
+                  font-size: 13px;
+                  text-transform: capitalize;
+                  
+                  color: black;
+                }
+                table {
+                  margin: 0 auto;
+                  outline-style: dashed;
+                  background-color: black;
+                  color: white;
+                  text-align: center;
+                  
+                }
+                thead {
+                  outline-style:dotted;
+                  margin-bottom: 10px;
+                  height:50px;
+                  text-align: center;
+
+                }
+                
+                td {
+                  padding: 10px 5px;
+                  text-align: center;
+                }
+                tr{
+                  height:10px;
+                  padding:40px 3px;
+                  text-align: center;
+
+                }
+                
+            </style>
+            <body>
+
+                
+
+                <h1 style="text-align:center;> ~ Order Completed ~ </h1>
+
+
+                <div>
+                    <span>Hi ${capitalise(parent.username)} </span>
+                    <h2>Thank you for your Patronage ! !</h2>
+
+
+                    <div class="cocobody">
+                      <table>
+                        <thead>
+                          <td>S/n</td>
+                          <td>Package</td>
+                          <td>Price</td>
+                          <td>Quantity</td>
+                          <td>Price(s) in AED</td>
+                        </thead>
+                        <tbody id="orders">
+                          ${tablee}
+
+                        </tbody>
+                        
+
+
+                        
+                      </table>
+                      <div style="color:black;">
+                          <p>Gross : AED ${order.gross.toLocaleString(
+                            'en',
+                            optionn
+                          )}</p>
+                          <p>Shipping : AED ${order.ship.toLocaleString(
+                            'en',
+                            optionn
+                          )}</p>
+                          
+                          <p>Total : AED ${order.total.toLocaleString(
+                            'en',
+                            optionn
+                          )}</p>
+                        </div>
+                      <p>Thanks for your patronage ! <br></p>
+
+
+                    </div>
+                    
+            
+
+                    
+                </div>
+
+
+                
+                
+            </body>
+            </html>
+
+          `;
+    const email = parent.email;
+    const subject = `PPSE Order completed !`;
+    // res.clearCookie('stringedorder');
+
+    // mailgunh.mail(html, email, subject);
+    nodemh.mail(html, email, subject);
+    
+
+  }
 }
 
 // resizeImage("omahd.jpg");
@@ -462,7 +622,8 @@ module.exports = {
               await req.user.save();
 
               pala.push(fileName + ' saved succesfully.  ');
-            } else {
+            }
+            else{
               pala.push(fileName + ' already exists.   ');
               console.log(fileName + ' already exists,');
             }
@@ -1413,6 +1574,30 @@ module.exports = {
     //   res.redirect('/admin/wrong');
     // }
   },
+  updatependingorder: async (req, res) => {
+    // try {
+    let myg  = req.body.fromo
+    // const viewparentid = parseInt(req.body.viewparentid);
+
+    const order = await Orders.findOne({ ordercode: myg });
+    console.log(order,myg + " is my g and")
+    order.cleared = !order.cleared;
+    await order.save();
+    const ood = await Orders.findOne({ ordercode: myg });
+
+    if(ood.cleared){
+      compmessage(myg)
+
+    }
+
+    
+    schoolz();
+
+    res.redirect('/admin/orders');
+    // } catch (err) {
+    //   res.redirect('/admin/wrong');
+    // }
+  },
   updatepending: async (req, res) => {
     // try {
     let { myg } = req.body;
@@ -1425,6 +1610,12 @@ module.exports = {
     const parent = await parentModel.findOne({
       userid: viewparentid,
     });
+    const ood = await Orders.findOne({ ordercode: myg });
+
+    if(ood.cleared){
+      compmessage(myg)
+
+    }
     schoolz();
 
     const parentorders = await Orders.find({
@@ -2068,7 +2259,7 @@ module.exports = {
     //     el.save();
     //   });
     // }
-    const studento = await Students.findOne({ userid:userid });
+    const studento = await Students.findOne({ userid: userid });
     const pictures = await pictureModel
       .find({ studentuserid: userid })
       .sort({ sn: -1 });
@@ -2077,7 +2268,7 @@ module.exports = {
       layout: 'upl',
       admin: req.user,
       student: studento,
-      pictures:pictures
+      pictures: pictures,
     });
 
     // lets proceed with the next step which is encrypting our password before saving
@@ -2326,8 +2517,8 @@ module.exports = {
     // lets proceed with the next step which is encrypting our password before saving
   },
   orders: async (req, res) => {
-    schoolz()
-    let orders = await Orders.find().sort({ gsn: 'desc' });
+    schoolz();
+    let orders = await Orders.find().sort({ sn: 'desc' });
     const torders = [...orders];
     torders.map((order, index) => (order.sne = torders.length - index));
     res.render('orders', {

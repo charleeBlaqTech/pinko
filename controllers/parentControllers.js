@@ -308,9 +308,7 @@ module.exports = {
                 <meta charset="UTF-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>${
-                  process.env.websitename
-                } Your Order has been booked</title>
+                <title> PPSE Your Order has been booked</title>
             </head>
             <style>
                 body{
@@ -729,6 +727,53 @@ module.exports = {
     }
   },
   carts: async (req, res) => {
+
+    const tocart = req.cookies.samuw;
+    // if(tocart.length>4){
+      
+
+    //   const obj = JSON.parse(tocart);
+    //   // const picture = await pictureModel.findOne({ picode: obj[0].picode });
+
+    //   console.log(obj + ' is parsed data');
+    //   for (let i = 0; i < obj.length; i++) {
+    //     const picture = await pictureModel.findOne({ picode: obj[i].picode });
+    //     console.log(picture + ' from line 753');
+    //     const package = await packageModel.findOne({
+    //       packageid: obj[i].packagecode,
+    //     });
+    //     const sn = await cartModel.find({ parentid: req.user.userid });
+    //     await cartModel.create({
+    //       packageid: obj[i].packagecode,
+    //       avatar: picture.imgdir,
+    //       picturecode: obj[i].picturecode,
+    //       parentid: req.user.userid,
+    //       quantity: 1,
+    //       sn: sn.length + 1,
+    //       packagename: package.name,
+    //       packageprice: package.price,
+    //       gross: package.price,
+    //       cartcode: getserialnum(100000),
+    //       moment: moment().format('YYYY-MM-DD HH:mm:ss'),
+    //       cartdate: justDate(),
+    //     });
+    //   }
+    //   const carts = await cartModel
+    //     .find({ parentid: req.user.userid })
+    //     .sort({ sn: 'desc' });
+    //   const student = await studentModel.findOne({
+    //     userid: req.user.laststudentid,
+    //   });
+    //   req.user.cartlength = carts.length;
+    //   await req.user.save();
+    //   res.clearCookie('samuw');
+    //   res.clearCookie('clientid');
+    //   res.cookie('samuw',{
+    //     maxAge:0,
+    //     path:'/parent'
+    //   }) 
+    // }
+
     const carts = await cartModel
       .find({ parentid: req.user.userid })
       .sort({ sn: 'desc' });

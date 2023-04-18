@@ -29,6 +29,11 @@ router.post('/addstudent', checkUser, adminControllers.addstudent);
 router.post('/addstudent', checkUser, adminControllers.addstudent);
 router.post('/personalpictures', checkUser, adminControllers.personalpictures);
 router.post('/uupdatepending', checkUser, adminControllers.uupdatepending);
+router.post(
+  '/updatependingorder',
+  checkUser,
+  adminControllers.updatependingorder
+);
 router.post('/updatepending', checkUser, adminControllers.updatepending);
 router.post('/changeparentshipping', checkUser, adminControllers.changeparentshipping);
 router.post('/editslave', checkUser, adminControllers.editslave);

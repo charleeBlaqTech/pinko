@@ -209,8 +209,8 @@
                                     <div class="text pt-3 w-100 text-center">
                                         <h3 class="timestamp text-capitalize">{{for}}
                                         </h3>
-                                        <h6 class="timestamp text-muted">{{momentago}}
-                                        </h6>
+                                        {{!-- <h6 class="timestamp text-muted">{{momentago}}
+                                        </h6> --}}
                                         {{#if paid}}
                                         <span>Paid</span>
                                         {{/if}}
@@ -253,6 +253,26 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
 <script>
+
+    (function () {
+            if (window.localStorage) {
+
+                // If there is no item as 'reload'
+                // in localstorage then create one &
+                // reload the page
+                if (!localStorage.getItem('reload')) {
+                    localStorage['reload'] = true;
+                    window.location.reload();
+                } else {
+
+                    // If there exists a 'reload' item
+                    // then clear the 'reload' item in
+                    // local storage
+                    localStorage.removeItem('reload');
+                }
+            }
+        })();
+    
     var textWrapper = document.querySelector('.ml9 .letters');
     textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
 

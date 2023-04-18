@@ -99,11 +99,77 @@
     .disap{
         color:green;
     }
+
+    .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
 </style>
 
 
 
 <div class="container-fluid pt-1">
+    <div id="tayo">
+        {{!-- <p class="alert">NOTE !</p> --}}
+        <small class="text-danger">new carts will not be saved <br> if you do not proceed to cart</small>
+    </div>
 
     <div class="text-center mb-4 zoro">
         <div class="d-none d-lg-block">
@@ -189,7 +255,7 @@
                     {{#each watermark}}
                     <div class="col-lg-3 col-md-6 col-sm-12 pb-1 commot">
                         <div class="card product-item border-0 mb-4">
-                            <form action="" class="myform{{@index}}">
+                            <form action="" class="tony myform{{@index}}">
 
                                 <div
                                     class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
@@ -198,8 +264,8 @@
                                     </a>
                                 </div>
 
-                                <div class="sawa card-footer d-flex justify-content-between bg-light border">
-                                    <select name="package" style="border: 0;width:100%;" class="oboshi text-capitalize"
+                                <div class="sawa card-footer d-flex align-items-center justify-content-between bg-light border">
+                                    <select name="package" style="border: 0;width:80%;" class="oboshi text-capitalize"
                                         id="abc{{@index}}">
                                         {{!-- <option value="" selected>~Select package~</option> --}}
 
@@ -209,8 +275,11 @@
                                         </option>
                                         {{/each}}
                                     </select>
-                                    <span id="check{{@index}}" class="addtoc text-center btn btn-sm text-dark p-0"><i
-                                            class="fas fa-shopping-cart text-primary mr-1"></i></span>
+                                    
+                                            <input name="mminus" type="button" value="-" class="mr-3 px-2 minusb fa-minus">
+                                            <i class="fas fa-shopping-cart"></i>
+                                            <input name="pplus" type="button" value="+" class="px-2 ml-3 addb fa fa-plus">
+                                            <input type="hidden" value="0" class="hidden" name="hiddene">
                                     {{!-- <a href="/parent/firstcart/{{picode}}"
                                         class="text-center btn btn-sm text-dark p-0"><i
                                             class="fas fa-shopping-cart text-primary mr-1"></i></a> --}}
@@ -228,8 +297,8 @@
             {{!-- {{#if packages}} --}}
 
             {{!-- <button type="submit" class="ml-auto ">Proceed to cart</button> --}}
-            <div class="mt-5">
-                <form action="/parent/tocart" method="post" value="'dl">
+            <div class="mt-5 ngo">
+                <form action="/parent/tocart" method="post" >
                     <input id="myman" type="hidden" name="myman">
                     <div class="col-lg-6 col-md-6 col-10 mx-auto" id="veri">
                         <button type="submnit" class="btn  btn-block my-3 mx-auto py-3"
@@ -252,6 +321,23 @@
 
 
 
+<script>
+    (function () {
+            if (window.localStorage) {
 
+                // If there is no item as 'reload'
+                // in localstorage then create one &
+                // reload the page
+                if (!localStorage.getItem('reload')) {
+                    localStorage['reload'] = true;
+                    window.location.reload();
+                } else {
 
-    {{!-- new below --}}
+                    // If there exists a 'reload' item
+                    // then clear the 'reload' item in
+                    // local storage
+                    localStorage.removeItem('reload');
+                }
+            }
+        })();
+</script>

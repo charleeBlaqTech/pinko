@@ -108,86 +108,87 @@
             <div class="row ml-0">
                 <div class="col-lg-8 table-responsive mb-5">
                     <div class="text-center mb-4">
-                        <h2 class="section-title px-5"><span class="px-2 text-capitalize">{{child.name}}</span></h2>
+                        <h2 class="section-title px-5"><span title="student's name" class="ttooltip px-2 text-capitalize">{{child.name}}</span></h2>
+                    </div>
+                    <div style="position: relative;height:75vh;overflow:auto;" class="mb-4">
+                        <table class="table awele table-bordered text-center " id="myhtable">
+                            <thead class=" text-dark" style="background-color: #6eb3e7;">
+                                <tr>
+                                    <th>Products</th>
+                                    <th>Package</th>
+                                    <th>Price <span class="text-muted">AED</span></th>
+                                    <th>Quantity</th>
+                                    <th>Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody class="align-middle">
+                                <input type="hidden" id="cartlength" name="length" value={{cart.length}}>
+                                {{#each carts}}
+                                <tr class="trows{{@index}} trows">
+                                    <td class="align-middle">
+                                        {{!-- <img src={{avatar}} style="width: 55px;"> --}}
+                                        <a href={{avatar}} title={{for}} data-jbox-image="gallery1"><img
+                                                style="object-fit:contain;text-align:center;margin:0 auto" src={{avatar}} alt=""></a>
+                                        <input type="hidden" name="imgdir" value={{avatar}}>
+                        
+                                        <div class="d-flex justify-content-center align-items-center w-30">
+                                            <div class="mt-2">{{name}}</div>
+                                            <input type="hidden" name="pixname" value={{pixname}} id="">
+                        
+                        
+                                        </div>
+                                    </td>
+                        
+                        
+                        
+                                    <td class="align-middle text-capitalize">{{packagename}}
+                                        <input type="hidden" name="packageid" value={{packageid}}>
+                                    </td>
+                                    <td class="align-middle"> <span class="prices fgh tofix">{{packageprice}}</span>
+                                    </td>
+                                    <td class="sdf align-mid px-1">
+                                        <div class="d-flex align-items-center  pt-2">
+                                            <div class="input-group quantity align-items-center justify-content-between "
+                                                style="width: 130px;display:flex;justify-content:space-between;">
+                                                <div class="align-items-center quantity">
+                                                    <button type="button" class="align-items-center btn-danger btn-minus"
+                                                        style="width:40px; text-align:center;">
+                                                        <i class="fa fa-minus text-center"></i>
+                                                    </button>
+                                                </div>
+                                                <input readonly type="number" name="quantity"
+                                                    class="inps form-contmrol bg-secondary text-center bod" value=1 style="width:50px;">
+                                                <div class="align-items-center quantity">
+                                                    <button type="button" class=" btn-plus align-items-center btn-success btn-plus"
+                                                        style="width:40px; text-align:center;">
+                                                        <i class="fa fa-plus text-center"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                        
+                                        </div>
+                                    </td>
+                                    <input type="hidden" name="cartcode" class="cartcode" value={{cartcode}}>
+                        
+                                    <td title="delete item" data-cartcode={{cartcode}} class="ttooltip align-middle  xtrows"
+                                        style="background-color:#7CB9E8;" onClick="runthis()" id="del{{@index}}">
+                                        <button type="button" class=" btn btn-sm"><i class="fa fa-trash"></i></button>
+                                    </td>
+                                    {{!-- <td class="align-middle  xtrows" style="background-color:#7CB9E8;"
+                                        onClick="this.parentNode.parentNode.removeChild(this.parentNode)" id="del{{@index}}">
+                                        <button class=" btn btn-sm"><i class="fa fa-trash"></i></button>
+                                    </td> --}}
+                        
+                                </tr>
+                                {{/each}}
+                                <input type="hidden" name="studentuserid" value={{child.userid}} id="">
+                        
+                        
+                            </tbody>
+                        </table>
                     </div>
     
-                    <table style="overflow-y: auto;height:50vh;" class="table awele table-bordered text-center mb-0"
-                        id="myhtable">
-                        <thead class=" text-dark" style="background-color: #6eb3e7;">
-                            <tr>
-                                <th>Products</th>
-                                <th>Package</th>
-                                <th>Price <span class="text-muted">AED</span></th>
-                                <th>Quantity</th>
-                                <th>Remove</th>
-                            </tr>
-                        </thead>
-                        <tbody class="align-middle">
-                            <input type="hidden" id="cartlength" name="length" value={{cart.length}}>
-                            {{#each carts}}
-                            <tr class="trows{{@index}} trows">
-                                <td class="align-middle">
-                                    {{!-- <img src={{avatar}} style="width: 55px;"> --}}
-                                    <a href={{avatar}} title={{for}} data-jbox-image="gallery1"><img
-                                            style="object-fit:contain;text-align:center;margin:0 auto" src={{avatar}}
-                                            alt=""></a>
-                                    <input type="hidden" name="imgdir" value={{avatar}}>
-    
-                                    <div class="d-flex justify-content-center align-items-center w-30">
-                                        <div class="mt-2">{{name}}</div>
-                                        <input type="hidden" name="pixname" value={{pixname}} id="">
-    
-    
-                                    </div>
-                                </td>
-    
-    
-    
-                                <td class="align-middle text-capitalize">{{packagename}}
-                                    <input type="hidden" name="packageid" value={{packageid}}>
-                                </td>
-                                <td class="align-middle"> <span class="prices fgh tofix">{{packageprice}}</span>
-                                </td>
-                                <td class="sdf align-mid px-1">
-                                    <div class="d-flex align-items-center  pt-2">
-                                        <div class="input-group quantity align-items-center justify-content-between "
-                                            style="width: 130px;display:flex;justify-content:space-between;">
-                                            <div class="align-items-center quantity">
-                                                <button type="button" class="align-items-center btn-danger btn-minus"
-                                                    style="width:40px; text-align:center;">
-                                                    <i class="fa fa-minus text-center"></i>
-                                                </button>
-                                            </div>
-                                            <input readonly type="number" name="quantity"
-                                                class="inps form-contmrol bg-secondary text-center bod" value=1
-                                                style="width:50px;">
-                                            <div class="align-items-center quantity">
-                                                <button type="button"
-                                                    class=" btn-plus align-items-center btn-success btn-plus"
-                                                    style="width:40px; text-align:center;">
-                                                    <i class="fa fa-plus text-center"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-    
-                                    </div>
-                                </td>
-                                <td title="delete item" class="ttooltip align-middle  xtrows"
-                                    style="background-color:#7CB9E8;" onClick="runthis()" id="del{{@index}}">
-                                    <button type="button" class=" btn btn-sm"><i class="fa fa-trash"></i></button>
-                                </td>
-                                {{!-- <td class="align-middle  xtrows" style="background-color:#7CB9E8;"
-                                    onClick="this.parentNode.parentNode.removeChild(this.parentNode)" id="del{{@index}}">
-                                    <button class=" btn btn-sm"><i class="fa fa-trash"></i></button>
-                                </td> --}}
-    
-                            </tr>
-                            {{/each}}
-                            <input type="hidden" name="studentuserid" value={{child.userid}} id="">
-    
-    
-                        </tbody>
-                    </table>
+                    
                 </div>
                 <div class="col-lg-4">
     
@@ -231,6 +232,11 @@
             </div>
         </div>
     </form>
+
+    <div class="emptycc align-items-center h-100">
+        <h4 class="mx-auto text-center mt-5 text-muted"> Empty cart !</h4>
+    
+    </div>
 
 {{else}}
 <div class="align-items-center h-100">
