@@ -118,7 +118,7 @@ console.log(cpath + 'this is cpath');
 async function resizeImage(fileName) {
   try {
     console.log(fileName + ' from sharp');
-    const cpath = path.join(maindir,'/public/uploads/')
+    const cpath = path.join(maindir, '/public/uploads/');
     console.log(cpath + 'this is cpath');
     await sharp(cpath + fileName)
       // .resize(400, 500, {
@@ -404,8 +404,8 @@ module.exports = {
               await files[i].mv(fileDir + fileName);
               try {
                 const cpath = path.join(maindir, '/public/personals/');
-                console.log(cpath+ fileName + 'this is cpath');
-                await sharp(cpath+ fileName)
+                console.log(cpath + fileName + 'this is cpath');
+                await sharp(cpath + fileName)
                   .resize({
                     width: 800,
                     height: 650,
@@ -414,7 +414,7 @@ module.exports = {
                   })
                   .toFormat('jpeg', { mozjpeg: true })
 
-                  .toFile(path.join(maindir ,'/public/sharpp/' , fileName));
+                  .toFile(path.join(maindir, '/public/sharpp/', fileName));
 
                 await personalModel.deleteOne({ pixname: fileName });
 
@@ -438,7 +438,7 @@ module.exports = {
                   picode: picode,
                   sn: pps.length + 1,
                   downloadtimes: 0,
-                  imgdir: path.join('/sharpp/',fileName),
+                  imgdir: path.join('/sharpp/', fileName),
                   moment: moment().format('YYYY-MM-DD HH:mm:ss'),
                 });
                 const uploads = await req.user.uploads;
@@ -535,9 +535,9 @@ module.exports = {
             if (!pixo) {
               try {
                 await files[i].mv(fileDir + fileName);
-                const cpath = path.join(maindir,  '/public/uploads/');
-                
-                await sharp(cpath+ fileName)
+                const cpath = path.join(maindir, '/public/uploads/');
+
+                await sharp(cpath + fileName)
                   .resize({
                     width: 500,
                     height: 500,
@@ -547,13 +547,13 @@ module.exports = {
                   .toFormat('jpeg', { mozjpeg: true })
                   .composite([
                     {
-                      input: path.join(maindir ,'/public/images/overlayc.png'),
+                      input: path.join(maindir, '/public/images/overlayc.png'),
 
                       gravity: 'center',
                     },
                   ])
 
-                  .toFile(path.join(maindir ,'/public/sharp/' , fileName));
+                  .toFile(path.join(maindir, '/public/sharp/', fileName));
 
                 let allpix = await pictureModel.find();
                 await pictureModel
@@ -573,7 +573,7 @@ module.exports = {
                   schoolcode: student.schoolcode,
                   class: student.classs,
                   uploaddate: justDate(),
-                  imgdir: path.join('/sharp/' , fileName),
+                  imgdir: path.join('/sharp/', fileName),
                   downloadtimes: 0,
                   studentuserid: student.userid,
                   classid: student.classid,
@@ -1763,7 +1763,7 @@ module.exports = {
     let personal = await personalModel.findOne({ picode: picode });
     if (personal) {
       try {
-        fs.unlinkSync(path.join(maindir , '/public') + personal.imgdir);
+        fs.unlinkSync(path.join(maindir, '/public') + personal.imgdir);
         console.log(
           'wow i succesfully deleted ' +
             personal.imgdir +
@@ -1808,7 +1808,7 @@ module.exports = {
       await pictureModel.deleteOne({ picode: picode });
       // await wmModel.deleteOne({ picode: picode });
       try {
-        fs.unlinkSync(path.join(maindir ,'/public' , personal.imgdir));
+        fs.unlinkSync(path.join(maindir, '/public', personal.imgdir));
         console.log(
           'wow i succesfully deleted ' +
             personal.imgdir +
@@ -1842,7 +1842,7 @@ module.exports = {
     const picos = await pictureModel.find({ studentuserid: userid });
     for (let i = 0; i < picos.length; i++) {
       try {
-        fs.unlinkSync(path.join(maindir , '/public' , picos[i].imgdir));
+        fs.unlinkSync(path.join(maindir, '/public', picos[i].imgdir));
       } catch (err) {
         console.log(err);
       }
@@ -1871,7 +1871,7 @@ module.exports = {
     if (pico) {
       const student = await Students.findOne({ userid: pico.studentuserid });
       try {
-        fs.unlinkSync(path.join(maindir,'/public') + pico.imgdir);
+        fs.unlinkSync(path.join(maindir, '/public') + pico.imgdir);
         // fs.unlinkSync('public/' + pico.wm);
       } catch (err) {
         console.log(err.message);
@@ -2239,90 +2239,82 @@ module.exports = {
   },
   editpackage: async (req, res) => {
     const { name, desc, price, packageid } = req.body;
-    let fileDir = './public/packages/';
+    // let maindir = '/public/packages/';
 
-    let files;
-    console.log(req.files);
-    if (req.files) {
-      files = req.files.pixo;
-      console.log(files.name + ' is files');
-    } else {
-      console.log('no pics files');
-    }
-    let fileName;
+    let files = req.files.pixo;
+
+    // let fileName;
     const errorarray = [];
 
     const package = await Package.findOne({ packageid: packageid });
     try {
       if (files) {
         // fileName = files.name.split('-').join('').split(' ').join('');
-        const ereName = files.name;
 
-        let uyui = ereName.split('.')[1];
-
-        fileName = getserialnum(100000).toString() + '.' + uyui;
         try {
-          fs.unlinkSync(path.join(maindir , '/public') + package.packimg);
+          fs.unlinkSync(path.join(maindir, '/public') + package.packimg);
           console.log('file deleted successfully');
         } catch (err) {
           console.log(err + ' couldnt delete duplicate from folder');
         }
-        await files.mv(
-          fileDir + fileName,
-          async (err) => {
-            await resizeImagepack(fileName);
-          },
-          (err) => {
-            console.log(
-              err + ' couldnt move file ' + fileName + ' to ' + fileDir
-            );
-            if (err) {
-              console.log(
-                err + ' couldnt move file ' + fileName + ' to ' + fileDir
-              );
+        const ereName = files.name;
+
+        let uyui = ereName.split('.')[1];
+
+        const fileName = getserialnum(100000).toString() + '.' + uyui;
+        const ghy = path.join('/packages/', fileName);
+        console.log(path.join(maindir + fileName) + ' hmmmm');
+
+        await files.mv(path.join(maindir, '/public/packages/' + fileName));
+        console.log(fileName + ' from sharp');
+        await sharp(path.join(maindir, '/public/packages/', fileName))
+          .resize({
+            width: 850,
+            height: 650,
+            fit: 'contain',
+            background: { r: 255, g: 255, b: 255, alpha: 1 },
+          })
+          .toFormat('jpeg', { mozjpeg: true })
+          .toFile(path.join(maindir, '/public/sharpack/', fileName));
+
+          const fileexist = await Package.findOne({
+            packimg: ghy,
+          });
+
+          if (!fileexist) {
+            package.name = name;
+            package.desc = desc;
+            package.price = price;
+            await package.save();
+            if (files) {
+              package.packimg = '/sharpack/' + fileName;
+              await package.save();
             }
 
-            if (err) errorarray.push(err);
+            const packages = await Package.find();
+
+            res.render('packages', {
+              layout: 'admin',
+              admin: req.user,
+              parents: req.parents,
+              packages: packages,
+              title: 'Package update was successful ! !',
+              icon: 'success',
+              alerte: package.name + ' was successfully edited ! ',
+            });
+          } else {
+            const packages = await Package.find();
+
+            res.render('packages', {
+              layout: 'admin',
+              admin: req.user,
+              packages: packages,
+              title: 'This package already exists !',
+              icon: 'error',
+              alerte:
+                'You already created a package with the picture ' + files.name,
+            });
           }
-        );
-      }
-      const fileexist = await Package.findOne({
-        packimg: '/packages/' + fileName,
-      });
-
-      if (!fileexist) {
-        package.name = name;
-        package.desc = desc;
-        package.price = price;
-        await package.save();
-        if (files) {
-          package.packimg = '/sharpack/' + fileName;
-          await package.save();
-        }
-
-        const packages = await Package.find();
-
-        res.render('packages', {
-          layout: 'admin',
-          admin: req.user,
-          parents: req.parents,
-          packages: packages,
-          title: 'Package update was successful ! !',
-          icon: 'success',
-          alerte: package.name + ' was successfully edited ! ',
-        });
-      } else {
-        const packages = await Package.find();
-
-        res.render('packages', {
-          layout: 'admin',
-          admin: req.user,
-          packages: packages,
-          title: 'This package already exists !',
-          icon: 'error',
-          alerte:
-            'You already created a package with the picture ' + files.name,
-        });
       }
     } catch (err) {
       console.log(err);
@@ -2346,7 +2338,7 @@ module.exports = {
     const package = await Package.findOne({ packageid: packageid });
     try {
       try {
-        fs.unlinkSync(path.join(maindir , '/public') + package.packimg);
+        fs.unlinkSync(path.join(maindir, '/public') + package.packimg);
       } catch (err) {
         console.log(err.message);
       }
@@ -2391,7 +2383,9 @@ module.exports = {
     let uyui = ereName.split('.')[1];
 
     const fileName = getserialnum(100000).toString() + '.' + uyui;
-    const ifp = await Package.findOne({ packimg: path.join('/packages/' , fileName) });
+    const ifp = await Package.findOne({
+      packimg: path.join('/packages/', fileName),
+    });
     if (!ifp) {
       const errorarray = [];
       await files.mv(
@@ -2410,7 +2404,7 @@ module.exports = {
           price: price,
           date: justDate(),
           packageid: getserialnum(100000),
-          packimg: path.join('/sharpack/' , fileName),
+          packimg: path.join('/sharpack/', fileName),
         });
 
         const packages = await Package.find();
