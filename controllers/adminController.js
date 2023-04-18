@@ -1799,7 +1799,7 @@ module.exports = {
     let personal = await personalModel.findOne({ picode: picode });
     if (personal) {
       try {
-        fs.unlinkSync('./public' + personal.imgdir);
+        fs.unlinkSync(maindir +'/public' + personal.imgdir);
         console.log(
           'wow i succesfully deleted ' +
             personal.imgdir +
@@ -1844,7 +1844,7 @@ module.exports = {
       await pictureModel.deleteOne({ picode: picode });
       // await wmModel.deleteOne({ picode: picode });
       try {
-        fs.unlinkSync('public' + personal.imgdir);
+        fs.unlinkSync(maindir +'/public' + personal.imgdir);
         console.log(
           'wow i succesfully deleted ' +
             personal.imgdir +
@@ -2293,7 +2293,7 @@ module.exports = {
       if (files) {
         fileName = files.name.split('-').join('').split(' ').join('');
         try {
-          fs.unlinkSync('./public' + package.packimg);
+          fs.unlinkSync(maindir +'/public' + package.packimg);
           console.log('file deleted successfully');
         } catch (err) {
           console.log(err + ' couldnt delete duplicate from folder');
